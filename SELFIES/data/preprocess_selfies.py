@@ -36,7 +36,7 @@ from inchi_to_selfies import convert_series, MoleculeConversionError  # noqa: E4
 from selfies_tokenizer import SELFIESTokenizer                          # noqa: E402
 
 # ── Paths ────────────────────────────────────────────────────────────────────
-DATA_FILE   = _ROOT / "model_training" / "cn_mixtures_inchi" / "data" / "cn_mixtues_inchi.dat"
+DATA_FILE   = _ROOT / "model_training" / "cn_mixture_selfies" / "cn_mixture_selfies.dat"
 OUT_PKL     = _HERE / "cn_mixtures_selfies.pkl"
 OUT_VOCAB   = _HERE / "vocab.json"
 
@@ -51,21 +51,43 @@ def preprocess(data_file: Path = DATA_FILE) -> dict:
     Returns a dict that is also written to ``OUT_PKL``.
     """
     print(f"Loading data from:\n  {data_file}")
-    df = pd.read_csv(data_file, sep="\t")
+    df = pd.read_csv(data_file, sep="\t", comment="#")
     print(f"  Loaded {len(df):,} rows, {len(df.columns)} columns")
+    
+    if "No" not in df.columns:
+        df["No"] = df.index + 1
 
-    # ── Convert each InChI column to SELFIES ─────────────────────────────────
-    print("\nConverting InChI → SELFIES (this takes ~30 s the first time)…")
+    # ── Convert each SELFIES column to InChI for compatibility ────────────────
+    print("\nConverting SELFIES → InChI for compatibility...")
+    import selfies as sf
+    from rdkit import Chem
+    from rdkit import RDLogger
+    RDLogger.DisableLog('rdApp.*')
+
     for col in INCHI_COLS:
-        out_col = col.replace("inchi", "selfies")
-        print(f"  {col} → {out_col}", end="  ", flush=True)
-        df[out_col] = convert_series(df[col], skip_errors=True)
-        n_ok   = df[out_col].notna().sum()
-        n_fail = df[col].notna().sum() - n_ok
-        print(f"({n_ok} ok, {n_fail} failed)")
+        selfies_col = col.replace("inchi", "selfies")
+        print(f"  {selfies_col} → {col}", end="  ", flush=True)
+        
+        def _to_inchi(s):
+            if not isinstance(s, str) or not s.strip():
+                return None
+            try:
+                smiles = sf.decoder(s)
+                if not smiles:
+                    return None
+                mol = Chem.MolFromSmiles(smiles)
+                if mol is None:
+                    return None
+                return Chem.MolToInchi(mol)
+            except Exception:
+                return None
+                
+        df[col] = df[selfies_col].apply(_to_inchi)
+        n_ok = df[col].notna().sum()
+        print(f"({n_ok} ok)")
 
     # ── Collect all unique SELFIES (for vocab) ────────────────────────────────
-    selfies_cols = [col.replace("inchi", "selfies") for col in INCHI_COLS]
+    selfies_cols = [f"cpnt_selfies_{i}" for i in range(1, N_COMPONENTS + 1)]
     all_selfies: list[str] = []
     for col in selfies_cols:
         vals = df[col].dropna().tolist()
