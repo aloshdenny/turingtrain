@@ -164,9 +164,12 @@ def main():
         "split": df_all["split"]
     })
     
+    # Only keep the validation split
+    df_pred = df_pred[df_pred["split"] == "val"].reset_index(drop=True)
+    
     out_csv = _HERE.parent / "selfies_vae_predictions.csv"
     df_pred.to_csv(out_csv, index=False)
-    print(f"✓ Saved predictions to {out_csv}")
+    print(f"✓ Saved validation-only predictions to {out_csv}")
     
     # ONNX Export
     print("\nAttempting ONNX export...")

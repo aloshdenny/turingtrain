@@ -50,6 +50,9 @@ import time
 from pathlib import Path
 
 import numpy as np
+import pandas as pd
+import scipy.stats as stats
+import matplotlib.pyplot as plt
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -110,6 +113,7 @@ PATIENCE      = 20
 
 HIGH_CN_THR   = 80.0
 HIGH_CN_W     = 8.0    # increased from 5
+## Add low CN threshold < 35
 FOCAL_THR     = 15.0   # absolute error threshold for focal up-weighting
 FOCAL_W       = 5.0    # weight multiplier for high-error samples
 
@@ -354,21 +358,23 @@ class HybridMixtureCNModel(nn.Module):
 def focal_cn_loss(
     pred:   torch.Tensor,
     target: torch.Tensor,
+    kde,
+    max_density,
     *,
-    high_cn_thr: float = HIGH_CN_THR,
-    high_cn_w:   float = HIGH_CN_W,
+    alpha:       float = 0.005,
     focal_thr:   float = FOCAL_THR,
     focal_w:     float = FOCAL_W,
 ) -> torch.Tensor:
-    """Weighted MSE with two levels of up-weighting.
+    """Weighted MSE with smooth KDE weighting and focal-style upweighting.
 
-    Level 1 (static):  samples with CN > high_cn_thr get high_cn_w weight.
+    Level 1 (smooth static): weights calculated from inverse KDE target density.
     Level 2 (dynamic): samples whose |error| > focal_thr get focal_w weight.
     The two weights are multiplicative.
     """
-    w1 = torch.where(target > high_cn_thr,
-                     torch.full_like(target, high_cn_w),
-                     torch.ones_like(target))
+    target_np = target.detach().cpu().numpy()
+    densities = kde(target_np)
+    weights_np = ((max_density + alpha) / (densities + alpha)).astype(np.float32)
+    w1 = torch.from_numpy(weights_np).to(target.device)
 
     with torch.no_grad():
         abs_err = (pred - target).abs()
@@ -384,10 +390,11 @@ def focal_cn_loss(
 # Oversampling sampler for high-CN batches
 # ─────────────────────────────────────────────────────────────────────────────
 
-def make_oversampled_loader(ds: MixtureDataset, batch_size: int) -> DataLoader:
-    """Build a DataLoader that oversamples high-CN (>80) examples."""
+def make_oversampled_loader(ds: MixtureDataset, batch_size: int, kde, max_density, alpha=0.005) -> DataLoader:
+    """Build a DataLoader that oversamples examples based on smooth KDE weighting."""
     cn_vals = np.array([r[3].item() for r in ds.rows])
-    weights = np.where(cn_vals > HIGH_CN_THR, HIGH_CN_W, 1.0)
+    densities = kde(cn_vals)
+    weights = (max_density + alpha) / (densities + alpha)
     sampler = WeightedRandomSampler(
         weights=torch.from_numpy(weights).float(),
         num_samples=len(ds),
@@ -443,6 +450,10 @@ def train_one_run(seed: int, args, cache, tokenizer, max_seq_len) -> tuple[float
     df_raw = cache["df_selfies"].dropna(subset=["CN"]).reset_index(drop=True)
     df_tr, df_val = stratified_split(df_raw, seed=seed)
 
+    # Fit smooth KDE-based weighting scheme on the training targets
+    kde = stats.gaussian_kde(df_tr["CN"].values)
+    max_density = kde(df_tr["CN"].values).max()
+
     selfies_all = cache["selfies_all"]
     mol_ds = MoleculeDataset(selfies_all, tokenizer, max_seq_len)
 
@@ -453,7 +464,7 @@ def train_one_run(seed: int, args, cache, tokenizer, max_seq_len) -> tuple[float
     bs_mix = 8 if args.fast else BATCH_MIX
 
     mol_dl     = DataLoader(mol_ds,     batch_size=bs,     shuffle=True,  num_workers=0)
-    mix_tr_dl  = make_oversampled_loader(mix_tr_ds,  bs_mix)
+    mix_tr_dl  = make_oversampled_loader(mix_tr_ds,  bs_mix, kde, max_density)
     mix_val_dl = DataLoader(mix_val_ds, batch_size=bs_mix, shuffle=False, num_workers=0)
 
     vae = SELFIESVAE(
@@ -533,7 +544,7 @@ def train_one_run(seed: int, args, cache, tokenizer, max_seq_len) -> tuple[float
             comp_tok = comp_tok.to(device); vf = vf.to(device)
             chem = chem.to(device); cn = cn.to(device)
             p_cn, _ = model(comp_tok, vf, chem)
-            loss = focal_cn_loss(p_cn, cn)
+            loss = focal_cn_loss(p_cn, cn, kde, max_density)
             opt2.zero_grad(); loss.backward()
             nn.utils.clip_grad_norm_(model.predictor.parameters(), 1.0); opt2.step()
         sch2.step()
@@ -574,7 +585,7 @@ def train_one_run(seed: int, args, cache, tokenizer, max_seq_len) -> tuple[float
             _, recon, kl = vae_loss(logits_v, mol_src[:, 1:], mu_v, logvar_v,
                                     beta=BETA_MAX, pad_idx=vae.pad_idx)
             p_cn, _ = model(comp_tok, vf, chem)
-            cn_loss  = focal_cn_loss(p_cn, cn)
+            cn_loss  = focal_cn_loss(p_cn, cn, kde, max_density)
             loss = LAMBDA_PRED * cn_loss + LAMBDA_VAE * (recon + kl)
 
             opt3.zero_grad(); loss.backward()
@@ -647,6 +658,86 @@ def ensemble_eval(ckpt_paths, cache, tokenizer, max_seq_len, args):
     return mae, mae_hi
 
 
+def predict_dataset(ckpt_paths, cache, tokenizer, max_seq_len):
+    device = get_device()
+    df_all = cache["df_selfies"].dropna(subset=["CN"]).reset_index(drop=True)
+    ds_all = MixtureDataset(df_all, tokenizer, max_seq_len)
+    dl_all = DataLoader(ds_all, batch_size=32, shuffle=False, num_workers=0)
+
+    all_preds = []
+    
+    for ckpt in ckpt_paths:
+        vae = SELFIESVAE(
+            vocab_size=tokenizer.vocab_size, d_model=D_MODEL, latent_dim=LATENT_DIM,
+            n_heads=N_HEADS, n_layers=N_LAYERS, d_ff=D_FF, dropout=0.0,
+            pad_idx=tokenizer.pad_idx, bos_idx=tokenizer.bos_idx,
+            eos_idx=tokenizer.eos_idx, max_len=max_seq_len,
+        ).to(device)
+        pred_m = HybridCNPredictor(latent_dim=LATENT_DIM, chem_dim=CHEM_FEAT_DIM,
+                                   hidden_dims=(512, 256, 128), dropout=0.0).to(device)
+        m = HybridMixtureCNModel(vae.encoder, pred_m).to(device)
+        m.load_state_dict(torch.load(ckpt, map_location=device))
+        m.eval()
+
+        run_preds = []
+        with torch.no_grad():
+            for comp_tok, vf, chem, cn in dl_all:
+                p, _ = m(comp_tok.to(device), vf.to(device), chem.to(device))
+                run_preds.append(p.cpu())
+        all_preds.append(torch.cat(run_preds).numpy())
+        
+    ensemble_preds = np.mean(all_preds, axis=0)
+    return ensemble_preds
+
+
+def molecule_branching_score(smiles: str) -> float:
+    if not smiles or not RDKIT_OK:
+        return 0.0
+    try:
+        mol = Chem.MolFromSmiles(smiles)
+        if mol is None:
+            return 0.0
+        # Count tertiary and quaternary carbons
+        branch_atoms = 0
+        for atom in mol.GetAtoms():
+            if atom.GetSymbol() == 'C' and atom.GetDegree() >= 3:
+                branch_atoms += 1
+        return float(branch_atoms)
+    except:
+        return 0.0
+
+
+def mixture_branching_proxy(row, n_comp: int = 10) -> float:
+    vols = []
+    for i in range(1, n_comp + 1):
+        v = row.get(f"cpnt_vol_{i}", 0.0)
+        try: v = float(v)
+        except: v = 0.0
+        if v != v: v = 0.0
+        vols.append(v)
+    total = sum(vols) or 1.0
+    vols = [v / total for v in vols]
+
+    total_branching = 0.0
+    for i in range(1, n_comp + 1):
+        selfies = row.get(f"cpnt_selfies_{i}", "")
+        if isinstance(selfies, str) and selfies.strip():
+            try:
+                smiles = sf.decoder(selfies)
+                score = molecule_branching_score(smiles)
+                total_branching += vols[i - 1] * score
+            except:
+                pass
+    return total_branching
+
+
+def compute_branching_proxy_for_df(df):
+    proxies = []
+    for _, row in df.iterrows():
+        proxies.append(mixture_branching_proxy(row))
+    return np.array(proxies, dtype=np.float32)
+
+
 # ─────────────────────────────────────────────────────────────────────────────
 # Main
 # ─────────────────────────────────────────────────────────────────────────────
@@ -710,6 +801,96 @@ def main():
             print(f"RF still leads by {-delta:.2f} MAE points — more epochs or seeds needed.")
 
     print(f"\nCheckpoints in: {CKPT_DIR}")
+
+    print("\nGenerating three-output branching model predictions...")
+    cn_mean = predict_dataset(ckpt_paths, cache, tokenizer, max_seq_len)
+    df_all = cache["df_selfies"].dropna(subset=["CN"]).reset_index(drop=True)
+    cn_true = df_all["CN"].values
+    
+    print("Computing branching proxy via RDKit...")
+    proxy = compute_branching_proxy_for_df(df_all)
+    proxy_std = float(proxy.std())
+    if proxy_std < 1e-9:
+        proxy_norm = np.zeros_like(proxy)
+        proxy_z = np.zeros_like(proxy)
+    else:
+        proxy_norm = (proxy - proxy.mean()) / proxy_std
+        proxy_z = proxy_norm
+
+    # Compute validation residuals to determine interval width (standard deviation)
+    residuals = cn_true - cn_mean
+    abs_res = np.abs(residuals)
+    base_width = max(1.0, np.percentile(abs_res, 60))
+    width_scale = max(0.4, np.percentile(abs_res, 85) - np.percentile(abs_res, 50))
+    
+    # Bounding scenario models (delta curves)
+    delta_less = np.maximum(base_width - 0.25 * width_scale * proxy_norm, 0.4)
+    delta_more = np.maximum(base_width + 0.55 * width_scale * proxy_norm, 0.4)
+    
+    cn_less = cn_mean + delta_less
+    cn_more = cn_mean - delta_more
+    
+    # Ensure physical consistency
+    cn_less = np.maximum(cn_less, cn_mean)
+    cn_more = np.minimum(cn_more, cn_mean)
+    
+    # Scenario probabilities from proxy
+    p_more = 1.0 / (1.0 + np.exp(-0.9 * proxy_z))
+    p_less = 1.0 / (1.0 + np.exp(0.9 * proxy_z))
+    p_mean = np.clip(1.0 - 0.55 * (p_less + p_more), 0.05, 0.9)
+    p_sum = p_less + p_mean + p_more
+    p_less /= p_sum
+    p_mean /= p_sum
+    p_more /= p_sum
+    
+    cn_expected = p_less * cn_less + p_mean * cn_mean + p_more * cn_more
+    
+    # Save predictions CSV
+    predictions_df = pd.DataFrame({
+        'mixture_id': df_all['mixture_id'],
+        'mixture_name': df_all['mixture_name'],
+        'mixture_type': df_all['mixture_type'],
+        'cn_true': cn_true,
+        'cn_less_branch': cn_less,
+        'cn_mean': cn_mean,
+        'cn_more_branch': cn_more,
+        'cn_expected': cn_expected,
+        'p_less': p_less,
+        'p_mean': p_mean,
+        'p_more': p_more,
+        'iso_branch_proxy': proxy
+    })
+    
+    csv_out_path = _HERE.parent / "selfies_vae_three_output_predictions.csv"
+    predictions_df.to_csv(csv_out_path, index=False)
+    print(f"Saved predictions CSV to: {csv_out_path}")
+    
+    # Generate branching plot
+    example_idx = int(np.argmax(proxy))
+    row = predictions_df.iloc[example_idx]
+    
+    x_vals = np.linspace(row['cn_more_branch'] - 10, row['cn_less_branch'] + 10, 300)
+    sigma = max(0.8, 0.35 * (row['cn_less_branch'] - row['cn_more_branch']))
+    pdf = np.exp(-0.5 * ((x_vals - row['cn_expected']) / sigma) ** 2)
+    pdf = pdf / (pdf.max() + 1e-12)
+
+    plt.figure(figsize=(10, 4.8))
+    plt.plot(x_vals, pdf, color='navy', lw=2)
+    plt.fill_between(x_vals, pdf, alpha=0.2, color='skyblue')
+    plt.axvline(row['cn_more_branch'], linestyle='--', color='crimson', label='more_branch')
+    plt.axvline(row['cn_mean'], linestyle='--', color='black', label='mean')
+    plt.axvline(row['cn_less_branch'], linestyle='--', color='seagreen', label='less_branch')
+    plt.axvline(row['cn_expected'], linestyle='-', color='royalblue', label='expected')
+    plt.title(f"Three-output CN profile for one sample: {row['mixture_name']}")
+    plt.xlabel('Cetane Number')
+    plt.ylabel('Relative probability')
+    plt.legend()
+    plt.tight_layout()
+    
+    plot_out_path = _HERE.parent / "selfies_vae_three_output_branching_plot.png"
+    plt.savefig(plot_out_path, dpi=300)
+    plt.close()
+    print(f"Saved branching model plot to: {plot_out_path}")
 
 
 if __name__ == "__main__":
