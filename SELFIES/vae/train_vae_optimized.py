@@ -95,7 +95,7 @@ D_FF       = 512
 DROPOUT    = 0.1
 
 # Chemistry feature vector (appended to latent for predictor)
-CHEM_FEAT_DIM = 8   # C, H, C/H ratio, DoU, ring count, n_heavy, MW proxy, branching
+CHEM_FEAT_DIM = 12  # C, H, C/H ratio, DoU, n_heavy, O, HBD, TPSA, rot_bonds, rings, branching, stereo
 
 # Training
 BATCH_MOL     = 64
@@ -144,19 +144,31 @@ def _parse_formula(inchi: str) -> dict:
     return counts
 
 
+_INCHI_FEAT_CACHE = {}
+
+
 def inchi_chem_features(inchi: str) -> np.ndarray:
-    """8-dimensional chemistry feature vector from an InChI string.
+    """12-dimensional chemistry feature vector from an InChI string.
 
     Features:
       0  C count
       1  H count
       2  C/H ratio
-      3  Degree of unsaturation (DoU = (2C + 2 - H) / 2)
-      4  N heavy atoms (N+O+S+Cl+Br+I)
-      5  formula length (proxy for molecule size)
-      6  O count (oxygenation)
-      7  has_stereo flag (/t or /m)
+      3  Degree of unsaturation (DoU)
+      4  N heavy atoms
+      5  O count
+      6  HBD (Hydrogen Bond Donors)
+      7  TPSA (Topological Polar Surface Area)
+      8  Rotatable bonds count
+      9  Number of rings
+      10 Branching count (C atoms with degree >= 3)
+      11 has_stereo flag (/t or /m)
     """
+    if not isinstance(inchi, str) or not inchi.strip():
+        return np.zeros(CHEM_FEAT_DIM, dtype=np.float32)
+    if inchi in _INCHI_FEAT_CACHE:
+        return _INCHI_FEAT_CACHE[inchi]
+
     c = _parse_formula(inchi)
     C  = c.get("C", 0)
     H  = c.get("H", 0)
@@ -168,9 +180,36 @@ def inchi_chem_features(inchi: str) -> np.ndarray:
     dou      = (2 * C + 2 - H + N) / 2 if (C > 0 or H > 0) else 0.0
     ch_ratio = C / H if H > 0 else 0.0
     stereo   = float("/t" in inchi or "/m" in inchi) if isinstance(inchi, str) else 0.0
-    flen     = len(inchi.split("/")[1]) if isinstance(inchi, str) and "/" in inchi else 0
 
-    return np.array([C, H, ch_ratio, dou, n_heavy, flen, O, stereo], dtype=np.float32)
+    # RDKit structural descriptor fallbacks
+    hbd = 0.0
+    tpsa = 0.0
+    rot_bonds = 0.0
+    num_rings = 0.0
+    branching = 0.0
+
+    if RDKIT_OK and inchi.startswith("InChI="):
+        try:
+            mol = Chem.MolFromInchi(inchi)
+            if mol is not None:
+                hbd = float(rdMolDescriptors.CalcNumLipinskiHBD(mol))
+                tpsa = float(Descriptors.TPSA(mol))
+                rot_bonds = float(rdMolDescriptors.CalcNumRotatableBonds(mol))
+                num_rings = float(rdMolDescriptors.CalcNumRings(mol))
+                branch_cnt = 0
+                for atom in mol.GetAtoms():
+                    if atom.GetSymbol() == 'C' and atom.GetDegree() >= 3:
+                        branch_cnt += 1
+                branching = float(branch_cnt)
+        except Exception:
+            pass
+
+    res = np.array([
+        C, H, ch_ratio, dou, n_heavy, O,
+        hbd, tpsa, rot_bonds, num_rings, branching, stereo
+    ], dtype=np.float32)
+    _INCHI_FEAT_CACHE[inchi] = res
+    return res
 
 
 def mixture_chem_features(row, n_comp: int = 10) -> np.ndarray:

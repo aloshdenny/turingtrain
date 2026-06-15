@@ -26,7 +26,8 @@ from train_vae_optimized import (
     HybridMixtureCNModel,
     mixture_chem_features,
     stratified_split,
-    MixtureDataset
+    MixtureDataset,
+    CHEM_FEAT_DIM
 )
 
 def load_data():
@@ -87,7 +88,7 @@ def main():
                 max_len=max_seq_len,
             ).to(device)
             pred_opt = HybridCNPredictor(
-                latent_dim=128, chem_dim=8,
+                latent_dim=128, chem_dim=CHEM_FEAT_DIM,
                 hidden_dims=(512, 256, 128), dropout=0.0
             ).to(device)
             model_opt = HybridMixtureCNModel(vae_opt.encoder, pred_opt).to(device)
