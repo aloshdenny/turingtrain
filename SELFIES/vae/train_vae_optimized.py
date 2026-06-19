@@ -97,6 +97,12 @@ DROPOUT    = 0.1
 # Chemistry feature vector (appended to latent for predictor)
 CHEM_FEAT_DIM = 12  # C, H, C/H ratio, DoU, n_heavy, O, HBD, TPSA, rot_bonds, rings, branching, stereo
 
+# Attention-based mixing encoder hyper-parameters
+SLOT_D_SLOT   = 128   # projection dim for each component slot token
+SLOT_N_HEADS  = 4
+SLOT_N_LAYERS = 2
+SLOT_DROPOUT  = 0.1
+
 # Training
 BATCH_MOL     = 64
 BATCH_MIX     = 32
@@ -283,7 +289,12 @@ class MoleculeDataset(Dataset):
 
 
 class MixtureDataset(Dataset):
-    """Mixture dataset returning (component_tokens, vol_fractions, chem_feats, cn)."""
+    """Mixture dataset returning
+    (component_tokens, vol_fractions, chem_mix_avg, chem_per_comp, cn).
+
+    chem_mix_avg  : (CHEM_FEAT_DIM,)         volume-weighted average chem features
+    chem_per_comp : (n_comp, CHEM_FEAT_DIM)  per-component chem features for slot encoder
+    """
 
     def __init__(self, df, tokenizer, max_len, n_comp=N_COMP):
         self.rows = []
@@ -301,21 +312,29 @@ class MixtureDataset(Dataset):
             vols = [v / total for v in vols]
 
             tokens = []
+            per_comp_chem = []
             for i in range(1, n_comp + 1):
                 s = row.get(f"cpnt_selfies_{i}", None)
                 if isinstance(s, str) and s.strip():
                     tokens.append(tokenizer.encode(s, max_len))
                 else:
                     tokens.append(torch.full((max_len,), pad, dtype=torch.long))
+                # per-component chem: use the inchi if available, else zeros
+                inchi = row.get(f"cpnt_inchi_{i}", "")
+                per_comp_chem.append(inchi_chem_features(inchi if isinstance(inchi, str) else ""))
 
-            chem = mixture_chem_features(row, n_comp)
-            cn   = float(row["CN"])
+            # volume-weighted mixture average (kept for MLP direct chemistry signal)
+            chem_mix = mixture_chem_features(row, n_comp)
+            # per-component matrix
+            chem_pc  = np.stack(per_comp_chem, axis=0)  # (n_comp, CHEM_FEAT_DIM)
+            cn       = float(row["CN"])
 
             self.rows.append((
-                torch.stack(tokens),
-                torch.tensor(vols, dtype=torch.float32),
-                torch.tensor(chem, dtype=torch.float32),
-                torch.tensor(cn,   dtype=torch.float32),
+                torch.stack(tokens),                                     # (n_comp, seq)
+                torch.tensor(vols,     dtype=torch.float32),             # (n_comp,)
+                torch.tensor(chem_mix, dtype=torch.float32),             # (CHEM_FEAT_DIM,)
+                torch.tensor(chem_pc,  dtype=torch.float32),             # (n_comp, CHEM_FEAT_DIM)
+                torch.tensor(cn,       dtype=torch.float32),             # scalar
             ))
 
     def __len__(self): return len(self.rows)
@@ -323,16 +342,14 @@ class MixtureDataset(Dataset):
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# Enhanced CN Predictor (latent + chemistry features)
+# Enhanced CN Predictor (pooled z_mix + mixture-avg chemistry features)
 # ─────────────────────────────────────────────────────────────────────────────
 
 class HybridCNPredictor(nn.Module):
     """Predicts CN from concatenated [z_mix | chem_features].
 
-    The latent z_mix captures structural chemistry from SELFIES.
-    The chem_features vector provides direct element-count signals that the
-    Random Forest uses (C count, C/H ratio, DoU, etc.), giving the neural
-    model the same raw chemistry information without losing structural context.
+    z_mix comes from MixtureSlotEncoder (nonlinear mixing).
+    chem_features is the volume-weighted average (direct chemistry signal).
     """
 
     def __init__(
@@ -345,7 +362,6 @@ class HybridCNPredictor(nn.Module):
         super().__init__()
         in_dim = latent_dim + chem_dim
 
-        # Chemistry feature normalizer (learned affine)
         self.chem_norm = nn.LayerNorm(chem_dim)
 
         layers: list[nn.Module] = []
@@ -356,38 +372,120 @@ class HybridCNPredictor(nn.Module):
         layers.append(nn.Linear(cur, 1))
         self.net = nn.Sequential(*layers)
 
-    def forward(
-        self,
-        z_mix: torch.Tensor,
-        chem:  torch.Tensor,
-    ) -> torch.Tensor:
-        """(batch, latent_dim), (batch, chem_dim) → (batch,)"""
+    def forward(self, z_mix: torch.Tensor, chem: torch.Tensor) -> torch.Tensor:
+        """(B, latent_dim), (B, chem_dim) → (B,)"""
         x = torch.cat([z_mix, self.chem_norm(chem)], dim=-1)
         return self.net(x).squeeze(-1)
 
 
-class HybridMixtureCNModel(nn.Module):
-    """End-to-end model: VAE encoder → mixture blend → HybridCNPredictor."""
+# ─────────────────────────────────────────────────────────────────────────────
+# Nonlinear Mixture Encoder — Component-Set Self-Attention
+# ─────────────────────────────────────────────────────────────────────────────
 
-    def __init__(self, vae_encoder, predictor, n_comp=N_COMP):
+class MixtureSlotEncoder(nn.Module):
+    """Replaces linear volume-weighted blending with Transformer self-attention.
+
+    Each component becomes a *slot token*:
+
+        slot_i = Linear(concat(μᵢ, vᵢ, chem_per_compᵢ))  → d_slot
+
+    Self-attention over the 10 slots (padding slots with vᵢ=0 are masked)
+    learns pairwise and higher-order mixing interactions implicitly:
+
+        z_mix ≈ v1·μ1 + v2·μ2                   (linear part)
+              + v1·v2·fθ(μ1, μ2)                (binary interaction)
+              + …                               (higher order)
+
+    The volume-weighted mean of the attended representations is returned
+    as z_mix with the same shape as a vanilla latent vector (latent_dim),
+    keeping the downstream HybridCNPredictor unchanged.
+    """
+
+    def __init__(
+        self,
+        latent_dim: int = LATENT_DIM,
+        chem_dim:   int = CHEM_FEAT_DIM,
+        d_slot:     int = SLOT_D_SLOT,
+        n_heads:    int = SLOT_N_HEADS,
+        n_layers:   int = SLOT_N_LAYERS,
+        dropout:    float = SLOT_DROPOUT,
+    ) -> None:
         super().__init__()
-        self.encoder  = vae_encoder
-        self.predictor = predictor
-        self.n_comp   = n_comp
+        # slot_in_dim = latent_dim (μᵢ) + 1 (vᵢ) + chem_dim (chem_per_compᵢ)
+        slot_in_dim = latent_dim + 1 + chem_dim
+        self.slot_proj = nn.Linear(slot_in_dim, d_slot)
 
-    def forward(self, comp_tok, vf, chem):
+        enc_layer = nn.TransformerEncoderLayer(
+            d_model=d_slot,
+            nhead=n_heads,
+            dim_feedforward=d_slot * 4,
+            dropout=dropout,
+            activation="gelu",
+            batch_first=True,
+            norm_first=True,
+        )
+        self.transformer = nn.TransformerEncoder(enc_layer, num_layers=n_layers)
+
+        # Project attended slot representation back to latent_dim
+        self.out_proj = nn.Linear(d_slot, latent_dim)
+
+    def forward(
+        self,
+        mu: torch.Tensor,           # (B, n_comp, latent_dim)
+        vf: torch.Tensor,           # (B, n_comp)
+        chem_pc: torch.Tensor,      # (B, n_comp, chem_dim)
+    ) -> torch.Tensor:              # (B, latent_dim)
+        B, nc, _ = mu.shape
+
+        # Build slot tokens: concat(μᵢ, vᵢ, chem_per_compᵢ)
+        vf_exp = vf.unsqueeze(-1)                           # (B, nc, 1)
+        slots  = torch.cat([mu, vf_exp, chem_pc], dim=-1)  # (B, nc, slot_in_dim)
+        slots  = self.slot_proj(slots)                      # (B, nc, d_slot)
+
+        # Padding mask: slots where vf==0 are padding (True = ignore in attention)
+        pad_mask = (vf == 0.0)                              # (B, nc) bool
+
+        # If all slots are padding (shouldn't happen), unmask to avoid NaN
+        all_pad = pad_mask.all(dim=1, keepdim=True).expand_as(pad_mask)
+        pad_mask = pad_mask & ~all_pad
+
+        # Self-attention over slots
+        h = self.transformer(slots, src_key_padding_mask=pad_mask)  # (B, nc, d_slot)
+
+        # Volume-weighted mean pool (zero weight for padding slots)
+        vf_safe = vf.clone()
+        vf_safe[pad_mask] = 0.0
+        vf_norm  = vf_safe / (vf_safe.sum(dim=1, keepdim=True) + 1e-8)
+        z_mix    = (h * vf_norm.unsqueeze(-1)).sum(dim=1)  # (B, d_slot)
+
+        return self.out_proj(z_mix)                         # (B, latent_dim)
+
+
+class AttentionMixtureCNModel(nn.Module):
+    """End-to-end model: VAE encoder → MixtureSlotEncoder → HybridCNPredictor."""
+
+    def __init__(self, vae_encoder, slot_encoder, predictor, n_comp=N_COMP):
+        super().__init__()
+        self.encoder      = vae_encoder
+        self.slot_encoder = slot_encoder
+        self.predictor    = predictor
+        self.n_comp       = n_comp
+
+    def forward(self, comp_tok, vf, chem_mix, chem_pc):
         """
         comp_tok : (B, n_comp, seq)
         vf       : (B, n_comp)
-        chem     : (B, chem_dim)
+        chem_mix : (B, chem_dim)          mixture-averaged (for MLP)
+        chem_pc  : (B, n_comp, chem_dim)  per-component (for slot encoder)
         Returns  : (B,) CN prediction, (B, latent_dim) z_mix
         """
         B, nc, seq = comp_tok.shape
         flat = comp_tok.reshape(B * nc, seq)
-        mu, _ = self.encoder(flat)
-        mu = mu.view(B, nc, -1)
-        z_mix = (mu * vf.unsqueeze(-1)).sum(dim=1)
-        return self.predictor(z_mix, chem), z_mix
+        mu, _ = self.encoder(flat)          # (B*nc, latent_dim)
+        mu = mu.view(B, nc, -1)             # (B, nc, latent_dim)
+
+        z_mix = self.slot_encoder(mu, vf, chem_pc)   # (B, latent_dim)
+        return self.predictor(z_mix, chem_mix), z_mix
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -431,7 +529,8 @@ def focal_cn_loss(
 
 def make_oversampled_loader(ds: MixtureDataset, batch_size: int, kde, max_density, alpha=0.005) -> DataLoader:
     """Build a DataLoader that oversamples examples based on smooth KDE weighting."""
-    cn_vals = np.array([r[3].item() for r in ds.rows])
+    # 5-tuple: (comp_tok, vf, chem_mix, chem_pc, cn)
+    cn_vals = np.array([r[4].item() for r in ds.rows])
     densities = kde(cn_vals)
     weights = (max_density + alpha) / (densities + alpha)
     sampler = WeightedRandomSampler(
@@ -463,8 +562,11 @@ def _eval_cn(model, loader, device):
     model.eval()
     preds_all, tgts_all = [], []
     with torch.no_grad():
-        for comp_tok, vf, chem, cn in loader:
-            p, _ = model(comp_tok.to(device), vf.to(device), chem.to(device))
+        for comp_tok, vf, chem_mix, chem_pc, cn in loader:
+            p, _ = model(
+                comp_tok.to(device), vf.to(device),
+                chem_mix.to(device), chem_pc.to(device)
+            )
             preds_all.append(p.cpu())
             tgts_all.append(cn)
     preds = torch.cat(preds_all)
@@ -520,7 +622,13 @@ def train_one_run(seed: int, args, cache, tokenizer, max_seq_len) -> tuple[float
         hidden_dims=(512, 256, 128), dropout=0.25,
     ).to(device)
 
-    model = HybridMixtureCNModel(vae.encoder, predictor).to(device)
+    slot_encoder = MixtureSlotEncoder(
+        latent_dim=LATENT_DIM, chem_dim=CHEM_FEAT_DIM,
+        d_slot=SLOT_D_SLOT, n_heads=SLOT_N_HEADS,
+        n_layers=SLOT_N_LAYERS, dropout=SLOT_DROPOUT,
+    ).to(device)
+
+    model = AttentionMixtureCNModel(vae.encoder, slot_encoder, predictor).to(device)
 
     s1_ep = 3 if args.fast else S1_EPOCHS
     s2_ep = 3 if args.fast else S2_EPOCHS
@@ -570,22 +678,24 @@ def train_one_run(seed: int, args, cache, tokenizer, max_seq_len) -> tuple[float
 
     vae.load_state_dict(torch.load(ckpt_s1, map_location=device))
 
-    # ── Stage 2: CN predictor (frozen encoder) ────────────────────────────────
-    print(f"\n  [Seed {seed}] Stage 2: CN predictor ({s2_ep} epochs, encoder frozen)")
+    # ── Stage 2: CN predictor + slot encoder (frozen VAE encoder) ────────────
+    print(f"\n  [Seed {seed}] Stage 2: CN predictor + slot encoder ({s2_ep} epochs, VAE encoder frozen)")
     for p in model.encoder.parameters(): p.requires_grad_(False)
-    opt2    = torch.optim.AdamW(model.predictor.parameters(), lr=LR_PRED, weight_decay=1e-5)
+    s2_params = list(model.slot_encoder.parameters()) + list(model.predictor.parameters())
+    opt2    = torch.optim.AdamW(s2_params, lr=LR_PRED, weight_decay=1e-5)
     sch2    = torch.optim.lr_scheduler.CosineAnnealingWarmRestarts(opt2, T_0=max(s2_ep//3, 1))
     best_v2 = math.inf; no_improve = 0
 
     for ep in range(1, s2_ep + 1):
         model.train(); model.encoder.eval()
-        for comp_tok, vf, chem, cn in mix_tr_dl:
+        for comp_tok, vf, chem_mix, chem_pc, cn in mix_tr_dl:
             comp_tok = comp_tok.to(device); vf = vf.to(device)
-            chem = chem.to(device); cn = cn.to(device)
-            p_cn, _ = model(comp_tok, vf, chem)
+            chem_mix = chem_mix.to(device); chem_pc = chem_pc.to(device)
+            cn = cn.to(device)
+            p_cn, _ = model(comp_tok, vf, chem_mix, chem_pc)
             loss = focal_cn_loss(p_cn, cn, kde, max_density)
             opt2.zero_grad(); loss.backward()
-            nn.utils.clip_grad_norm_(model.predictor.parameters(), 1.0); opt2.step()
+            nn.utils.clip_grad_norm_(s2_params, 1.0); opt2.step()
         sch2.step()
 
         mae, mae_hi = _eval_cn(model, mix_val_dl, device)
@@ -602,9 +712,13 @@ def train_one_run(seed: int, args, cache, tokenizer, max_seq_len) -> tuple[float
     model.load_state_dict(torch.load(ckpt_s2, map_location=device))
     for p in model.encoder.parameters(): p.requires_grad_(True)
 
-    # ── Stage 3: Joint fine-tuning ────────────────────────────────────────────
+    # ── Stage 3: Joint fine-tuning (VAE + slot encoder + predictor) ──────────
     print(f"\n  [Seed {seed}] Stage 3: Joint fine-tune ({s3_ep} epochs)")
-    all_params = list(vae.parameters()) + list(model.predictor.parameters())
+    all_params = (
+        list(vae.parameters()) +
+        list(model.slot_encoder.parameters()) +
+        list(model.predictor.parameters())
+    )
     opt3    = torch.optim.AdamW(all_params, lr=LR_JOINT, weight_decay=1e-5)
     sch3    = torch.optim.lr_scheduler.CosineAnnealingWarmRestarts(opt3, T_0=max(s3_ep//3, 1))
     best_v3 = math.inf; no_improve = 0
@@ -612,18 +726,19 @@ def train_one_run(seed: int, args, cache, tokenizer, max_seq_len) -> tuple[float
 
     for ep in range(1, s3_ep + 1):
         vae.train(); model.train()
-        for comp_tok, vf, chem, cn in mix_tr_dl:
+        for comp_tok, vf, chem_mix, chem_pc, cn in mix_tr_dl:
             try: mol_src = next(mol_iter)
             except StopIteration: mol_iter = iter(mol_dl); mol_src = next(mol_iter)
 
             mol_src  = mol_src.to(device)
             comp_tok = comp_tok.to(device); vf = vf.to(device)
-            chem = chem.to(device); cn = cn.to(device)
+            chem_mix = chem_mix.to(device); chem_pc = chem_pc.to(device)
+            cn = cn.to(device)
 
             logits_v, mu_v, logvar_v = vae(mol_src)
             _, recon, kl = vae_loss(logits_v, mol_src[:, 1:], mu_v, logvar_v,
                                     beta=BETA_MAX, pad_idx=vae.pad_idx)
-            p_cn, _ = model(comp_tok, vf, chem)
+            p_cn, _ = model(comp_tok, vf, chem_mix, chem_pc)
             cn_loss  = focal_cn_loss(p_cn, cn, kde, max_density)
             loss = LAMBDA_PRED * cn_loss + LAMBDA_VAE * (recon + kl)
 
@@ -657,7 +772,6 @@ def ensemble_eval(ckpt_paths, cache, tokenizer, max_seq_len, args):
     device = get_device()
     df_all = cache["df_selfies"].dropna(subset=["CN"]).reset_index(drop=True)
 
-    # Use a single held-out split (seed=0) for final eval
     df_tr, df_val = stratified_split(df_all, seed=0)
     bs = 8 if args.fast else BATCH_MIX
     val_ds  = MixtureDataset(df_val, tokenizer, max_seq_len)
@@ -675,15 +789,23 @@ def ensemble_eval(ckpt_paths, cache, tokenizer, max_seq_len, args):
         ).to(device)
         pred_m = HybridCNPredictor(latent_dim=LATENT_DIM, chem_dim=CHEM_FEAT_DIM,
                                    hidden_dims=(512, 256, 128), dropout=0.0).to(device)
-        m = HybridMixtureCNModel(vae.encoder, pred_m).to(device)
+        slot_enc = MixtureSlotEncoder(
+            latent_dim=LATENT_DIM, chem_dim=CHEM_FEAT_DIM,
+            d_slot=SLOT_D_SLOT, n_heads=SLOT_N_HEADS,
+            n_layers=SLOT_N_LAYERS, dropout=0.0
+        ).to(device)
+        m = AttentionMixtureCNModel(vae.encoder, slot_enc, pred_m).to(device)
         m.load_state_dict(torch.load(ckpt, map_location=device))
         m.eval()
 
         run_preds = []
         run_tgts  = []
         with torch.no_grad():
-            for comp_tok, vf, chem, cn in val_dl:
-                p, _ = m(comp_tok.to(device), vf.to(device), chem.to(device))
+            for comp_tok, vf, chem_mix, chem_pc, cn in val_dl:
+                p, _ = m(
+                    comp_tok.to(device), vf.to(device),
+                    chem_mix.to(device), chem_pc.to(device)
+                )
                 run_preds.append(p.cpu())
                 run_tgts.append(cn)
         all_preds.append(torch.cat(run_preds))
@@ -704,7 +826,7 @@ def predict_dataset(ckpt_paths, cache, tokenizer, max_seq_len):
     dl_all = DataLoader(ds_all, batch_size=32, shuffle=False, num_workers=0)
 
     all_preds = []
-    
+
     for ckpt in ckpt_paths:
         vae = SELFIESVAE(
             vocab_size=tokenizer.vocab_size, d_model=D_MODEL, latent_dim=LATENT_DIM,
@@ -714,17 +836,25 @@ def predict_dataset(ckpt_paths, cache, tokenizer, max_seq_len):
         ).to(device)
         pred_m = HybridCNPredictor(latent_dim=LATENT_DIM, chem_dim=CHEM_FEAT_DIM,
                                    hidden_dims=(512, 256, 128), dropout=0.0).to(device)
-        m = HybridMixtureCNModel(vae.encoder, pred_m).to(device)
+        slot_enc = MixtureSlotEncoder(
+            latent_dim=LATENT_DIM, chem_dim=CHEM_FEAT_DIM,
+            d_slot=SLOT_D_SLOT, n_heads=SLOT_N_HEADS,
+            n_layers=SLOT_N_LAYERS, dropout=0.0
+        ).to(device)
+        m = AttentionMixtureCNModel(vae.encoder, slot_enc, pred_m).to(device)
         m.load_state_dict(torch.load(ckpt, map_location=device))
         m.eval()
 
         run_preds = []
         with torch.no_grad():
-            for comp_tok, vf, chem, cn in dl_all:
-                p, _ = m(comp_tok.to(device), vf.to(device), chem.to(device))
+            for comp_tok, vf, chem_mix, chem_pc, cn in dl_all:
+                p, _ = m(
+                    comp_tok.to(device), vf.to(device),
+                    chem_mix.to(device), chem_pc.to(device)
+                )
                 run_preds.append(p.cpu())
         all_preds.append(torch.cat(run_preds).numpy())
-        
+
     ensemble_preds = np.mean(all_preds, axis=0)
     return ensemble_preds
 

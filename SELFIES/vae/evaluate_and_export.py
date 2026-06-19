@@ -23,11 +23,15 @@ from selfies_vae import SELFIESVAE
 from mixture_cn_predictor import CNPredictor, MixtureCNModel
 from train_vae_optimized import (
     HybridCNPredictor,
-    HybridMixtureCNModel,
+    MixtureSlotEncoder,
+    AttentionMixtureCNModel,
     mixture_chem_features,
     stratified_split,
     MixtureDataset,
-    CHEM_FEAT_DIM
+    CHEM_FEAT_DIM,
+    SLOT_D_SLOT,
+    SLOT_N_HEADS,
+    SLOT_N_LAYERS,
 )
 
 def load_data():
@@ -91,7 +95,12 @@ def main():
                 latent_dim=128, chem_dim=CHEM_FEAT_DIM,
                 hidden_dims=(512, 256, 128), dropout=0.0
             ).to(device)
-            model_opt = HybridMixtureCNModel(vae_opt.encoder, pred_opt).to(device)
+            slot_enc_opt = MixtureSlotEncoder(
+                latent_dim=128, chem_dim=CHEM_FEAT_DIM,
+                d_slot=SLOT_D_SLOT, n_heads=SLOT_N_HEADS,
+                n_layers=SLOT_N_LAYERS, dropout=0.0
+            ).to(device)
+            model_opt = AttentionMixtureCNModel(vae_opt.encoder, slot_enc_opt, pred_opt).to(device)
             model_opt.load_state_dict(torch.load(opt_model_ckpt, map_location=device))
             model_opt.eval()
             print("✓ Optimized model loaded successfully.")
@@ -136,20 +145,21 @@ def main():
     preds_base = []
     
     dataset = MixtureDataset(df_all, tokenizer, max_seq_len)
-    
+
     with torch.no_grad():
         for i in range(len(dataset)):
-            comp_tok, vf, chem, _ = dataset[i]
-            comp_tok = comp_tok.unsqueeze(0).to(device) # (1, 10, seq_len)
-            vf = vf.unsqueeze(0).to(device) # (1, 10)
-            chem = chem.unsqueeze(0).to(device) # (1, 8)
-            
+            comp_tok, vf, chem_mix, chem_pc, _ = dataset[i]
+            comp_tok = comp_tok.unsqueeze(0).to(device)
+            vf       = vf.unsqueeze(0).to(device)
+            chem_mix = chem_mix.unsqueeze(0).to(device)
+            chem_pc  = chem_pc.unsqueeze(0).to(device)
+
             if has_opt:
-                p_opt, _ = model_opt(comp_tok, vf, chem)
+                p_opt, _ = model_opt(comp_tok, vf, chem_mix, chem_pc)
                 preds_opt.append(p_opt.squeeze(0).item())
             else:
                 preds_opt.append(np.nan)
-                
+
             if has_base:
                 p_base, _ = model_base(comp_tok, vf)
                 preds_base.append(p_base.squeeze(0).item())
@@ -176,27 +186,29 @@ def main():
     print("\nAttempting ONNX export...")
     
     # Sample input for ONNX export
-    comp_tok, vf, chem, _ = dataset[0]
+    comp_tok, vf, chem_mix, chem_pc, _ = dataset[0]
     comp_tok = comp_tok.unsqueeze(0).to(device)
-    vf = vf.unsqueeze(0).to(device)
-    chem = chem.unsqueeze(0).to(device)
-    
+    vf       = vf.unsqueeze(0).to(device)
+    chem_mix = chem_mix.unsqueeze(0).to(device)
+    chem_pc  = chem_pc.unsqueeze(0).to(device)
+
     if has_opt:
         print("Exporting optimized model to ONNX...")
         opt_onnx_path = _HERE.parent / "selfies_vae_optimized.onnx"
         try:
             torch.onnx.export(
                 model_opt,
-                (comp_tok, vf, chem),
+                (comp_tok, vf, chem_mix, chem_pc),
                 str(opt_onnx_path),
-                input_names=["comp_tok", "vf", "chem"],
+                input_names=["comp_tok", "vf", "chem_mix", "chem_pc"],
                 output_names=["predicted_CN", "z_mix"],
                 dynamic_axes={
                     "comp_tok": {0: "batch_size"},
-                    "vf": {0: "batch_size"},
-                    "chem": {0: "batch_size"},
+                    "vf":       {0: "batch_size"},
+                    "chem_mix": {0: "batch_size"},
+                    "chem_pc":  {0: "batch_size"},
                     "predicted_CN": {0: "batch_size"},
-                    "z_mix": {0: "batch_size"},
+                    "z_mix":    {0: "batch_size"},
                 },
                 opset_version=18,
             )
