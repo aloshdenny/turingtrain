@@ -30,3 +30,17 @@ This generates both a `.csv` matrix containing the mass fractions and a stacked 
 ```bash
 python KeroML/scripts/infer_inverse.py --cn 45.5
 ```
+
+---
+
+## SELFIES VAE Mixture Model
+
+In addition to KeroML, this repository contains a **Transformer-based SELFIES VAE + Attention Mixture Model** for Cetane Number (CN) predictions of complex hydrocarbon fuel mixtures.
+
+The final optimized model employs a `MixtureSlotEncoder` (attention-based nonlinear mixing) to accurately capture interactions in multi-component oxygenate blends.
+
+### Quick Start (model_testing)
+A self-contained testing directory is located at [`SELFIES/model_testing/`](SELFIES/model_testing).
+
+* **Standalone Inference**: Running inference requires only two files: [`inference.py`](SELFIES/model_testing/inference.py) and the model file (either the PyTorch `.pt` checkpoint or the embedded `.onnx` binary).
+* **Usage**: See the dedicated [`SELFIES/model_testing/README.md`](SELFIES/model_testing/README.md) for execution commands, batch CSV processing, and programmatic API integration.
