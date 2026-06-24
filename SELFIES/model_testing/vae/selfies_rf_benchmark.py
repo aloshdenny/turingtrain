@@ -201,7 +201,7 @@ def main():
             random_state=42, n_jobs=-1, verbosity=0,
         )
     except ImportError:
-        print("[warn] XGBoost not installed. Run: conda install -n base xgboost -c conda-forge")
+        print("[warn] XGBoost not installed. Please install it using the requirements.txt.")
 
     try:
         import lightgbm as lgb
@@ -211,7 +211,7 @@ def main():
             min_child_samples=5, random_state=42, n_jobs=-1, verbose=-1,
         )
     except ImportError:
-        print("[warn] LightGBM not installed. Run: conda install -n base lightgbm -c conda-forge")
+        print("[warn] LightGBM not installed. Please install it using the requirements.txt.")
 
     print(f"{'Model':<25} {'MAE':>8} {'R²':>8} {'MAE(CN>80)':>12}")
     print("-" * 60)

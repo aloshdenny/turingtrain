@@ -41,13 +41,9 @@ To run inferences, you only need **two files**:
 > The exported `selfies_vae_optimized.onnx` file has its weights directly embedded (compiled with `external_data=False`). No separate `.data` files are required.
 
 ### Requirements
-Install the following packages:
+Install all dependencies (including optional ones like `onnxruntime`, `rdkit`, `lightgbm`, etc.) for the `intensors` conda environment from the provided [`requirements.txt`](requirements.txt):
 ```bash
-pip install numpy torch
-# Optional (to run ONNX backend):
-pip install onnxruntime
-# Optional (for enhanced RDKit chemistry descriptors):
-pip install rdkit
+pip install -r requirements.txt
 ```
 
 ### Usage Examples

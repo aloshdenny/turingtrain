@@ -7,9 +7,8 @@ This script embeds the vocabulary tokenizer and model architectures, allowing yo
 to make predictions with just this script and the model checkpoint or ONNX file.
 
 Requirements:
-    pip install numpy torch
-    (Optional) pip install rdkit        (for enhanced chemistry features)
-    (Optional) pip install onnxruntime  (to run ONNX inference without PyTorch load)
+    Install dependencies using the provided requirements.txt:
+    pip install -r model_testing/requirements.txt
 
 Usage (CLI):
     # Predict CN for a single custom mixture using PyTorch checkpoint:
@@ -314,7 +313,7 @@ class CNInferenceModel:
             try:
                 import onnxruntime as ort
             except ImportError:
-                print("Error: onnxruntime is required for running ONNX models. Install it using 'pip install onnxruntime'.")
+                print("Error: onnxruntime is required for running ONNX models. Install it using the requirements.txt.")
                 sys.exit(1)
             print(f"Loading ONNX session from {self.model_path}...")
             self.session = ort.InferenceSession(str(self.model_path))

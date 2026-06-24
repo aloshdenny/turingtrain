@@ -24,7 +24,7 @@ Usage
         --target-cn 90 100 110 --n-candidates 10
 
 Optional BoTorch install:
-    pip install botorch
+    Install via the provided requirements.txt
 If BoTorch is unavailable, falls back to random search + hill-climbing.
 """
 from __future__ import annotations
