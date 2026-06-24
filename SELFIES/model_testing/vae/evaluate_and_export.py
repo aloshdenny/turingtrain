@@ -210,6 +210,7 @@ def main():
                     "z_mix":    {0: "batch_size"},
                 },
                 opset_version=18,
+                external_data=False,
             )
             print(f"✓ Exported optimized model to {opt_onnx_path}")
         except Exception as e:
@@ -232,6 +233,7 @@ def main():
                     "z_mix": {0: "batch_size"},
                 },
                 opset_version=18,
+                external_data=False,
             )
             print(f"✓ Exported baseline model to {base_onnx_path}")
         except Exception as e:
