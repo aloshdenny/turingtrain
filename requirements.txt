@@ -265,8 +265,10 @@ xgboost==2.1.4
 yarl==1.22.0
 zipp==3.23.0
 rdkit==2026.03.2
+torch-geometric==2.6.1
+skl2onnx==1.20.0
 
-# Additional required dependencies not pre-installed in the conda environment
+# Additional required dependencies
 botorch
 gpytorch
 lightgbm

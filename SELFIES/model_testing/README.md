@@ -40,11 +40,12 @@ To run inferences, you only need **two files**:
 > [!NOTE]
 > The exported `selfies_vae_optimized.onnx` file has its weights directly embedded (compiled with `external_data=False`). No separate `.data` files are required.
 
-### Requirements
-Install all dependencies (including optional ones like `onnxruntime`, `rdkit`, `lightgbm`, etc.) for the `intensors` conda environment from the provided [`requirements.txt`](requirements.txt):
-```bash
-pip install -r requirements.txt
-```
+### Requirements & Setup
+Please refer to the root [`README.md`](../../README.md) for unified environment creation (`intensors` conda environment) and library installation.
+
+> [!IMPORTANT]
+> For single mixture predictions, the `--selfies`, `--vols`, and `--inchis` parameters are now **mandatory arguments** and must all be provided with matching component counts (up to 10 components).
+
 
 ### Usage Examples
 

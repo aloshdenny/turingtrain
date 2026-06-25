@@ -82,17 +82,34 @@ This folder contains scripts for predicting cetane numbers from chemical mixture
 - Gradient descent struggles with simple decision boundaries
 - Trees more efficient at capturing if-then chemistry logic
 
-## Recommendation
-**Use RandomForest** (`inchi_cn_model.pkl`) for production - achieves MAE 7.29 with full interpretability.
+## Standalone Inference (`inference.py`)
 
-For learnable models: Use `train_nn_proper.py` if NN required, but expect ~40% worse performance than RF.
+A self-contained, standardized inference script is located at [`Inchi/inference.py`](inference.py). It supports predicting Cetane Numbers from InChI strings and volume fractions using either the ONNX model (default) or the Pickle (RandomForest) backend.
 
-## Dependencies
-- torch, torch_geometric
-- rdkit
-- pandas, numpy, scikit-learn
+### Requirements & Setup
+Please refer to the root [`README.md`](../README.md) for unified environment creation (`intensors` conda environment) and library installation.
 
-## Environment
-- Python 3.11
-- Conda env: `intensors`
-- Executable: `/opt/homebrew/Caskroom/miniconda/base/envs/intensors/bin/python`
+### Usage Examples
+
+#### 1. Single Mixture Prediction (ONNX Backend - Default)
+```bash
+python Inchi/inference.py \
+    --inchis "InChI=1S/C2H6/c1-2/h1-2H3" "InChI=1S/CH4O/c1-2/h2H,1H3" \
+    --vols 0.5 0.5
+```
+
+#### 2. Single Mixture Prediction (Pickle Backend)
+```bash
+python Inchi/inference.py \
+    --model Inchi/inchi_cn_model.pkl \
+    --inchis "InChI=1S/C2H6/c1-2/h1-2H3" "InChI=1S/CH4O/c1-2/h2H,1H3" \
+    --vols 0.5 0.5
+```
+
+#### 3. Batch Inference on database CSV/DAT file
+```bash
+python Inchi/inference.py \
+    --csv Inchi/cn_mixtues_inchi.dat \
+    --out predictions_out.csv
+```
+

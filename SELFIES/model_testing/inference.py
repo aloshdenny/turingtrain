@@ -7,8 +7,8 @@ This script embeds the vocabulary tokenizer and model architectures, allowing yo
 to make predictions with just this script and the model checkpoint or ONNX file.
 
 Requirements:
-    Install dependencies using the provided requirements.txt:
-    pip install -r model_testing/requirements.txt
+    Install dependencies using the provided requirements.txt in the root directory:
+    pip install -r requirements.txt
 
 Usage (CLI):
     # Predict CN for a single custom mixture using PyTorch checkpoint:
@@ -478,23 +478,23 @@ def main():
     engine = CNInferenceModel(args.model, device=args.device)
 
     # Mode 1: Single mixture prediction
-    if args.selfies and args.vols:
-        inchis = args.inchis or [""] * len(args.selfies)
-        if len(args.selfies) != len(args.vols) or len(args.selfies) != len(inchis):
-            print("Error: --selfies, --vols, and --inchis parameters must have matching lengths.")
-            sys.exit(1)
+    if not args.csv:
+        if not args.selfies or not args.vols or not args.inchis:
+            parser.error("the following arguments are required when --csv is not specified: --selfies, --vols, --inchis")
+        if len(args.selfies) != len(args.vols) or len(args.selfies) != len(args.inchis):
+            parser.error("--selfies, --vols, and --inchis parameters must have matching lengths.")
             
         mixture = {
             "components": [
                 {"selfies": s, "vol": v, "inchi": inc}
-                for s, v, inc in zip(args.selfies, args.vols, inchis)
+                for s, v, inc in zip(args.selfies, args.vols, args.inchis)
             ]
         }
         pred = engine.predict([mixture])[0]
         print(f"\nPredicted Mixture Cetane Number (CN): {pred:.4f}")
         
     # Mode 2: Batch CSV prediction
-    elif args.csv:
+    else:
         import pandas as pd
         print(f"Processing CSV dataset: {args.csv}")
         mixtures = process_csv(args.csv, engine)
@@ -506,9 +506,6 @@ def main():
         out_path = args.out or "predictions_out.csv"
         df_out.to_csv(out_path, index=False)
         print(f"Saved prediction results to: {out_path}")
-        
-    else:
-        parser.print_help()
 
 if __name__ == "__main__":
     main()
