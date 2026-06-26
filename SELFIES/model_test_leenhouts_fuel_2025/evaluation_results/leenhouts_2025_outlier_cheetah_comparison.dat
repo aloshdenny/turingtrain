@@ -1,0 +1,86 @@
+# Leenhouts 2025 outlier vs nearest Cheetah mixture comparison
+# One pair = two consecutive rows (Leenhouts, then Cheetah).
+# Volume fractions are normalized and shown as vol% (0-100).
+# vol_delta_pct = Cheetah vol% minus Leenhouts vol% (shown on Cheetah row only).
+# sum_abs_vol_delta_pct = sum of |vol_delta_pct| over components (total composition gap in percentage points).
+# Close match: same component SELFIES set and sum_abs_vol_delta_pct <= 5.0.
+# Pairs: 26
+
+pair_no	source	record_id	mixture_id	mixture_name	CN	cn_predicted	cn_abs_error	sum_abs_vol_delta_pct	match_type	component_1_name	component_1_vol_pct_leenhouts	component_1_vol_pct_cheetah	component_1_vol_delta_pct	component_2_name	component_2_vol_pct_leenhouts	component_2_vol_pct_cheetah	component_2_vol_delta_pct	component_3_name	component_3_vol_pct_leenhouts	component_3_vol_pct_cheetah	component_3_vol_delta_pct	component_4_name	component_4_vol_pct_leenhouts	component_4_vol_pct_cheetah	component_4_vol_delta_pct
+1	Leenhouts	DCNTRN_TRDS_A0_00063	LNHT_TRN_A0_00063		70.1000	51.2043	18.8957		partial	toluene	19.76			3-methyl-1-(3-methylbutoxy)butane	80.24										
+1	Cheetah	CNMX_TRDS_A0_00966	CHTA_MXTR_A0_03627	3-methyl-1-(3-methylbutoxy)butane	85.1000			19.76	partial	3-methyl-1-(3-methylbutoxy)butane		100.00	+19.76												
+
+2	Leenhouts	DCNTRN_TRDS_A0_00240	LNHT_TRN_A0_00240		60.6000	78.8693	18.2693		same_components	hexylbenzene	13.13			hexadecane	69.42			butylcyclohexane	17.45						
+2	Cheetah	CNMX_TRDS_A0_00505	CHTA_MXTR_A0_02784	hexylbenzene/hexadecane/butylcyclohexane 44/35/21 v/v/v	59.5000			68.25	same_components	hexylbenzene	13.13	44.12	+30.99	hexadecane	69.42	35.30	-34.12	butylcyclohexane	17.45	20.58	+3.13				
+
+3	Leenhouts	DCNTRN_TRDS_A0_00060	LNHT_TRN_A0_00060		47.0000	63.3479	16.3479		partial	hexan-1-ol	57.72			1-hexoxyhexane	42.28										
+3	Cheetah	CNMX_TRDS_A0_01131	CHTA_MXTR_A0_03792	hexan-1-ol	23.3000			42.28	partial	hexan-1-ol		100.00	+42.28												
+
+4	Leenhouts	DCNTRN_TRDS_A0_00059	LNHT_TRN_A0_00059		33.1000	48.5813	15.4813		partial	hexan-1-ol	79.56			1-hexoxyhexane	20.44										
+4	Cheetah	CNMX_TRDS_A0_01131	CHTA_MXTR_A0_03792	hexan-1-ol	23.3000			20.44	partial	hexan-1-ol		100.00	+20.44												
+
+5	Leenhouts	DCNTRN_TRDS_A0_00064	LNHT_TRN_A0_00064		53.2000	39.6500	13.5500		partial	toluene	39.98			3-methyl-1-(3-methylbutoxy)butane	60.02										
+5	Cheetah	CNMX_TRDS_A0_00966	CHTA_MXTR_A0_03627	3-methyl-1-(3-methylbutoxy)butane	85.1000			39.98	partial	3-methyl-1-(3-methylbutoxy)butane		100.00	+39.98												
+
+6	Leenhouts	DCNTRN_TRDS_A0_00061	LNHT_TRN_A0_00061		64.3000	77.6775	13.3775		partial	hexan-1-ol	36.51			1-hexoxyhexane	63.49										
+6	Cheetah	CNMX_TRDS_A0_00965	CHTA_MXTR_A0_03626	1-hexoxyhexane	131.0200			36.51	partial	1-hexoxyhexane		100.00	+36.51												
+
+7	Leenhouts	DCNTRN_TRDS_A0_00068	LNHT_TRN_A0_00068		69.0000	57.0946	11.9054		partial	3-methyl-1-(3-methylbutoxy)butane	90.28			methanol	9.72										
+7	Cheetah	CNMX_TRDS_A0_00966	CHTA_MXTR_A0_03627	3-methyl-1-(3-methylbutoxy)butane	85.1000			9.72	partial	3-methyl-1-(3-methylbutoxy)butane		100.00	+9.72												
+
+8	Leenhouts	DCNTRN_TRDS_A0_00069	LNHT_TRN_A0_00069		53.5000	41.6446	11.8554		partial	3-methyl-1-(3-methylbutoxy)butane	80.35			methanol	19.65										
+8	Cheetah	CNMX_TRDS_A0_00966	CHTA_MXTR_A0_03627	3-methyl-1-(3-methylbutoxy)butane	85.1000			19.65	partial	3-methyl-1-(3-methylbutoxy)butane		100.00	+19.65												
+
+9	Leenhouts	DCNTRN_TRDS_A0_00335	LNHT_TRN_A0_00335		38.9000	50.6857	11.7857		close	toluene	52.11			hexadecane	47.89										
+9	Cheetah	CNMX_TRDS_A0_06612	CHTA_MXTR_A0_09276	cetane/toluene 48/52 v/v	53.1952			0.21	close	toluene	52.11	52.00	-0.11	hexadecane	47.89	48.00	+0.11								
+
+10	Leenhouts	DCNTRN_TRDS_A0_00070	LNHT_TRN_A0_00070		39.1000	27.9078	11.1922		partial	3-methyl-1-(3-methylbutoxy)butane	70.17			methanol	29.83										
+10	Cheetah	CNMX_TRDS_A0_00966	CHTA_MXTR_A0_03627	3-methyl-1-(3-methylbutoxy)butane	85.1000			29.83	partial	3-methyl-1-(3-methylbutoxy)butane		100.00	+29.83												
+
+11	Leenhouts	DCNTRN_TRDS_A0_00436	LNHT_TRN_A0_00436		37.3000	26.4262	10.8738		close	toluene	26.45			iso-octane	44.20			n-propylbenzene	8.87			dodecane	20.48		
+11	Cheetah	CNMX_TRDS_A0_00587	CHTA_MXTR_A0_02913	toluene/dodecane/iso-octane/n-propylbenzene 26/21/44/9 v/v/v/v	37.3000			0.61	close	toluene	26.45	26.17	-0.28	iso-octane	44.20	44.18	-0.03	n-propylbenzene	8.87	8.97	+0.10	dodecane	20.48	20.69	+0.21
+
+12	Leenhouts	DCNTRN_TRDS_A0_00430	LNHT_TRN_A0_00430		66.1000	76.8425	10.7425		close	diethyl ether	81.62			methanol	18.38										
+12	Cheetah	CNMX_TRDS_A0_03027	CHTA_MXTR_A0_05691	diethyl ether/methanol 82/18 v/v	78.8826			0.76	close	diethyl ether	81.62	82.00	+0.38	methanol	18.38	18.00	-0.38								
+
+13	Leenhouts	DCNTRN_TRDS_A0_00073	LNHT_TRN_A0_00073		69.7000	79.8559	10.1559		close	toluene	20.11			hexadecane	79.89										
+13	Cheetah	CNMX_TRDS_A0_00554	CHTA_MXTR_A0_02880	toluene/cetane 20/80 v/v	83.6000			1.12	close	toluene	20.11	19.55	-0.56	hexadecane	79.89	80.45	+0.56								
+
+14	Leenhouts	DCNTRN_TRDS_A0_00051	LNHT_TRN_A0_00051		84.8000	94.8565	10.0565		close	n-butanol	5.07			dibutyl ether	94.93										
+14	Cheetah	CNMX_TRDS_A0_00933	CHTA_MXTR_A0_03575	dibutyl ether/n-butanol 95/5 v/v	84.8000			0.59	close	n-butanol	5.07	4.77	-0.30	dibutyl ether	94.93	95.23	+0.30								
+
+15	Leenhouts	DCNTRN_TRDS_A0_00334	LNHT_TRN_A0_00334		45.6000	55.5307	9.9307		close	toluene	47.09			hexadecane	52.91										
+15	Cheetah	CNMX_TRDS_A0_06608	CHTA_MXTR_A0_09272	cetane/toluene 53/47 v/v	57.8553			0.19	close	toluene	47.09	47.00	-0.09	hexadecane	52.91	53.00	+0.09								
+
+16	Leenhouts	DCNTRN_TRDS_A0_00065	LNHT_TRN_A0_00065		43.4000	33.9897	9.4103		partial	toluene	49.29			3-methyl-1-(3-methylbutoxy)butane	50.71										
+16	Cheetah	CNMX_TRDS_A0_00966	CHTA_MXTR_A0_03627	3-methyl-1-(3-methylbutoxy)butane	85.1000			49.29	partial	3-methyl-1-(3-methylbutoxy)butane		100.00	+49.29												
+
+17	Leenhouts	DCNTRN_TRDS_A0_00082	LNHT_TRN_A0_00082		38.9000	47.9819	9.0819		close	toluene	54.80			hexadecane	45.20										
+17	Cheetah	CNMX_TRDS_A0_06615	CHTA_MXTR_A0_09279	cetane/toluene 45/55 v/v	50.3992			0.39	close	toluene	54.80	55.00	+0.20	hexadecane	45.20	45.00	-0.20								
+
+18	Leenhouts	DCNTRN_TRDS_A0_00431	LNHT_TRN_A0_00431		97.2000	106.1110	8.9110		close	diethyl ether	90.90			methanol	9.10										
+18	Cheetah	CNMX_TRDS_A0_03019	CHTA_MXTR_A0_05683	diethyl ether/methanol 91/9 v/v	103.8740			0.20	close	diethyl ether	90.90	91.00	+0.10	methanol	9.10	9.00	-0.10								
+
+19	Leenhouts	DCNTRN_TRDS_A0_00071	LNHT_TRN_A0_00071		27.3000	18.4452	8.8548		partial	3-methyl-1-(3-methylbutoxy)butane	59.89			methanol	40.11										
+19	Cheetah	CNMX_TRDS_A0_00966	CHTA_MXTR_A0_03627	3-methyl-1-(3-methylbutoxy)butane	85.1000			40.11	partial	3-methyl-1-(3-methylbutoxy)butane		100.00	+40.11												
+
+20	Leenhouts	DCNTRN_TRDS_A0_00127	LNHT_TRN_A0_00127		38.9000	47.7394	8.8394		close	toluene	55.04			hexadecane	44.96										
+20	Cheetah	CNMX_TRDS_A0_06615	CHTA_MXTR_A0_09279	cetane/toluene 45/55 v/v	50.3992			0.09	close	toluene	55.04	55.00	-0.04	hexadecane	44.96	45.00	+0.04								
+
+21	Leenhouts	DCNTRN_TRDS_A0_00455	LNHT_TRN_A0_00455		55.8000	64.5877	8.7877		same_components	mesitylene	7.43			iso-octane	28.64			hexadecane	63.93						
+21	Cheetah	CNMX_TRDS_A0_00920	CHTA_MXTR_A0_03258	hexadecane/iso-octane/mesitylene 53/25/22 v/v/v	50.6000			29.61	same_components	mesitylene	7.43	22.24	+14.81	iso-octane	28.64	25.15	-3.49	hexadecane	63.93	52.61	-11.32				
+
+22	Leenhouts	DCNTRN_TRDS_A0_00239	LNHT_TRN_A0_00239		59.5000	50.9459	8.5541		same_components	hexylbenzene	51.84			hexadecane	27.25			butylcyclohexane	20.91						
+22	Cheetah	CNMX_TRDS_A0_00505	CHTA_MXTR_A0_02784	hexylbenzene/hexadecane/butylcyclohexane 44/35/21 v/v/v	59.5000			16.09	same_components	hexylbenzene	51.84	44.12	-7.72	hexadecane	27.25	35.30	+8.04	butylcyclohexane	20.91	20.58	-0.33				
+
+23	Leenhouts	DCNTRN_TRDS_A0_00333	LNHT_TRN_A0_00333		52.2000	60.1517	7.9517		close	toluene	42.14			hexadecane	57.86										
+23	Cheetah	CNMX_TRDS_A0_06603	CHTA_MXTR_A0_09267	cetane/toluene 58/42 v/v	62.5154			0.28	close	toluene	42.14	42.00	-0.14	hexadecane	57.86	58.00	+0.14								
+
+24	Leenhouts	DCNTRN_TRDS_A0_00081	LNHT_TRN_A0_00081		45.6000	53.2525	7.6525		close	toluene	49.48			hexadecane	50.52										
+24	Cheetah	CNMX_TRDS_A0_06610	CHTA_MXTR_A0_09274	cetane/toluene 51/49 v/v	55.9913			0.95	close	toluene	49.48	49.00	-0.48	hexadecane	50.52	51.00	+0.48								
+
+25	Leenhouts	DCNTRN_TRDS_A0_00062	LNHT_TRN_A0_00062		82.9000	90.2984	7.3984		partial	hexan-1-ol	20.73			1-hexoxyhexane	79.27										
+25	Cheetah	CNMX_TRDS_A0_00965	CHTA_MXTR_A0_03626	1-hexoxyhexane	131.0200			20.73	partial	1-hexoxyhexane		100.00	+20.73												
+
+26	Leenhouts	DCNTRN_TRDS_A0_00437	LNHT_TRN_A0_00437		60.5000	53.2812	7.2188		close	toluene	8.72			iso-octane	21.80			n-propylbenzene	8.78			dodecane	60.70		
+26	Cheetah	CNMX_TRDS_A0_00588	CHTA_MXTR_A0_02914	toluene/dodecane/iso-octane/n-propylbenzene 9/61/22/9 v/v/v/v	60.5000			0.50	close	toluene	8.72	8.57	-0.15	iso-octane	21.80	21.69	-0.11	n-propylbenzene	8.78	8.80	+0.02	dodecane	60.70	60.94	+0.24

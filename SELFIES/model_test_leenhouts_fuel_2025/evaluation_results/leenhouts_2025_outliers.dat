@@ -1,0 +1,32 @@
+# Leenhouts 2025 evaluation outliers
+# Outlier rule: |error| > Q3 + 1.5×IQR = 7.170
+# Outliers: 26 of 376 samples
+# Component names from Cheetah pure-component entries in cn_mixture_selfies.dat.
+#
+dcn_trn_selfies_id	mixture_id	mixture_name	mixture_type	DCN	predicted_CN	cn_actual	cn_predicted	cn_error	cn_abs_error	is_outlier	cpnt_name_1	cpnt_vol_1	cpnt_name_2	cpnt_vol_2	cpnt_name_3	cpnt_vol_3	cpnt_name_4	cpnt_vol_4	cpnt_name_5	cpnt_vol_5	cpnt_name_6	cpnt_vol_6	cpnt_name_7	cpnt_vol_7	cpnt_name_8	cpnt_vol_8	cpnt_name_9	cpnt_vol_9	cpnt_name_10	cpnt_vol_10
+DCNTRN_TRDS_A0_00063	LNHT_TRN_A0_00063		experimental surrogate fuel	7.010000E+01	5.120430E+01	7.010000E+01	5.120430E+01	-1.889570E+01	1.889570E+01	True	3-methyl-1-(3-methylbutoxy)butane	8.023807E-01	toluene	1.976193E-01																
+DCNTRN_TRDS_A0_00240	LNHT_TRN_A0_00240		experimental surrogate fuel	6.060000E+01	7.886930E+01	6.060000E+01	7.886930E+01	1.826930E+01	1.826930E+01	True	hexadecane	6.942073E-01	butylcyclohexane	1.744757E-01	hexylbenzene	1.313170E-01														
+DCNTRN_TRDS_A0_00060	LNHT_TRN_A0_00060		experimental surrogate fuel	4.700000E+01	6.334785E+01	4.700000E+01	6.334785E+01	1.634785E+01	1.634785E+01	True	1-hexoxyhexane	4.228161E-01	hexan-1-ol	5.771839E-01																
+DCNTRN_TRDS_A0_00059	LNHT_TRN_A0_00059		experimental surrogate fuel	3.310000E+01	4.858132E+01	3.310000E+01	4.858132E+01	1.548132E+01	1.548132E+01	True	1-hexoxyhexane	2.043717E-01	hexan-1-ol	7.956283E-01																
+DCNTRN_TRDS_A0_00064	LNHT_TRN_A0_00064		experimental surrogate fuel	5.320000E+01	3.965001E+01	5.320000E+01	3.965001E+01	-1.354999E+01	1.354999E+01	True	3-methyl-1-(3-methylbutoxy)butane	6.002021E-01	toluene	3.997979E-01																
+DCNTRN_TRDS_A0_00061	LNHT_TRN_A0_00061		experimental surrogate fuel	6.430000E+01	7.767753E+01	6.430000E+01	7.767753E+01	1.337753E+01	1.337753E+01	True	1-hexoxyhexane	6.348766E-01	hexan-1-ol	3.651234E-01																
+DCNTRN_TRDS_A0_00068	LNHT_TRN_A0_00068		experimental surrogate fuel	6.900000E+01	5.709462E+01	6.900000E+01	5.709462E+01	-1.190538E+01	1.190538E+01	True	3-methyl-1-(3-methylbutoxy)butane	9.027584E-01	methanol	9.724163E-02																
+DCNTRN_TRDS_A0_00069	LNHT_TRN_A0_00069		experimental surrogate fuel	5.350000E+01	4.164458E+01	5.350000E+01	4.164458E+01	-1.185542E+01	1.185542E+01	True	3-methyl-1-(3-methylbutoxy)butane	8.035365E-01	methanol	1.964635E-01																
+DCNTRN_TRDS_A0_00335	LNHT_TRN_A0_00335		experimental surrogate fuel	3.890000E+01	5.068574E+01	3.890000E+01	5.068574E+01	1.178574E+01	1.178574E+01	True	hexadecane	4.789352E-01	toluene	5.210648E-01																
+DCNTRN_TRDS_A0_00070	LNHT_TRN_A0_00070		experimental surrogate fuel	3.910000E+01	2.790775E+01	3.910000E+01	2.790775E+01	-1.119225E+01	1.119225E+01	True	3-methyl-1-(3-methylbutoxy)butane	7.017081E-01	methanol	2.982919E-01																
+DCNTRN_TRDS_A0_00436	LNHT_TRN_A0_00436		experimental surrogate fuel	3.730000E+01	2.642621E+01	3.730000E+01	2.642621E+01	-1.087379E+01	1.087379E+01	True	n-propylbenzene	8.873645E-02	toluene	2.644760E-01	dodecane	2.047645E-01	iso-octane	4.420231E-01												
+DCNTRN_TRDS_A0_00430	LNHT_TRN_A0_00430		experimental surrogate fuel	6.610000E+01	7.684248E+01	6.610000E+01	7.684248E+01	1.074248E+01	1.074248E+01	True	methanol	1.838060E-01	diethyl ether	8.161940E-01																
+DCNTRN_TRDS_A0_00073	LNHT_TRN_A0_00073		experimental surrogate fuel	6.970000E+01	7.985588E+01	6.970000E+01	7.985588E+01	1.015588E+01	1.015588E+01	True	hexadecane	7.989103E-01	toluene	2.010897E-01																
+DCNTRN_TRDS_A0_00051	LNHT_TRN_A0_00051		experimental surrogate fuel	8.480000E+01	9.485648E+01	8.480000E+01	9.485648E+01	1.005648E+01	1.005648E+01	True	dibutyl ether	9.493455E-01	n-butanol	5.065451E-02																
+DCNTRN_TRDS_A0_00334	LNHT_TRN_A0_00334		experimental surrogate fuel	4.560000E+01	5.553067E+01	4.560000E+01	5.553067E+01	9.930674E+00	9.930674E+00	True	hexadecane	5.290576E-01	toluene	4.709424E-01																
+DCNTRN_TRDS_A0_00065	LNHT_TRN_A0_00065		experimental surrogate fuel	4.340000E+01	3.398974E+01	4.340000E+01	3.398974E+01	-9.410262E+00	9.410262E+00	True	3-methyl-1-(3-methylbutoxy)butane	5.071070E-01	toluene	4.928930E-01																
+DCNTRN_TRDS_A0_00082	LNHT_TRN_A0_00082		experimental surrogate fuel	3.890000E+01	4.798191E+01	3.890000E+01	4.798191E+01	9.081907E+00	9.081907E+00	True	hexadecane	4.519540E-01	toluene	5.480460E-01																
+DCNTRN_TRDS_A0_00431	LNHT_TRN_A0_00431		experimental surrogate fuel	9.720000E+01	1.061110E+02	9.720000E+01	1.061110E+02	8.911015E+00	8.911015E+00	True	methanol	9.098214E-02	diethyl ether	9.090179E-01																
+DCNTRN_TRDS_A0_00071	LNHT_TRN_A0_00071		experimental surrogate fuel	2.730000E+01	1.844517E+01	2.730000E+01	1.844517E+01	-8.854829E+00	8.854829E+00	True	3-methyl-1-(3-methylbutoxy)butane	5.989052E-01	methanol	4.010948E-01																
+DCNTRN_TRDS_A0_00127	LNHT_TRN_A0_00127		experimental surrogate fuel	3.890000E+01	4.773940E+01	3.890000E+01	4.773940E+01	8.839403E+00	8.839403E+00	True	hexadecane	4.495713E-01	toluene	5.504287E-01																
+DCNTRN_TRDS_A0_00455	LNHT_TRN_A0_00455		experimental surrogate fuel	5.580000E+01	6.458771E+01	5.580000E+01	6.458771E+01	8.787708E+00	8.787708E+00	True	iso-octane	2.864234E-01	mesitylene	7.431401E-02	hexadecane	6.392626E-01														
+DCNTRN_TRDS_A0_00239	LNHT_TRN_A0_00239		experimental surrogate fuel	5.950000E+01	5.094586E+01	5.950000E+01	5.094586E+01	-8.554138E+00	8.554138E+00	True	hexadecane	2.725261E-01	butylcyclohexane	2.090876E-01	hexylbenzene	5.183862E-01														
+DCNTRN_TRDS_A0_00333	LNHT_TRN_A0_00333		experimental surrogate fuel	5.220000E+01	6.015168E+01	5.220000E+01	6.015168E+01	7.951676E+00	7.951676E+00	True	hexadecane	5.786008E-01	toluene	4.213992E-01																
+DCNTRN_TRDS_A0_00081	LNHT_TRN_A0_00081		experimental surrogate fuel	4.560000E+01	5.325246E+01	4.560000E+01	5.325246E+01	7.652457E+00	7.652457E+00	True	hexadecane	5.052272E-01	toluene	4.947728E-01																
+DCNTRN_TRDS_A0_00062	LNHT_TRN_A0_00062		experimental surrogate fuel	8.290000E+01	9.029841E+01	8.290000E+01	9.029841E+01	7.398409E+00	7.398409E+00	True	1-hexoxyhexane	7.927239E-01	hexan-1-ol	2.072761E-01																
+DCNTRN_TRDS_A0_00437	LNHT_TRN_A0_00437		experimental surrogate fuel	6.050000E+01	5.328118E+01	6.050000E+01	5.328118E+01	-7.218822E+00	7.218822E+00	True	n-propylbenzene	8.784230E-02	toluene	8.715086E-02	dodecane	6.070343E-01	iso-octane	2.179725E-01												
