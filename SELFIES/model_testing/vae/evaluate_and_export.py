@@ -15,10 +15,11 @@ import pandas as pd
 from pathlib import Path
 from torch.utils.data import DataLoader
 
-# Project paths
-_HERE = Path(__file__).resolve().parent
-sys.path.insert(0, str(_HERE.parent))
-sys.path.insert(0, str(_HERE))
+# ── Paths: import from canonical SELFIES/ source (no local copies needed) ────────
+_HERE     = Path(__file__).resolve().parent          # model_testing/vae/
+_SELFIES  = _HERE.parents[1]                         # SELFIES/
+sys.path.insert(0, str(_SELFIES))                   # for selfies_tokenizer
+sys.path.insert(0, str(_SELFIES / "vae"))           # for selfies_vae, train_vae_optimized, etc.
 
 from selfies_tokenizer import SELFIESTokenizer
 from selfies_vae import SELFIESVAE
@@ -37,9 +38,13 @@ from train_vae_optimized import (
 )
 
 def load_data():
-    cache_path = _HERE.parent / "data" / "cn_mixtures_selfies.pkl"
+    # Single source of truth: SELFIES/data/  (no model_testing/data/ copy needed)
+    cache_path = _SELFIES / "data" / "cn_mixtures_selfies.pkl"
     if not cache_path.exists():
-        raise FileNotFoundError(f"Cache not found at {cache_path}")
+        raise FileNotFoundError(
+            f"Cache not found at {cache_path}\n"
+            "Run: python SELFIES/data/preprocess_selfies.py"
+        )
     print(f"Loading data from {cache_path}...")
     with open(cache_path, "rb") as fh:
         cache = pickle.load(fh)

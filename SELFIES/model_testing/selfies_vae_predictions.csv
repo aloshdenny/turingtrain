@@ -1,875 +1,875 @@
 No,mixture_name,CN,predicted_CN,split
-4,PRF 80,27.672,26.653297424316406,val
-15,TRF 70,19.8414,20.32878875732422,val
-20,TPRF 60-20,29.08025,27.529674530029297,val
-27,TPRF 80-10,25.36285,23.812545776367188,val
-39,MCSB 6,21.56161,20.951276779174805,val
-43,MCSB 10,20.93883,20.41708755493164,val
-47,MCSB 14,19.42088,20.612525939941406,val
-51,MCSB 18,17.79176,18.755794525146484,val
-62,PRF 83,26.25817,25.67894172668457,val
-67,Light naphtha J80,27.63156,24.73238754272461,val
-69,Light naphtha J80/Diethyl ether 95/5 v/v,29.3196,25.762380599975586,val
-73,Light naphtha J80/Dipropyl ether 95/5 v/v,31.92,27.241374969482422,val
-281,decane/toluene 88/12 v/v,62.14,59.65343475341797,val
-302,"dodecane/1,3,5-trimethylbenzene 87/13 v/v",65.6,65.26347351074219,val
-306,iso-octane/1-hexene 80/20 v/v,21.17,21.645376205444336,val
-317,iso-octane/cyclohexane 60/40 v/v,18.34,18.19858169555664,val
-339,butylbenzene/dodecane 55/45 v/v,48.2,43.138973236083984,val
-340,dodecane/3-ethylheptane 48/52 v/v,59.6,59.08293533325195,val
-344,heptane/ethanol 75/25 v/v,38.7,32.41349792480469,val
-346,heptane/ethanol 25/75 v/v,9.2,9.374567985534668,val
-348,heptane/ethylcyclohexane 80/20 v/v,48.6,47.40684509277344,val
-352,"decane/1,2,4-trimethylbenzene 66/34 v/v",49.1,43.97110366821289,val
-368,dodecane/iso-octane 75/25 v/v,66.5,61.00779342651367,val
-372,dodecane/iso-octane 5/95 v/v,22.2,23.112934112548828,val
-380,decane/iso-octane 50/50 v/v,49.6,42.90195083618164,val
-385,furan/heptane 49/51 v/v,25.4,20.725690841674805,val
-387,furan/heptane 78/22 v/v,10.6,10.380101203918457,val
-389,furan/heptane 92/8 v/v,7.9,7.583151340484619,val
-402,butylcyclohexane/heptane 82/18 v/v,48.34,47.17091751098633,val
-403,methylcyclohexane/heptane 18/82 v/v,47.65,46.384708404541016,val
-406,methylcyclohexane/heptane 78/22 v/v,29.49,29.32329559326172,val
-414,ethanol/heptane 45/55 v/v,23.0,19.16515350341797,val
-422,toluene/hexadecane 75/25 v/v,27.5,26.765535354614258,val
-446,heptane/iso-octane/ethanol 14/71/15 v/v/v,17.98,18.22040367126465,val
-460,heptane/iso-octane/methanol/ethanol 15/77/4/5 v/v/v/v,20.44,20.577665328979492,val
-464,heptane/iso-octane/methanol/ethanol 15/81/2/1 v/v/v/v,23.76,22.95083236694336,val
-465,heptane/iso-octane/methanol/ethanol 14/78/5/3 v/v/v/v,20.24,20.544952392578125,val
-468,toluene/iso-octane/heptane 15/73/13 v/v/v,21.77,21.456769943237305,val
-470,toluene/iso-octane/heptane/1-hexene 15/65/10/10 v/v/v/v,21.56,20.952678680419922,val
-477,iso-octane/heptane/cyclopentane 71/9/20 v/v/v,16.97,19.126163482666016,val
-482,toluene/iso-octane/heptane 15/52/33 v/v/v,33.17,28.4967041015625,val
-485,iso-octane/heptane/1-hexene 57/23/20 v/v/v,29.08,28.393821716308594,val
-502,iso-octane/heptane/ethanol 57/38/5 v/v/v,32.13,30.378530502319336,val
-508,hexylbenzene/hexadecane/butylcyclohexane 54/38/7 v/v/v,60.6,54.04546356201172,val
-530,decane/iso-octane/toluene 54/30/16 v/v/v,49.51,43.06977462768555,val
-564,heptane/toluene/cyclohexane 83/8/9 v/v/v,47.0,45.943016052246094,val
-565,heptane/toluene/cyclohexane 74/17/9 v/v/v,42.3,42.301151275634766,val
-567,heptane/toluene/cyclohexane 65/26/9 v/v/v,37.6,38.1864013671875,val
-568,toluene/iso-octane/decane/Methylcyclohexane 13/19/49/19 v/v/v/v,44.7,41.92340850830078,val
-590,heptane/cetane 5/95 v/v,101.5,104.5696792602539,val
-596,cetane/cyclopentane 71/29 v/v,68.3,67.12354278564453,val
-597,1-hexene/cetane 10/90 v/v,92.7,94.8106460571289,val
-608,heptane/decalin 57/43 v/v,45.4,46.14030456542969,val
-614,heptane/Methylcyclohexane 84/16 v/v,47.7,47.014652252197266,val
-622,iso-octane/cetane 33/67 v/v,65.0,67.63340759277344,val
-651,toluene/decane/indane/1-octene 21/5/11/63 v/v/v/v,33.0,31.978515625,val
-653,iso-octane/mesitylene/cetane 24/23/53 v/v/v,55.8,53.02192306518555,val
-658,heptane/isopropylbenzene 39/61 v/v,27.9,26.529727935791016,val
-660,"heptane/2,5-dimethylhexa-2,4-diene 79/21 v/v",44.2,44.71463394165039,val
-670,heptane/n-propylbenzene 80/20 v/v,44.2,45.77084732055664,val
-674,heptane/n-propylbenzene 19/81 v/v,15.3,20.97674560546875,val
-677,heptane/iso-octane/isopropylbenzene 34/58/8 v/v/v,35.7,30.025257110595703,val
-768,dodecane/mesitylene/propylbenzene 30/56/14 v/v/v,24.3,24.5679988861084,val
-774,dodecane/iso-octane/mesitylene 33/38/28 v/v/v,34.7,31.39861297607422,val
-783,dodecane/iso-octane/mesitylene/propylbenzene 51/16/21/12 v/v/v/v,44.7,42.69052505493164,val
-784,dodecane/iso-octane/mesitylene/propylbenzene 51/16/12/21 v/v/v/v,45.4,44.25508499145508,val
-788,dodecane/iso-octane/mesitylene/propylbenzene 55/25/19/2 v/v/v/v,49.4,45.33604049682617,val
-789,dodecane/iso-octane/mesitylene/propylbenzene 52/25/2/21 v/v/v/v,49.8,46.6424446105957,val
-791,dodecane/iso-octane/mesitylene/propylbenzene 74/7/10/8 v/v/v/v,59.1,58.55746078491211,val
-808,heptane/iso-octane/n-propanol 14/71/15 v/v/v,18.91,20.250049591064453,val
-821,heptane/iso-octane/n-butanol 25/59/15 v/v/v,26.55,25.64849090576172,val
-831,heptane/iso-octane/n-butanol 8/42/50 v/v/v,15.17,15.440299034118652,val
-844,heptane/iso-octane/toluene/2-methylbutan-1-ol 30/30/20/20 v/v/v/v,25.4,24.56464385986328,val
-845,ethanol/diethyl ether/ethyl levulinate 5/17/79 v/v/v,18.18,19.28799057006836,val
-853,ethanol/diethyl ether/ethyl levulinate 26/58/16 v/v/v,46.01,47.427284240722656,val
-856,ethanol/diethyl ether/ethyl levulinate 30/11/59 v/v/v,7.72,9.801924705505371,val
-946,dodecane/decane/cis-decalin 30/30/40 v/v/v,52.1,56.86083984375,val
-971,dodecane/trans-decalin/propylbenzene 56/11/33 v/v/v,50.2,51.05549621582031,val
-981,PRF 14,51.3,49.354373931884766,val
-997,TRF 39,37.7,36.24563980102539,val
-1003,"dodecane/iso-octane/1,3,5-trimethylbenzene/propylbenzene 65/11/5/19 v/v/v/v",56.05,53.90117263793945,val
-1005,"3-methylpentane/2-methylbutane/1,4-diisopropylbenzene/dodecane 36/38/8/18 v/v/v/v",39.73,31.57215690612793,val
-1010,n-heptylbenzene/2-methylhexane 41/59 v/v,44.39,33.5820426940918,val
-1017,2-(2-methoxypropoxy)propan-1-ol,30.2,27.472030639648438,val
-1025,(Z)-2-ethyloctadec-9-enoate,57.21,72.74433135986328,val
-1026,"ethyl (9Z,12Z)-octadeca-9,12-dienoate",46.02,39.81692123413086,val
-1031,octyl acetate,44.41,51.65407943725586,val
-1038,1-propoxypropane,86.12,117.58853912353516,val
-1050,1-(butoxymethoxy)butane,70.0,97.88172912597656,val
-1051,undecane,71.0,70.01058959960938,val
-1053,3-methylbutyl 2-hydroxypropanoate,39.72,17.188861846923828,val
-1054,methyl 3-hydroxyhexanoate,10.09,16.448867797851562,val
-1080,3-methylheptane,45.0,44.70779800415039,val
-1082,"2,6-dimethyloctane",51.7,42.33148193359375,val
-1090,hept-1-ene,32.0,34.93608093261719,val
-1092,oct-1-ene,40.0,41.23952865600586,val
-1095,"2,4,4-trimethylpent-1-ene",8.8,16.438936233520508,val
-1097,"deca-1,9-diene",41.0,43.388187408447266,val
-1100,cyclopentane,6.1,9.819559097290039,val
-1128,ethanol,8.0,6.515960216522217,val
-1133,butan-2-ol,8.14,9.415778160095215,val
-1138,3-methylbutan-1-ol,12.8,12.18370246887207,val
-1139,2-propan-2-yloxyethanol,27.8,18.287633895874023,val
-1142,heptan-1-ol,29.0,50.40190887451172,val
-1144,heptan-4-ol,20.69,21.252370834350586,val
-1158,2-methyloxolane,21.3,22.124332427978516,val
-1168,2-ethylfuran,10.2,8.74431037902832,val
-1181,5-methylundecane,67.0,69.4290542602539,val
-1194,"(3E)-3,7-dimethylocta-1,3,6-triene",28.0,18.56951904296875,val
-1196,dimethoxymethylbenzene,10.4,15.72982406616211,val
-1202,2-methoxy-4-propylphenol,18.0,14.577162742614746,val
-1205,"3,7-dimethyloct-6-en-1-ol",25.6,17.762798309326172,val
-1209,tetradecan-1-ol,80.8,89.2232894897461,val
-1212,butanal,41.1,27.230602264404297,val
-1231,7-butyloxepan-2-one,40.5,26.437429428100586,val
-1232,5-heptyloxolan-2-one,52.6,34.52444076538086,val
-1234,"2,3-dihydrofuran",20.0,7.208042621612549,val
-1242,ethoxymethoxyethane,57.3,90.42015838623047,val
-1265,methyl dec-9-enoate,38.3,30.09518051147461,val
-1285,1-methoxypropan-2-yl acetate,24.0,18.671070098876953,val
-1290,butyl hexanoate,31.0,42.1488151550293,val
-1303,(Z)-octadec-9-enoic-acid,46.1,39.00554275512695,val
-1312,propyl (Z)-octadec-9-enoate,55.7,63.8680534362793,val
-1317,dibutyl butanedioate,19.4,30.72730255126953,val
-1323,3-methylhexan-2-ol,15.1,17.58656120300293,val
-1324,hexylbenzene,33.3,30.257404327392578,val
-1326,tetradec-1-ene,80.5,70.10993957519531,val
-1337,propylcyclohexane,44.23,38.671077728271484,val
-1356,"3,7,11-trimethyldodecan-3-ol",59.9,42.86005401611328,val
-1359,"3-methoxypropane-1,2-diol",9.9,13.925870895385742,val
-1360,1-methoxy-2-(2-methoxyethoxy)ethane,54.6,80.77852630615234,val
-1363,1-methoxy-2-[2-(2-methoxyethoxy)ethoxy]ethane,120.0,80.10843658447266,val
-1368,methoxy(methoxymethoxy)methane,68.0,61.93959426879883,val
-1370,methoxy(methoxymethoxymethoxymethoxy)methane,84.0,71.98436737060547,val
-1386,2-methyloxolane/heptane 86/14 v/v,25.4,25.253969192504883,val
-1389,"2,5-dimethylfuran/heptane 82/18 v/v",12.0,14.67935562133789,val
-1396,2-methylpropan-2-ol/heptane 76/24 v/v,25.5,17.530757904052734,val
-1398,2-ethylfuran/heptane 75/25 v/v,14.6,13.666491508483887,val
-1410,"2,5-dimethylfuran/heptane 69/31 v/v",16.3,19.342761993408203,val
-1421,iso-octane/diethyl ether 75/25 v/v,44.3,38.06253433227539,val
-1424,decane/iso-octane 65/35 v/v,55.0,50.05208206176758,val
-1439,ethanol/ethyl levulinate 29/71 v/v,6.89,7.079926013946533,val
-1446,heptane/diethyl ether 50/50 v/v,79.4,80.51131439208984,val
-1456,methanol/diethyl ether 20/80 v/v,66.1,74.44014739990234,val
-1463,butan-2-ol/heptane 17/83 v/v,44.1,45.12791442871094,val
-1477,2-methyloxolane/heptane 14/86 v/v,50.4,49.873043060302734,val
-1479,diethyl ether/n-butanol 20/80 v/v,71.9,116.64275360107422,val
-1480,iso-octane/diethyl ether 25/75 v/v,93.4,101.02979278564453,val
-1499,diethyl ether/ethyl levulinate 42/58 v/v,48.07,49.60498809814453,val
-1511,"dodecane/1,3,5-trimethylbenzene 95/5 v/v",70.4895,71.3633804321289,val
-1514,"dodecane/1,3,5-trimethylbenzene 92/8 v/v",68.1059,69.04523468017578,val
-1521,"dodecane/1,3,5-trimethylbenzene 84/16 v/v",61.8712,63.02402877807617,val
-1544,"dodecane/1,3,5-trimethylbenzene 60/40 v/v",44.2279,44.61772918701172,val
-1552,"dodecane/1,3,5-trimethylbenzene 51/49 v/v",38.022,37.48957443237305,val
-1558,"dodecane/1,3,5-trimethylbenzene 45/55 v/v",34.0091,32.89872741699219,val
-1565,"dodecane/1,3,5-trimethylbenzene 38/62 v/v",29.453,27.904796600341797,val
-1575,"dodecane/1,3,5-trimethylbenzene 27/73 v/v",22.567,21.216136932373047,val
-1597,"dodecane/1,3,5-trimethylbenzene 5/95 v/v",9.79804,12.328434944152832,val
-1598,"dodecane/1,3,5-trimethylbenzene 4/96 v/v",9.2494,12.039934158325195,val
-1608,cetane/1-hexene 93/7 v/v,95.4377,97.4121322631836,val
-1624,cetane/1-hexene 75/25 v/v,82.6195,81.95572662353516,val
-1625,cetane/1-hexene 74/26 v/v,81.9074,81.1589584350586,val
-1631,cetane/1-hexene 67/33 v/v,76.9225,75.69783020019531,val
-1640,cetane/1-hexene 58/42 v/v,70.5134,68.91141510009766,val
-1641,cetane/1-hexene 57/43 v/v,69.8013,68.1700439453125,val
-1642,cetane/1-hexene 56/44 v/v,69.0892,67.43077850341797,val
-1646,cetane/1-hexene 52/48 v/v,66.2407,64.49165344238281,val
-1650,cetane/1-hexene 48/52 v/v,63.3922,61.57294845581055,val
-1655,cetane/1-hexene 43/57 v/v,59.8316,57.93357467651367,val
-1662,cetane/1-hexene 36/64 v/v,54.8467,52.81290054321289,val
-1666,cetane/1-hexene 32/68 v/v,51.9982,49.861385345458984,val
-1668,cetane/1-hexene 30/70 v/v,50.574,48.37920379638672,val
-1670,cetane/1-hexene 28/72 v/v,49.1497,46.89409255981445,val
-1674,cetane/1-hexene 24/76 v/v,46.3013,43.9216423034668,val
-1675,cetane/1-hexene 23/77 v/v,45.5891,43.1795539855957,val
-1676,cetane/1-hexene 22/78 v/v,44.877,42.438453674316406,val
-1678,cetane/1-hexene 20/80 v/v,43.4528,40.960540771484375,val
-1683,cetane/1-hexene 15/85 v/v,39.8921,37.3076171875,val
-1795,cetane/cyclopentane 98/2 v/v,97.1627,95.56793975830078,val
-1803,cetane/cyclopentane 89/11 v/v,86.9612,85.37146759033203,val
-1814,cetane/cyclopentane 77/23 v/v,73.9385,73.02754974365234,val
-1817,cetane/cyclopentane 74/26 v/v,70.7863,70.06111145019531,val
-1832,cetane/cyclopentane 58/42 v/v,54.6732,54.14603805541992,val
-1857,cetane/cyclopentane 33/67 v/v,31.8526,28.012866973876953,val
-1859,cetane/cyclopentane 31/69 v/v,30.1511,26.178272247314453,val
-1864,cetane/cyclopentane 26/74 v/v,25.9777,21.99432373046875,val
-1877,cetane/cyclopentane 13/87 v/v,15.6649,13.912471771240234,val
-1881,cetane/cyclopentane 9/91 v/v,12.648,12.126080513000488,val
-1884,cetane/cyclopentane 6/94 v/v,10.4337,10.954734802246094,val
-1894,ethyl levulinate/diethyl ether 95/5 v/v,9.65844,12.343696594238281,val
-1895,ethyl levulinate/diethyl ether 94/6 v/v,10.3641,12.783666610717773,val
-1896,ethyl levulinate/diethyl ether 93/7 v/v,11.0834,13.244527816772461,val
-1904,ethyl levulinate/diethyl ether 84/16 v/v,18.1697,18.539527893066406,val
-1906,ethyl levulinate/diethyl ether 82/18 v/v,19.8942,20.055469512939453,val
-1909,ethyl levulinate/diethyl ether 78/22 v/v,23.5065,23.531078338623047,val
-1915,ethyl levulinate/diethyl ether 72/28 v/v,29.3335,29.91645622253418,val
-1918,ethyl levulinate/diethyl ether 68/32 v/v,33.4905,34.91107940673828,val
-1923,ethyl levulinate/diethyl ether 63/37 v/v,38.9931,41.800872802734375,val
-1932,ethyl levulinate/diethyl ether 53/47 v/v,51.0193,56.41303634643555,val
-1933,ethyl levulinate/diethyl ether 52/48 v/v,52.2968,57.835716247558594,val
-1945,ethyl levulinate/diethyl ether 40/60 v/v,68.6888,73.31488800048828,val
-1949,ethyl levulinate/diethyl ether 36/64 v/v,74.5885,78.20111846923828,val
-1969,ethyl levulinate/diethyl ether 15/85 v/v,109.136,113.8344497680664,val
-1974,ethyl levulinate/diethyl ether 10/90 v/v,118.246,118.35691833496094,val
-1980,ethyl levulinate/diethyl ether 4/96 v/v,129.628,119.31995391845703,val
-1982,ethyl levulinate/diethyl ether 2/98 v/v,133.531,119.3332290649414,val
-1984,diethyl ether/ethanol 99/1 v/v,132.717,119.3302001953125,val
-1991,diethyl ether/ethanol 92/8 v/v,106.115,110.44283294677734,val
-2004,diethyl ether/ethanol 77/23 v/v,62.7624,69.46570587158203,val
-2012,diethyl ether/ethanol 67/33 v/v,42.7599,49.808834075927734,val
-2022,diethyl ether/ethanol 56/44 v/v,27.4804,30.180953979492188,val
-2031,diethyl ether/ethanol 46/54 v/v,18.5281,18.778255462646484,val
-2043,diethyl ether/ethanol 32/68 v/v,11.7753,10.848489761352539,val
-2052,diethyl ether/ethanol 21/79 v/v,9.46507,7.70873498916626,val
-2056,diethyl ether/ethanol 16/84 v/v,8.85359,6.721580982208252,val
-2059,diethyl ether/ethanol 13/87 v/v,8.53606,6.217479228973389,val
-2067,diethyl ether/ethanol 4/96 v/v,7.47456,4.99729585647583,val
-2069,diethyl ether/ethanol 2/98 v/v,7.16094,4.7729291915893555,val
-2072,ethyl levulinate/ethanol 98/2 v/v,6.04,10.224177360534668,val
-2073,ethyl levulinate/ethanol 97/3 v/v,6.06,10.055187225341797,val
-2086,ethyl levulinate/ethanol 83/17 v/v,6.34,8.186872482299805,val
-2088,ethyl levulinate/ethanol 81/19 v/v,6.38,7.978525638580322,val
-2107,ethyl levulinate/ethanol 61/39 v/v,6.78,6.390074253082275,val
-2108,ethyl levulinate/ethanol 60/40 v/v,6.8,6.328455448150635,val
-2109,ethyl levulinate/ethanol 59/41 v/v,6.82,6.26814079284668,val
-2110,ethyl levulinate/ethanol 58/42 v/v,6.84,6.209075450897217,val
-2121,ethyl levulinate/ethanol 47/53 v/v,7.06,5.632081508636475,val
-2145,ethyl levulinate/ethanol 22/78 v/v,7.56,4.674655914306641,val
-2152,ethyl levulinate/ethanol 15/85 v/v,7.7,4.4667744636535645,val
-2154,ethyl levulinate/ethanol 13/87 v/v,7.74,4.4110188484191895,val
-2279,1-hexene/iso-octane 82/18 v/v,27.5595,25.77681541442871,val
-2281,1-hexene/iso-octane 79/21 v/v,27.3471,25.565448760986328,val
-2282,1-hexene/iso-octane 78/22 v/v,27.2742,25.49523162841797,val
-2288,1-hexene/iso-octane 72/28 v/v,26.8148,25.076419830322266,val
-2291,1-hexene/iso-octane 68/32 v/v,26.4875,24.79966926574707,val
-2303,1-hexene/iso-octane 55/45 v/v,25.3081,23.914337158203125,val
-2305,1-hexene/iso-octane 53/47 v/v,25.1109,23.780099868774414,val
-2315,1-hexene/iso-octane 42/58 v/v,23.9515,23.051532745361328,val
-2323,1-hexene/iso-octane 33/67 v/v,22.9085,22.467937469482422,val
-2332,1-hexene/iso-octane 23/77 v/v,21.6501,21.833026885986328,val
-2333,1-hexene/iso-octane 22/78 v/v,21.5185,21.77032470703125,val
-2339,1-hexene/iso-octane 15/85 v/v,20.5678,21.335529327392578,val
-2357,cetane/iso-octane 95/5 v/v,94.1416,92.48272705078125,val
-2358,cetane/iso-octane 94/6 v/v,93.0291,91.42859649658203,val
-2361,cetane/iso-octane 91/9 v/v,89.7304,88.37178802490234,val
-2380,cetane/iso-octane 72/28 v/v,70.1995,71.68694305419922,val
-2381,cetane/iso-octane 71/29 v/v,69.2366,70.8946304321289,val
-2383,cetane/iso-octane 69/31 v/v,67.3305,69.32504272460938,val
-2387,cetane/iso-octane 64/36 v/v,62.6792,65.46747589111328,val
-2392,cetane/iso-octane 58/42 v/v,57.3124,60.901790618896484,val
-2393,cetane/iso-octane 57/43 v/v,56.4407,60.14212417602539,val
-2395,cetane/iso-octane 54/46 v/v,53.8648,57.85929870605469,val
-2406,cetane/iso-octane 41/59 v/v,43.3795,47.859527587890625,val
-2407,cetane/iso-octane 40/60 v/v,42.6185,47.087825775146484,val
-2415,cetane/iso-octane 32/68 v/v,36.7651,40.98339080810547,val
-2418,cetane/iso-octane 29/71 v/v,34.6775,38.75235366821289,val
-2421,cetane/iso-octane 26/74 v/v,32.6485,36.57027816772461,val
-2426,cetane/iso-octane 21/79 v/v,29.397,33.07197570800781,val
-2428,cetane/iso-octane 19/81 v/v,28.142,31.730144500732422,val
-2433,cetane/iso-octane 14/86 v/v,25.1185,28.543180465698242,val
-2440,cetane/iso-octane 7/93 v/v,21.159,24.531085968017578,val
-2443,cetane/iso-octane 4/96 v/v,19.5597,22.981830596923828,val
-2446,cetane/iso-octane 1/99 v/v,18.0191,21.534908294677734,val
-2450,cyclohexane/iso-octane 96/4 v/v,19.7982,19.063814163208008,val
-2459,cyclohexane/iso-octane 86/14 v/v,19.5436,18.911375045776367,val
-2461,cyclohexane/iso-octane 84/16 v/v,19.4927,18.8807373046875,val
-2471,cyclohexane/iso-octane 73/27 v/v,19.2126,18.711544036865234,val
-2483,cyclohexane/iso-octane 59/41 v/v,18.8562,18.494735717773438,val
-2484,cyclohexane/iso-octane 58/42 v/v,18.8308,18.47919464111328,val
-2485,cyclohexane/iso-octane 57/43 v/v,18.8053,18.463651657104492,val
-2490,cyclohexane/iso-octane 52/48 v/v,18.678,18.385845184326172,val
-2494,cyclohexane/iso-octane 47/53 v/v,18.5507,18.30790138244629,val
-2514,cyclohexane/iso-octane 25/75 v/v,17.9906,17.963661193847656,val
-2534,cyclohexane/iso-octane 3/97 v/v,17.4306,17.61792755126953,val
-2538,diethyl ether/iso-octane 98/2 v/v,133.278,119.32504272460938,val
-2544,diethyl ether/iso-octane 92/8 v/v,123.656,119.20560455322266,val
-2545,diethyl ether/iso-octane 91/9 v/v,122.086,119.09888458251953,val
-2550,diethyl ether/iso-octane 86/14 v/v,114.381,117.27371978759766,val
-2556,diethyl ether/iso-octane 80/20 v/v,105.454,109.98648071289062,val
-2564,diethyl ether/iso-octane 71/29 v/v,92.7143,93.78826141357422,val
-2575,diethyl ether/iso-octane 60/40 v/v,78.2053,78.52900695800781,val
-2585,diethyl ether/iso-octane 49/51 v/v,64.8641,65.89573669433594,val
-2606,diethyl ether/iso-octane 28/72 v/v,42.6374,41.30551528930664,val
-2611,diethyl ether/iso-octane 22/78 v/v,37.0687,34.761592864990234,val
-2620,diethyl ether/iso-octane 13/87 v/v,29.367,26.326292037963867,val
-2624,diethyl ether/iso-octane 9/91 v/v,26.195,23.22121810913086,val
-2628,diethyl ether/iso-octane 5/95 v/v,23.1774,20.5178165435791,val
-2630,diethyl ether/iso-octane 3/97 v/v,21.7265,19.308347702026367,val
-2632,diethyl ether/iso-octane 1/99 v/v,20.3143,18.187191009521484,val
-2639,methylcyclohexane/iso-octane 93/7 v/v,23.4535,23.628177642822266,val
-2640,methylcyclohexane/iso-octane 92/8 v/v,23.4643,23.561925888061523,val
-2642,methylcyclohexane/iso-octane 90/10 v/v,23.4815,23.42986488342285,val
-2645,methylcyclohexane/iso-octane 87/13 v/v,23.4966,23.232891082763672,val
-2650,methylcyclohexane/iso-octane 82/18 v/v,23.4929,22.907611846923828,val
-2661,methylcyclohexane/iso-octane 70/30 v/v,23.3364,22.142507553100586,val
-2667,methylcyclohexane/iso-octane 64/36 v/v,23.18,21.768295288085938,val
-2682,methylcyclohexane/iso-octane 47/53 v/v,22.4546,20.738527297973633,val
-2683,methylcyclohexane/iso-octane 46/54 v/v,22.3989,20.679351806640625,val
-2685,methylcyclohexane/iso-octane 44/56 v/v,22.2832,20.561491012573242,val
-2692,methylcyclohexane/iso-octane 37/63 v/v,21.8327,20.153884887695312,val
-2694,methylcyclohexane/iso-octane 35/65 v/v,21.6909,20.038829803466797,val
-2702,methylcyclohexane/iso-octane 26/74 v/v,20.9816,19.528785705566406,val
-2719,methylcyclohexane/iso-octane 8/92 v/v,19.2117,18.54609489440918,val
-2735,decane/iso-octane 90/10 v/v,63.3488,61.373470306396484,val
-2758,decane/iso-octane 63/37 v/v,54.8545,49.16971206665039,val
-2766,decane/iso-octane 55/45 v/v,51.5027,45.33444595336914,val
-2781,decane/iso-octane 35/65 v/v,41.4533,35.610740661621094,val
-2804,decane/iso-octane 11/89 v/v,26.2451,25.0053768157959,val
-2828,dodecane/iso-octane 86/14 v/v,69.4005,67.15631103515625,val
-2836,dodecane/iso-octane 77/23 v/v,66.6111,62.118045806884766,val
-2838,dodecane/iso-octane 74/26 v/v,65.553,60.45267105102539,val
-2840,dodecane/iso-octane 71/29 v/v,64.4307,58.784976959228516,val
-2850,dodecane/iso-octane 58/42 v/v,58.826,51.441402435302734,val
-2855,dodecane/iso-octane 53/47 v/v,56.3496,48.553157806396484,val
-2859,dodecane/iso-octane 46/54 v/v,52.5831,44.47475051879883,val
-2860,dodecane/iso-octane 45/55 v/v,52.0166,43.89146041870117,val
-2864,dodecane/iso-octane 40/60 v/v,49.0767,40.98484420776367,val
-2866,dodecane/iso-octane 38/62 v/v,47.8509,39.83064270019531,val
-2870,dodecane/iso-octane 32/68 v/v,44.0023,36.41963577270508,val
-2875,dodecane/iso-octane 27/73 v/v,40.5991,33.663021087646484,val
-2879,dodecane/iso-octane 21/79 v/v,36.28,30.499523162841797,val
-2886,dodecane/iso-octane 12/88 v/v,29.3202,26.136131286621094,val
-2888,dodecane/iso-octane 9/91 v/v,26.8719,24.798839569091797,val
-2890,dodecane/iso-octane 7/93 v/v,25.2041,23.941883087158203,val
-2892,dodecane/iso-octane 4/96 v/v,22.6489,22.70899200439453,val
-2993,dibutyl ether/methanol 92/8 v/v,87.9189,87.2607650756836,val
-2995,dibutyl ether/methanol 89/11 v/v,81.3096,80.67839813232422,val
-2998,dibutyl ether/methanol 86/14 v/v,74.9695,74.85318756103516,val
-3003,dibutyl ether/methanol 80/20 v/v,63.097,63.8165397644043,val
-3010,dibutyl ether/methanol 73/27 v/v,50.6066,49.98763656616211,val
-3022,dibutyl ether/methanol 59/41 v/v,30.023,24.49721908569336,val
-3031,dibutyl ether/methanol 49/51 v/v,18.9098,14.125494956970215,val
-3032,dibutyl ether/methanol 48/52 v/v,17.9629,13.416711807250977,val
-3037,dibutyl ether/methanol 43/57 v/v,13.6776,10.488626480102539,val
-3046,dibutyl ether/methanol 34/66 v/v,7.84836,7.005368709564209,val
-3053,dibutyl ether/methanol 26/74 v/v,4.70081,5.030896186828613,val
-3060,dibutyl ether/methanol 19/81 v/v,3.51707,3.799654006958008,val
-3061,dibutyl ether/methanol 18/82 v/v,3.46761,3.650618553161621,val
-3064,dibutyl ether/methanol 15/85 v/v,3.4987,3.236048698425293,val
-3069,dibutyl ether/methanol 10/90 v/v,4.14876,2.637660503387451,val
-3072,dibutyl ether/methanol 7/93 v/v,4.89773,2.3246426582336426,val
-3078,dibutyl ether/methanol 1/99 v/v,7.20328,1.7813173532485962,val
-3080,diethyl ether/methanol 98/2 v/v,125.661,119.28556060791016,val
-3082,diethyl ether/methanol 96/4 v/v,119.226,118.72086334228516,val
-3083,diethyl ether/methanol 95/5 v/v,116.072,117.88394927978516,val
-3092,diethyl ether/methanol 85/15 v/v,86.8352,86.35297393798828,val
-3097,diethyl ether/methanol 79/21 v/v,71.3078,72.27246856689453,val
-3103,diethyl ether/methanol 73/27 v/v,57.2916,59.14845657348633,val
-3109,diethyl ether/methanol 67/33 v/v,44.7863,44.760894775390625,val
-3127,diethyl ether/methanol 48/52 v/v,15.155,14.004327774047852,val
-3134,diethyl ether/methanol 41/59 v/v,8.05782,9.66116714477539,val
-3139,diethyl ether/methanol 35/65 v/v,3.61145,7.281357288360596,val
-3147,diethyl ether/methanol 27/73 v/v,0.0334636,5.16769552230835,val
-3151,diethyl ether/methanol 23/77 v/v,-0.748173,4.3940749168396,val
-3152,diethyl ether/methanol 22/78 v/v,-0.838648,4.222085475921631,val
-3155,diethyl ether/methanol 19/81 v/v,-0.858236,3.74924373626709,val
-3168,diethyl ether/methanol 6/94 v/v,3.4221,2.242370128631592,val
-3172,diethyl ether/methanol 2/98 v/v,6.16622,1.9016884565353394,val
-3173,diethyl ether/methanol 1/99 v/v,6.95719,1.823093295097351,val
-3176,dibutyl ether/n-butanol 97/3 v/v,96.9569,100.22293090820312,val
-3179,dibutyl ether/n-butanol 93/7 v/v,89.7707,89.02135467529297,val
-3182,dibutyl ether/n-butanol 89/11 v/v,82.9054,80.50118255615234,val
-3191,dibutyl ether/n-butanol 80/20 v/v,68.6317,65.58914947509766,val
-3203,dibutyl ether/n-butanol 68/32 v/v,52.1272,47.19051742553711,val
-3204,dibutyl ether/n-butanol 67/33 v/v,50.8822,45.72616958618164,val
-3214,dibutyl ether/n-butanol 56/44 v/v,38.5109,31.583229064941406,val
-3218,dibutyl ether/n-butanol 52/48 v/v,34.6139,27.51923370361328,val
-3220,dibutyl ether/n-butanol 50/50 v/v,32.7857,25.713104248046875,val
-3221,dibutyl ether/n-butanol 49/51 v/v,31.9017,24.864763259887695,val
-3222,dibutyl ether/n-butanol 48/52 v/v,31.0378,24.051843643188477,val
-3225,dibutyl ether/n-butanol 45/55 v/v,28.5663,21.815799713134766,val
-3246,dibutyl ether/n-butanol 23/77 v/v,15.9576,12.02161979675293,val
-3249,dibutyl ether/n-butanol 19/81 v/v,14.708,11.016342163085938,val
-3254,dibutyl ether/n-butanol 14/86 v/v,13.5973,9.948968887329102,val
-3256,dibutyl ether/n-butanol 12/88 v/v,13.2935,9.571168899536133,val
-3262,dibutyl ether/n-butanol 6/94 v/v,12.8632,8.575363159179688,val
-3361,"2,5-dimethylfuran/heptane 99/1 v/v",10.9222,10.44029426574707,val
-3362,"2,5-dimethylfuran/heptane 98/2 v/v",10.9732,10.657012939453125,val
-3375,"2,5-dimethylfuran/heptane 83/17 v/v",12.665,14.501086235046387,val
-3376,"2,5-dimethylfuran/heptane 81/19 v/v",13.0219,15.107976913452148,val
-3382,"2,5-dimethylfuran/heptane 75/25 v/v",14.2781,17.078937530517578,val
-3386,"2,5-dimethylfuran/heptane 71/29 v/v",15.27,18.523693084716797,val
-3391,"2,5-dimethylfuran/heptane 65/35 v/v",16.9895,20.893054962158203,val
-3399,"2,5-dimethylfuran/heptane 57/43 v/v",19.7149,24.42230224609375,val
-3405,"2,5-dimethylfuran/heptane 51/49 v/v",22.0834,27.319454193115234,val
-3421,"2,5-dimethylfuran/heptane 34/66 v/v",30.3043,36.27374267578125,val
-3454,"2,5-dimethylhexa-2,4-diene/heptane 98/2 v/v",19.6009,14.490134239196777,val
-3457,"2,5-dimethylhexa-2,4-diene/heptane 95/5 v/v",19.9477,15.247081756591797,val
-3458,"2,5-dimethylhexa-2,4-diene/heptane 94/6 v/v",20.0734,15.508137702941895,val
-3461,"2,5-dimethylhexa-2,4-diene/heptane 91/9 v/v",20.4808,16.318252563476562,val
-3472,"2,5-dimethylhexa-2,4-diene/heptane 79/21 v/v",22.5652,19.983489990234375,val
-3482,"2,5-dimethylhexa-2,4-diene/heptane 69/31 v/v",24.8578,23.571388244628906,val
-3483,"2,5-dimethylhexa-2,4-diene/heptane 68/32 v/v",25.1148,23.956005096435547,val
-3495,"2,5-dimethylhexa-2,4-diene/heptane 55/45 v/v",28.9162,29.32371711730957,val
-3513,"2,5-dimethylhexa-2,4-diene/heptane 35/65 v/v",36.4315,38.3785514831543,val
-3514,"2,5-dimethylhexa-2,4-diene/heptane 34/66 v/v",36.8604,38.8373908996582,val
-3523,"2,5-dimethylhexa-2,4-diene/heptane 25/75 v/v",40.947,42.92795944213867,val
-3533,"2,5-dimethylhexa-2,4-diene/heptane 14/86 v/v",46.4975,47.755226135253906,val
-3540,"2,5-dimethylhexa-2,4-diene/heptane 7/93 v/v",50.3478,50.6937370300293,val
-3556,2-butylfuran/heptane 90/10 v/v,15.5733,14.716333389282227,val
-3560,2-butylfuran/heptane 86/14 v/v,16.765,15.808267593383789,val
-3569,2-butylfuran/heptane 77/23 v/v,19.6276,18.57660675048828,val
-3570,2-butylfuran/heptane 75/25 v/v,20.2978,19.253522872924805,val
-3586,2-butylfuran/heptane 59/41 v/v,26.1055,25.496288299560547,val
-3589,2-butylfuran/heptane 56/44 v/v,27.2827,26.821582794189453,val
-3593,2-butylfuran/heptane 51/49 v/v,29.3066,29.121967315673828,val
-3599,2-butylfuran/heptane 45/55 v/v,31.8376,32.00694274902344,val
-3604,2-butylfuran/heptane 40/60 v/v,34.0318,34.48550796508789,val
-3605,2-butylfuran/heptane 39/61 v/v,34.48,34.98678970336914,val
-3607,2-butylfuran/heptane 37/63 v/v,35.3856,35.99317169189453,val
-3618,2-butylfuran/heptane 25/75 v/v,41.0793,42.05387878417969,val
-3648,2-butyloxolane/heptane 93/7 v/v,45.9512,42.51007080078125,val
-3650,2-butyloxolane/heptane 91/9 v/v,46.1767,42.89215087890625,val
-3660,2-butyloxolane/heptane 81/19 v/v,47.2779,44.71103286743164,val
-3669,2-butyloxolane/heptane 71/29 v/v,48.3354,46.38241195678711,val
-3673,2-butyloxolane/heptane 67/33 v/v,48.7461,47.01155471801758,val
-3674,2-butyloxolane/heptane 66/34 v/v,48.8477,47.16544723510742,val
-3685,2-butyloxolane/heptane 55/45 v/v,49.9364,48.77216720581055,val
-3703,2-butyloxolane/heptane 37/63 v/v,51.6038,51.08979415893555,val
-3709,2-butyloxolane/heptane 31/69 v/v,52.1281,51.7857666015625,val
-3715,2-butyloxolane/heptane 25/75 v/v,52.6367,52.447425842285156,val
-3717,2-butyloxolane/heptane 23/77 v/v,52.8027,52.66073989868164,val
-3726,2-butyloxolane/heptane 13/87 v/v,53.6066,53.676761627197266,val
-3746,2-ethylfuran/heptane 90/10 v/v,11.4785,10.179636001586914,val
-3761,2-ethylfuran/heptane 74/26 v/v,15.5887,13.932588577270508,val
-3770,2-ethylfuran/heptane 65/35 v/v,18.5863,16.753263473510742,val
-3782,2-ethylfuran/heptane 52/48 v/v,23.7878,22.015636444091797,val
-3785,2-ethylfuran/heptane 49/51 v/v,25.1345,23.45275115966797,val
-3797,2-ethylfuran/heptane 37/63 v/v,31.0695,30.022335052490234,val
-3810,2-ethylfuran/heptane 23/77 v/v,39.1029,38.927608489990234,val
-3811,2-ethylfuran/heptane 22/78 v/v,39.7224,39.590694427490234,val
-3813,2-ethylfuran/heptane 20/80 v/v,40.9798,40.92093276977539,val
-3822,2-ethylfuran/heptane 10/90 v/v,47.6322,47.564571380615234,val
-3824,2-ethylfuran/heptane 8/92 v/v,49.0358,48.876338958740234,val
-3830,2-ethylfuran/heptane 2/98 v/v,53.3929,52.757808685302734,val
-3842,2-ethyloxolane/heptane 89/11 v/v,30.9722,29.67326545715332,val
-3856,2-ethyloxolane/heptane 74/26 v/v,35.4019,34.571353912353516,val
-3857,2-ethyloxolane/heptane 73/27 v/v,35.694,34.89159393310547,val
-3859,2-ethyloxolane/heptane 71/29 v/v,36.2768,35.528648376464844,val
-3871,2-ethyloxolane/heptane 59/41 v/v,39.7393,39.23540115356445,val
-3879,2-ethyloxolane/heptane 50/50 v/v,42.2973,41.86055374145508,val
-3882,2-ethyloxolane/heptane 47/53 v/v,43.1425,42.7027587890625,val
-3885,2-ethyloxolane/heptane 44/56 v/v,43.9841,43.527950286865234,val
-3889,2-ethyloxolane/heptane 40/60 v/v,45.1005,44.601444244384766,val
-3891,2-ethyloxolane/heptane 38/62 v/v,45.6562,45.12666702270508,val
-3893,2-ethyloxolane/heptane 36/64 v/v,46.2103,45.64421081542969,val
-3900,2-ethyloxolane/heptane 28/72 v/v,48.4101,47.638240814208984,val
-3903,2-ethyloxolane/heptane 25/75 v/v,49.2282,48.35513687133789,val
-3909,2-ethyloxolane/heptane 19/81 v/v,50.8534,49.740230560302734,val
-3918,2-ethyloxolane/heptane 9/91 v/v,53.5293,51.912620544433594,val
-3923,2-ethyloxolane/heptane 2/98 v/v,55.3779,53.34103775024414,val
-3927,2-methylfuran/heptane 97/3 v/v,9.25372,7.00840425491333,val
-3937,2-methylfuran/heptane 86/14 v/v,10.5827,8.852986335754395,val
-3940,2-methylfuran/heptane 82/18 v/v,11.306,9.653861045837402,val
-3950,2-methylfuran/heptane 71/29 v/v,13.9553,12.324316024780273,val
-3951,2-methylfuran/heptane 70/30 v/v,14.2441,12.607132911682129,val
-3954,2-methylfuran/heptane 67/33 v/v,15.1587,13.501985549926758,val
-3957,2-methylfuran/heptane 63/37 v/v,16.4901,14.812012672424316,val
-3960,2-methylfuran/heptane 60/40 v/v,17.5727,15.890522003173828,val
-3962,2-methylfuran/heptane 58/42 v/v,18.3344,16.658809661865234,val
-3968,2-methylfuran/heptane 52/48 v/v,20.8117,19.219934463500977,val
-3969,2-methylfuran/heptane 51/49 v/v,21.2525,19.686241149902344,val
-3976,2-methylfuran/heptane 44/56 v/v,24.5628,23.28342056274414,val
-3980,2-methylfuran/heptane 40/60 v/v,26.6303,25.602336883544922,val
-3983,2-methylfuran/heptane 36/64 v/v,28.8259,28.10342025756836,val
-3984,2-methylfuran/heptane 35/65 v/v,29.3948,28.755130767822266,val
-3988,2-methylfuran/heptane 31/69 v/v,31.7505,31.45596694946289,val
-3991,2-methylfuran/heptane 28/72 v/v,33.6012,33.56673812866211,val
-3995,2-methylfuran/heptane 24/76 v/v,36.1809,36.46659469604492,val
-4003,2-methylfuran/heptane 15/85 v/v,42.4533,43.17045974731445,val
-4013,2-methylfuran/heptane 4/96 v/v,50.9997,51.28082275390625,val
-4020,2-methyloxolane/heptane 96/4 v/v,21.8407,21.799076080322266,val
-4024,2-methyloxolane/heptane 92/8 v/v,23.2532,23.152965545654297,val
-4043,2-methyloxolane/heptane 71/29 v/v,30.6685,30.742605209350586,val
-4054,2-methyloxolane/heptane 60/40 v/v,34.5528,34.819210052490234,val
-4062,2-methyloxolane/heptane 52/48 v/v,37.3777,37.72716522216797,val
-4075,2-methyloxolane/heptane 38/62 v/v,42.3212,42.582523345947266,val
-4094,2-methyloxolane/heptane 18/82 v/v,49.3835,48.8315315246582,val
-4095,2-methyloxolane/heptane 17/83 v/v,49.7366,49.121337890625,val
-4099,2-methyloxolane/heptane 12/88 v/v,51.5021,50.53908157348633,val
-4101,2-methyloxolane/heptane 9/91 v/v,52.5615,51.36546325683594,val
-4120,2-methylpropan-2-ol/heptane 86/14 v/v,17.6217,14.461311340332031,val
-4121,2-methylpropan-2-ol/heptane 85/15 v/v,18.2604,14.739620208740234,val
-4123,2-methylpropan-2-ol/heptane 82/18 v/v,20.1451,15.608719825744629,val
-4125,2-methylpropan-2-ol/heptane 80/20 v/v,21.3755,16.21749496459961,val
-4126,2-methylpropan-2-ol/heptane 79/21 v/v,21.9829,16.53095245361328,val
-4131,2-methylpropan-2-ol/heptane 73/27 v/v,25.5182,18.54330062866211,val
-4142,2-methylpropan-2-ol/heptane 62/38 v/v,31.5134,22.841506958007812,val
-4144,2-methylpropan-2-ol/heptane 60/40 v/v,32.5358,23.707359313964844,val
-4172,2-methylpropan-2-ol/heptane 30/70 v/v,45.3757,38.84078598022461,val
-4174,2-methylpropan-2-ol/heptane 28/72 v/v,46.0653,39.90922164916992,val
-4183,2-methylpropan-2-ol/heptane 19/81 v/v,48.9109,44.653324127197266,val
-4184,2-methylpropan-2-ol/heptane 17/83 v/v,49.486,45.685333251953125,val
-4185,2-methylpropan-2-ol/heptane 16/84 v/v,49.7658,46.197505950927734,val
-4188,2-methylpropan-2-ol/heptane 13/87 v/v,50.5739,47.71754837036133,val
-4198,2-methylpropan-2-ol/heptane 2/98 v/v,53.1365,53.06618118286133,val
-4201,butan-2-ol/heptane 98/2 v/v,8.65562,11.253594398498535,val
-4202,butan-2-ol/heptane 97/3 v/v,8.95902,11.46045970916748,val
-4214,butan-2-ol/heptane 85/15 v/v,12.8593,14.304137229919434,val
-4217,butan-2-ol/heptane 82/18 v/v,13.9092,15.13178825378418,val
-4219,butan-2-ol/heptane 80/20 v/v,14.6257,15.712465286254883,val
-4233,butan-2-ol/heptane 65/35 v/v,20.4242,20.88031768798828,val
-4245,butan-2-ol/heptane 52/48 v/v,26.055,26.585399627685547,val
-4248,butan-2-ol/heptane 49/51 v/v,27.4343,28.051828384399414,val
-4270,butan-2-ol/heptane 26/74 v/v,39.0034,40.379695892333984,val
-4273,butan-2-ol/heptane 23/77 v/v,40.6421,42.03261184692383,val
-4288,butan-2-ol/heptane 7/93 v/v,49.8878,50.57094192504883,val
-4296,butyl pentanoate/heptane 97/3 v/v,24.4884,23.00714111328125,val
-4299,butyl pentanoate/heptane 94/6 v/v,25.4035,24.006221771240234,val
-4310,butyl pentanoate/heptane 82/18 v/v,29.0639,28.18619155883789,val
-4311,butyl pentanoate/heptane 81/19 v/v,29.3689,28.544586181640625,val
-4315,butyl pentanoate/heptane 77/23 v/v,30.5891,29.98794937133789,val
-4318,butyl pentanoate/heptane 74/26 v/v,31.5041,31.077816009521484,val
-4322,butyl pentanoate/heptane 70/30 v/v,32.7243,32.535404205322266,val
-4323,butyl pentanoate/heptane 69/31 v/v,33.0293,32.89990997314453,val
-4338,butyl pentanoate/heptane 53/47 v/v,37.9098,38.64862060546875,val
-4350,butyl pentanoate/heptane 40/60 v/v,41.8753,43.05903625488281,val
-4364,butyl pentanoate/heptane 26/74 v/v,46.1457,47.40928649902344,val
-4365,butyl pentanoate/heptane 25/75 v/v,46.4507,47.70247268676758,val
-4370,butyl pentanoate/heptane 19/81 v/v,48.2809,49.41201400756836,val
-4372,butyl pentanoate/heptane 17/83 v/v,48.891,49.96321105957031,val
-4374,butyl pentanoate/heptane 15/85 v/v,49.5011,50.505306243896484,val
-4381,butyl pentanoate/heptane 8/92 v/v,51.6363,52.33382797241211,val
-4383,butyl pentanoate/heptane 6/94 v/v,52.2464,52.83763122558594,val
-4385,butyl pentanoate/heptane 4/96 v/v,52.8564,53.33366394042969,val
-4396,cetane/heptane 91/9 v/v,99.3807,102.38561248779297,val
-4397,cetane/heptane 89/11 v/v,98.8874,101.31293487548828,val
-4409,cetane/heptane 75/25 v/v,94.7948,93.92871856689453,val
-4419,cetane/heptane 65/35 v/v,91.1859,88.9325942993164,val
-4427,cetane/heptane 57/43 v/v,87.8873,85.09635162353516,val
-4428,cetane/heptane 56/44 v/v,87.4493,84.6250991821289,val
-4447,cetane/heptane 37/63 v/v,78.0412,75.95335388183594,val
-4450,cetane/heptane 34/66 v/v,76.3671,74.62908172607422,val
-4453,cetane/heptane 31/69 v/v,74.6417,73.3167953491211,val
-4455,cetane/heptane 29/71 v/v,73.4628,72.44863891601562,val
-4482,cetane/heptane 2/98 v/v,55.3111,61.25648880004883,val
-4605,cyclohexane/heptane 71/29 v/v,25.5448,27.50419044494629,val
-4610,cyclohexane/heptane 66/34 v/v,26.824,29.296405792236328,val
-4613,cyclohexane/heptane 63/37 v/v,27.6416,30.378442764282227,val
-4615,cyclohexane/heptane 61/39 v/v,28.2076,31.100868225097656,val
-4621,cyclohexane/heptane 55/45 v/v,30.0057,33.2646598815918,val
-4624,cyclohexane/heptane 50/50 v/v,31.6191,35.05318832397461,val
-4632,cyclohexane/heptane 42/58 v/v,34.4176,37.86258316040039,val
-4633,cyclohexane/heptane 41/59 v/v,34.7862,38.20797348022461,val
-4636,cyclohexane/heptane 38/62 v/v,35.9172,39.23527908325195,val
-4640,cyclohexane/heptane 34/66 v/v,37.4835,40.58296203613281,val
-4644,cyclohexane/heptane 29/71 v/v,39.5355,42.22946548461914,val
-4645,cyclohexane/heptane 28/72 v/v,39.9584,42.553462982177734,val
-4657,cyclohexane/heptane 16/84 v/v,45.3592,46.2979850769043,val
-4661,cyclohexane/heptane 11/89 v/v,47.7871,47.779239654541016,val
-4664,cyclohexane/heptane 8/92 v/v,49.294,48.645992279052734,val
-4682,cyclooctane/heptane 89/11 v/v,24.673,23.24417495727539,val
-4687,cyclooctane/heptane 84/16 v/v,25.7881,24.67452049255371,val
-4692,cyclooctane/heptane 78/22 v/v,27.2089,26.458179473876953,val
-4694,cyclooctane/heptane 76/24 v/v,27.7025,27.067363739013672,val
-4701,cyclooctane/heptane 69/31 v/v,29.5091,29.248172760009766,val
-4717,cyclooctane/heptane 52/48 v/v,34.4075,34.74720001220703,val
-4733,cyclooctane/heptane 35/65 v/v,40.0297,40.28983688354492,val
-4737,cyclooctane/heptane 31/69 v/v,41.4578,41.57322311401367,val
-4743,cyclooctane/heptane 25/75 v/v,43.675,43.47377395629883,val
-4754,cyclooctane/heptane 13/87 v/v,48.38,47.168827056884766,val
-4770,cyclopentane/heptane 96/4 v/v,8.09788,9.551344871520996,val
-4778,cyclopentane/heptane 88/12 v/v,10.8433,11.551597595214844,val
-4779,cyclopentane/heptane 87/13 v/v,11.1998,11.826661109924316,val
-4786,cyclopentane/heptane 80/20 v/v,13.7781,13.925237655639648,val
-4793,cyclopentane/heptane 73/27 v/v,16.5014,16.35243034362793,val
-4799,cyclopentane/heptane 66/34 v/v,19.3696,19.133481979370117,val
-4814,cyclopentane/heptane 50/50 v/v,26.47,26.764463424682617,val
-4821,cyclopentane/heptane 43/57 v/v,29.8146,30.520423889160156,val
-4832,cyclopentane/heptane 32/68 v/v,35.3633,36.602684020996094,val
-4837,cyclopentane/heptane 25/75 v/v,39.0806,40.430843353271484,val
-4849,cyclopentane/heptane 12/88 v/v,46.3689,47.18324279785156,val
-4853,cyclopentane/heptane 8/92 v/v,48.7121,49.14065933227539,val
-4855,cyclopentane/heptane 6/94 v/v,49.9014,50.09708023071289,val
-4871,diethyl ether/heptane 89/11 v/v,123.325,119.01859283447266,val
-4883,diethyl ether/heptane 77/23 v/v,107.715,111.41260528564453,val
-4903,diethyl ether/heptane 56/44 v/v,85.0558,85.90323638916016,val
-4908,diethyl ether/heptane 51/49 v/v,80.5346,81.2793960571289,val
-4910,diethyl ether/heptane 48/52 v/v,77.9832,78.7072525024414,val
-4923,diethyl ether/heptane 35/65 v/v,68.3256,68.87662506103516,val
-4934,diethyl ether/heptane 23/77 v/v,61.4275,61.23756790161133,val
-4950,diethyl ether/heptane 7/93 v/v,55.2416,52.503936767578125,val
-4951,diethyl ether/heptane 6/94 v/v,54.9692,51.998863220214844,val
-4954,diethyl ether/heptane 3/97 v/v,54.2329,50.50811767578125,val
-4970,ethanol/heptane 86/14 v/v,8.33207,7.455233573913574,val
-4978,ethanol/heptane 78/22 v/v,9.94823,8.793998718261719,val
-4983,ethanol/heptane 72/28 v/v,11.5263,10.005674362182617,val
-4988,ethanol/heptane 67/33 v/v,13.0811,11.18597412109375,val
-4989,ethanol/heptane 65/35 v/v,13.764,11.708885192871094,val
-4993,ethanol/heptane 61/39 v/v,15.2343,12.854225158691406,val
-4997,ethanol/heptane 57/43 v/v,16.8441,14.149301528930664,val
-5014,ethanol/heptane 38/62 v/v,26.3945,23.06082534790039,val
-5020,ethanol/heptane 32/68 v/v,30.064,27.046676635742188,val
-5024,ethanol/heptane 27/73 v/v,33.3616,30.809019088745117,val
-5026,ethanol/heptane 24/76 v/v,35.4447,33.23450469970703,val
-5029,ethanol/heptane 21/79 v/v,37.6062,35.76329803466797,val
-5034,ethanol/heptane 16/84 v/v,41.383,40.145992279052734,val
-5038,ethanol/heptane 11/89 v/v,45.3777,44.643741607666016,val
-5041,ethanol/heptane 8/92 v/v,47.879,47.35542678833008,val
-5051,ethyl pentanoate/heptane 96/4 v/v,20.0163,18.010208129882812,val
-5056,ethyl pentanoate/heptane 91/9 v/v,21.7908,19.64150619506836,val
-5060,ethyl pentanoate/heptane 87/13 v/v,23.2104,21.02222442626953,val
-5065,ethyl pentanoate/heptane 82/18 v/v,24.985,22.837642669677734,val
-5068,ethyl pentanoate/heptane 78/22 v/v,26.4046,24.355670928955078,val
-5072,ethyl pentanoate/heptane 74/26 v/v,27.8242,25.9250545501709,val
-5074,ethyl pentanoate/heptane 72/28 v/v,28.5341,26.726573944091797,val
-5082,ethyl pentanoate/heptane 64/36 v/v,31.3733,30.018457412719727,val
-5086,ethyl pentanoate/heptane 59/41 v/v,33.1478,32.12063980102539,val
-5088,ethyl pentanoate/heptane 57/43 v/v,33.8577,32.96562576293945,val
-5089,ethyl pentanoate/heptane 56/44 v/v,34.2126,33.388370513916016,val
-5092,ethyl pentanoate/heptane 53/47 v/v,35.2773,34.65583801269531,val
-5096,ethyl pentanoate/heptane 49/51 v/v,36.6969,36.33855056762695,val
-5103,ethyl pentanoate/heptane 42/58 v/v,39.1813,39.23967361450195,val
-5104,ethyl pentanoate/heptane 41/59 v/v,39.5362,39.64769744873047,val
-5106,ethyl pentanoate/heptane 38/62 v/v,40.6009,40.85987854003906,val
-5135,ethyl pentanoate/heptane 8/92 v/v,51.2481,51.68892288208008,val
-5139,ethyl pentanoate/heptane 4/96 v/v,52.6678,52.94502639770508,val
-5150,ethylcyclohexane/heptane 92/8 v/v,36.5871,34.23277282714844,val
-5167,ethylcyclohexane/heptane 75/25 v/v,38.6107,37.5623664855957,val
-5169,ethylcyclohexane/heptane 73/27 v/v,38.8822,37.94744873046875,val
-5184,ethylcyclohexane/heptane 58/42 v/v,41.1429,40.77823257446289,val
-5196,ethylcyclohexane/heptane 46/54 v/v,43.2366,42.9603385925293,val
-5198,ethylcyclohexane/heptane 44/56 v/v,43.6102,43.316280364990234,val
-5201,ethylcyclohexane/heptane 41/59 v/v,44.1838,43.8459358215332,val
-5216,ethylcyclohexane/heptane 25/75 v/v,47.5105,46.58245086669922,val
-5229,ethylcyclohexane/heptane 11/89 v/v,50.791,48.8541145324707,val
-5233,ethylcyclohexane/heptane 6/94 v/v,52.0463,49.638126373291016,val
-5239,furan/heptane 99/1 v/v,5.841,6.502758026123047,val
-5249,furan/heptane 88/12 v/v,8.92793,8.285831451416016,val
-5253,furan/heptane 83/17 v/v,10.5231,9.266949653625488,val
-5258,furan/heptane 77/23 v/v,12.5957,10.620467185974121,val
-5260,furan/heptane 75/25 v/v,13.3249,11.120412826538086,val
-5263,furan/heptane 72/28 v/v,14.4548,11.921432495117188,val
-5268,furan/heptane 67/33 v/v,16.434,13.407033920288086,val
-5269,furan/heptane 65/35 v/v,17.2593,14.05927562713623,val
-5275,furan/heptane 59/41 v/v,19.8502,16.23948860168457,val
-5279,furan/heptane 55/45 v/v,21.6736,17.89793586730957,val
-5283,furan/heptane 51/49 v/v,23.5737,19.736051559448242,val
-5285,furan/heptane 48/52 v/v,25.0492,21.23853302001953,val
-5288,furan/heptane 45/55 v/v,26.5679,22.84964942932129,val
-5289,furan/heptane 44/56 v/v,27.0837,23.41082763671875,val
-5292,furan/heptane 41/59 v/v,28.66,25.165603637695312,val
-5300,furan/heptane 32/68 v/v,33.6481,31.014286041259766,val
-5302,furan/heptane 30/70 v/v,34.8094,32.413230895996094,val
-5310,furan/heptane 22/78 v/v,39.6465,38.2341423034668,val
-5311,furan/heptane 21/79 v/v,40.2727,38.977294921875,val
-5327,furan/heptane 3/97 v/v,52.3657,52.1805305480957,val
-5334,iso-butanol/heptane 95/5 v/v,9.17631,11.888331413269043,val
-5343,iso-butanol/heptane 86/14 v/v,11.2888,14.041627883911133,val
-5346,iso-butanol/heptane 83/17 v/v,12.0941,14.852810859680176,val
-5357,iso-butanol/heptane 71/29 v/v,15.8212,18.637832641601562,val
-5358,iso-butanol/heptane 70/30 v/v,16.1684,18.995304107666016,val
-5372,iso-butanol/heptane 55/45 v/v,22.0498,25.177326202392578,val
-5375,iso-butanol/heptane 52/48 v/v,23.3778,26.5915584564209,val
-5382,iso-butanol/heptane 45/55 v/v,26.6733,30.0861759185791,val
-5407,iso-butanol/heptane 19/81 v/v,41.3248,44.22365951538086,val
-5408,iso-butanol/heptane 18/82 v/v,41.9642,44.76592254638672,val
-5409,iso-butanol/heptane 16/84 v/v,43.2598,45.84421157836914,val
-5415,iso-butanol/heptane 10/90 v/v,47.2817,49.0207405090332,val
-5420,iso-butanol/heptane 4/96 v/v,51.5059,52.100101470947266,val
-5431,iso-octane/heptane 89/11 v/v,23.5107,23.79546356201172,val
-5432,iso-octane/heptane 88/12 v/v,24.0058,24.10297393798828,val
-5433,iso-octane/heptane 87/13 v/v,24.4972,24.413105010986328,val
-5439,iso-octane/heptane 79/21 v/v,28.2989,26.982507705688477,val
-5440,iso-octane/heptane 78/22 v/v,28.7579,27.31381607055664,val
-5441,iso-octane/heptane 77/23 v/v,29.2132,27.64715576171875,val
-5447,iso-octane/heptane 69/31 v/v,32.7259,30.377702713012695,val
-5456,iso-octane/heptane 59/41 v/v,36.7917,33.90354537963867,val
-5457,iso-octane/heptane 58/42 v/v,37.1784,34.26004409790039,val
-5476,iso-octane/heptane 37/63 v/v,44.4649,41.7130241394043,val
-5480,iso-octane/heptane 33/67 v/v,45.6722,43.0959587097168,val
-5483,iso-octane/heptane 29/71 v/v,46.8217,44.45871353149414,val
-5486,iso-octane/heptane 26/74 v/v,47.6459,45.46604919433594,val
-5489,iso-octane/heptane 22/78 v/v,48.6942,46.78794479370117,val
-5492,iso-octane/heptane 18/82 v/v,49.6848,48.08433151245117,val
-5502,iso-octane/heptane 7/93 v/v,52.1107,51.51335906982422,val
-5503,iso-octane/heptane 6/94 v/v,52.3096,51.815311431884766,val
-5514,iso-propylbenzene/heptane 94/6 v/v,13.7564,14.428853988647461,val
-5530,iso-propylbenzene/heptane 77/23 v/v,21.3151,19.888648986816406,val
-5541,iso-propylbenzene/heptane 66/34 v/v,26.2061,24.208450317382812,val
-5547,iso-propylbenzene/heptane 59/41 v/v,29.3185,27.232126235961914,val
-5553,iso-propylbenzene/heptane 53/47 v/v,31.9862,29.94770050048828,val
-5556,iso-propylbenzene/heptane 49/51 v/v,33.7648,31.800167083740234,val
-5560,iso-propylbenzene/heptane 45/55 v/v,35.5433,33.671390533447266,val
-5565,iso-propylbenzene/heptane 39/61 v/v,38.2111,36.48653793334961,val
-5570,iso-propylbenzene/heptane 34/66 v/v,40.4342,38.81648635864258,val
-5577,iso-propylbenzene/heptane 27/73 v/v,43.5466,42.018436431884766,val
-5588,iso-propylbenzene/heptane 15/85 v/v,48.8822,47.25764846801758,val
-5604,methyl pentanoate/heptane 98/2 v/v,14.4659,14.915955543518066,val
-5607,methyl pentanoate/heptane 95/5 v/v,15.8258,15.805212020874023,val
-5621,methyl pentanoate/heptane 81/19 v/v,22.0404,20.552085876464844,val
-5627,methyl pentanoate/heptane 74/26 v/v,25.0666,23.28399658203125,val
-5631,methyl pentanoate/heptane 70/30 v/v,26.7715,24.939449310302734,val
-5646,methyl pentanoate/heptane 54/46 v/v,33.4145,32.03271484375,val
-5647,methyl pentanoate/heptane 53/47 v/v,33.8203,32.49003219604492,val
-5651,methyl pentanoate/heptane 49/51 v/v,35.4325,34.321983337402344,val
-5653,methyl pentanoate/heptane 47/53 v/v,36.2319,35.236907958984375,val
-5656,methyl pentanoate/heptane 44/56 v/v,37.4228,36.60393524169922,val
-5660,methyl pentanoate/heptane 40/60 v/v,38.9952,38.40971755981445,val
-5662,methyl pentanoate/heptane 38/62 v/v,39.7748,39.30265426635742,val
-5663,methyl pentanoate/heptane 36/64 v/v,40.5499,40.18751907348633,val
-5679,methyl pentanoate/heptane 20/80 v/v,46.592,46.883121490478516,val
-5683,methyl pentanoate/heptane 15/85 v/v,48.4222,48.81277847290039,val
-5689,methyl pentanoate/heptane 9/91 v/v,50.582,51.02268981933594,val
-5699,methylcyclohexane/heptane 98/2 v/v,24.2142,23.578508377075195,val
-5700,methylcyclohexane/heptane 97/3 v/v,24.4207,23.854053497314453,val
-5707,methylcyclohexane/heptane 90/10 v/v,25.922,25.823150634765625,val
-5717,methylcyclohexane/heptane 80/20 v/v,28.2357,28.732166290283203,val
-5722,methylcyclohexane/heptane 73/27 v/v,29.9736,30.808988571166992,val
-5731,methylcyclohexane/heptane 64/36 v/v,32.3513,33.49281692504883,val
-5732,methylcyclohexane/heptane 63/37 v/v,32.6254,33.790462493896484,val
-5754,methylcyclohexane/heptane 38/62 v/v,40.1251,41.03561019897461,val
-5763,methylcyclohexane/heptane 27/73 v/v,43.8188,44.03593444824219,val
-5773,methylcyclohexane/heptane 15/85 v/v,48.1227,47.14579391479492,val
-5774,methylcyclohexane/heptane 14/86 v/v,48.4943,47.397056579589844,val
-5776,methylcyclohexane/heptane 12/88 v/v,49.2435,47.89595413208008,val
-5785,methylcyclohexane/heptane 3/97 v/v,52.7131,50.08193588256836,val
-5805,n-butanol/heptane 82/18 v/v,15.8913,13.67831802368164,val
-5807,n-butanol/heptane 80/20 v/v,16.4332,14.113472938537598,val
-5811,n-butanol/heptane 76/24 v/v,17.5742,15.0458984375,val
-5815,n-butanol/heptane 71/29 v/v,19.1075,16.33990478515625,val
-5819,n-butanol/heptane 67/33 v/v,20.4197,17.48996353149414,val
-5821,n-butanol/heptane 65/35 v/v,21.1044,18.106822967529297,val
-5825,n-butanol/heptane 61/39 v/v,22.5308,19.43077278137207,val
-5830,n-butanol/heptane 55/45 v/v,24.8131,21.66120719909668,val
-5834,n-butanol/heptane 51/49 v/v,26.4298,23.32430648803711,val
-5841,n-butanol/heptane 44/56 v/v,29.4421,26.59483528137207,val
-5852,n-butanol/heptane 32/68 v/v,35.1484,33.259159088134766,val
-5854,n-butanol/heptane 30/70 v/v,36.166,34.48739242553711,val
-5860,n-butanol/heptane 24/76 v/v,39.3331,38.33376693725586,val
-5861,n-butanol/heptane 23/77 v/v,39.8776,38.995018005371094,val
-5862,n-butanol/heptane 22/78 v/v,40.4268,39.66111373901367,val
-5873,n-butanol/heptane 10/90 v/v,47.3889,47.90285110473633,val
-5874,n-butanol/heptane 9/91 v/v,48.0,48.60039520263672,val
-5876,n-butanol/heptane 7/93 v/v,49.2364,49.99666213989258,val
-5879,n-butanol/heptane 3/97 v/v,51.7664,52.79237365722656,val
-5880,n-butanol/heptane 2/98 v/v,52.4108,53.49241256713867,val
-5881,n-butanol/heptane 1/99 v/v,53.06,54.19335174560547,val
-5882,n-butylcyclohexane/heptane 99/1 v/v,47.763,46.04057312011719,val
-5908,n-butylcyclohexane/heptane 72/28 v/v,48.5898,47.80514907836914,val
-5924,n-butylcyclohexane/heptane 55/45 v/v,49.4062,48.830745697021484,val
-5925,n-butylcyclohexane/heptane 54/46 v/v,49.4613,48.889007568359375,val
-5931,n-butylcyclohexane/heptane 48/52 v/v,49.8087,49.23373031616211,val
-5943,n-butylcyclohexane/heptane 35/65 v/v,50.6591,49.95219802856445,val
-5951,n-butylcyclohexane/heptane 27/73 v/v,51.2489,50.375,val
-5959,n-butylcyclohexane/heptane 18/82 v/v,51.9728,50.833072662353516,val
-5962,n-butylcyclohexane/heptane 15/85 v/v,52.2284,50.98163604736328,val
-5964,n-butylcyclohexane/heptane 13/87 v/v,52.4027,51.07952880859375,val
-5966,n-butylcyclohexane/heptane 11/89 v/v,52.5802,51.176509857177734,val
-5976,n-butylcyclohexane/heptane 1/99 v/v,53.5151,51.64769744873047,val
-5991,n-propylbenzene/heptane 85/15 v/v,17.0621,19.505718231201172,val
-5992,n-propylbenzene/heptane 84/16 v/v,17.3769,19.856143951416016,val
-6003,n-propylbenzene/heptane 72/28 v/v,21.3893,24.37405776977539,val
-6004,n-propylbenzene/heptane 71/29 v/v,21.7433,24.773738861083984,val
-6009,n-propylbenzene/heptane 66/34 v/v,23.5586,26.814350128173828,val
-6013,n-propylbenzene/heptane 62/38 v/v,25.0652,28.488361358642578,val
-6016,n-propylbenzene/heptane 58/42 v/v,26.6201,30.187976837158203,val
-6022,n-propylbenzene/heptane 52/48 v/v,29.043,32.762046813964844,val
-6061,n-propylbenzene/heptane 10/90 v/v,49.0473,49.51985549926758,val
-6062,n-propylbenzene/heptane 9/91 v/v,49.5885,49.87058639526367,val
-6065,n-propylbenzene/heptane 6/94 v/v,51.2302,50.90839767456055,val
-6066,n-propylbenzene/heptane 5/95 v/v,51.7835,51.2496223449707,val
-6070,n-propylbenzene/heptane 1/99 v/v,54.0269,52.59186935424805,val
-6082,oxane/heptane 88/12 v/v,39.5312,39.06410598754883,val
-6096,oxane/heptane 74/26 v/v,41.2718,41.819156646728516,val
-6099,oxane/heptane 71/29 v/v,41.6709,42.37397384643555,val
-6112,oxane/heptane 58/42 v/v,43.5068,44.6398811340332,val
-6126,oxane/heptane 44/56 v/v,45.6774,46.84562683105469,val
-6135,oxane/heptane 35/65 v/v,47.1787,48.1475715637207,val
-6143,oxane/heptane 26/74 v/v,48.763,49.3675537109375,val
-6145,oxane/heptane 24/76 v/v,49.1263,49.62827682495117,val
-6154,oxane/heptane 14/86 v/v,51.0043,50.87924575805664,val
-6157,oxane/heptane 11/89 v/v,51.5877,51.238338470458984,val
-6172,pentyl pentanoate/heptane 94/6 v/v,29.1095,27.62137794494629,val
-6173,pentyl pentanoate/heptane 93/7 v/v,29.3732,27.94982147216797,val
-6177,pentyl pentanoate/heptane 89/11 v/v,30.4278,29.271900177001953,val
-6180,pentyl pentanoate/heptane 86/14 v/v,31.2188,30.269901275634766,val
-6188,pentyl pentanoate/heptane 77/23 v/v,33.5916,33.273616790771484,val
-6190,pentyl pentanoate/heptane 75/25 v/v,34.1189,33.93905258178711,val
-6202,pentyl pentanoate/heptane 62/38 v/v,37.5464,38.19062805175781,val
-6203,pentyl pentanoate/heptane 61/39 v/v,37.8101,38.510047912597656,val
-6215,pentyl pentanoate/heptane 49/51 v/v,40.9739,42.22395706176758,val
-6217,pentyl pentanoate/heptane 46/54 v/v,41.7648,43.113407135009766,val
-6218,pentyl pentanoate/heptane 45/55 v/v,42.0285,43.40609359741211,val
-6219,pentyl pentanoate/heptane 44/56 v/v,42.2922,43.69682312011719,val
-6221,pentyl pentanoate/heptane 42/58 v/v,42.8195,44.27238845825195,val
-6222,pentyl pentanoate/heptane 41/59 v/v,43.0831,44.55717849731445,val
-6223,pentyl pentanoate/heptane 40/60 v/v,43.3468,44.83993911743164,val
-6228,pentyl pentanoate/heptane 35/65 v/v,44.665,46.222991943359375,val
-6248,pentyl pentanoate/heptane 14/86 v/v,50.2017,51.46572494506836,val
-6251,pentyl pentanoate/heptane 11/89 v/v,50.9927,52.143157958984375,val
-6252,pentyl pentanoate/heptane 10/90 v/v,51.2563,52.36531448364258,val
-6258,pentyl pentanoate/heptane 4/96 v/v,52.8382,53.66191864013672,val
-6358,toluene/heptane 97/3 v/v,7.13683,10.044071197509766,val
-6382,toluene/heptane 73/27 v/v,19.3685,18.94501495361328,val
-6398,toluene/heptane 53/47 v/v,29.2521,28.938491821289062,val
-6404,toluene/heptane 46/54 v/v,32.645,32.62874221801758,val
-6414,toluene/heptane 33/67 v/v,38.8545,39.22977828979492,val
-6425,toluene/heptane 22/78 v/v,44.0159,44.33231735229492,val
-6426,toluene/heptane 21/79 v/v,44.4809,44.77061080932617,val
-6446,toluene/heptane 1/99 v/v,53.6331,52.6669807434082,val
-6451,trans-decahydronaphthalene/heptane 95/5 v/v,34.5466,32.38381576538086,val
-6455,trans-decahydronaphthalene/heptane 91/9 v/v,35.6752,33.52824020385742,val
-6465,trans-decahydronaphthalene/heptane 80/20 v/v,38.6275,36.63035202026367,val
-6480,trans-decahydronaphthalene/heptane 65/35 v/v,42.2952,40.683799743652344,val
-6487,trans-decahydronaphthalene/heptane 57/43 v/v,44.0823,42.735164642333984,val
-6489,trans-decahydronaphthalene/heptane 55/45 v/v,44.5107,43.23456954956055,val
-6491,trans-decahydronaphthalene/heptane 53/47 v/v,44.9318,43.728424072265625,val
-6492,trans-decahydronaphthalene/heptane 52/48 v/v,45.1395,43.97325134277344,val
-6505,trans-decahydronaphthalene/heptane 38/62 v/v,47.8555,47.2507209777832,val
-6511,trans-decahydronaphthalene/heptane 32/68 v/v,48.9092,48.56916427612305,val
-6521,trans-decahydronaphthalene/heptane 21/79 v/v,50.6694,50.85561752319336,val
-6526,trans-decahydronaphthalene/heptane 16/84 v/v,51.396,51.84140396118164,val
-6530,trans-decahydronaphthalene/heptane 12/88 v/v,51.9442,52.60723114013672,val
-6531,trans-decahydronaphthalene/heptane 11/89 v/v,52.0766,52.795623779296875,val
-6535,trans-decahydronaphthalene/heptane 7/93 v/v,52.5881,53.537315368652344,val
-6537,trans-decahydronaphthalene/heptane 5/95 v/v,52.8328,53.90122604370117,val
-6538,trans-decahydronaphthalene/heptane 4/96 v/v,52.9524,54.08149337768555,val
-6561,dodecane/n-propylbenzene 79/21 v/v,61.6233,62.709232330322266,val
-6567,dodecane/n-propylbenzene 73/27 v/v,57.8454,59.15011978149414,val
-6584,dodecane/n-propylbenzene 54/46 v/v,46.0002,47.24484634399414,val
-6593,dodecane/n-propylbenzene 44/56 v/v,39.8379,40.5325813293457,val
-6609,dodecane/n-propylbenzene 27/73 v/v,29.4761,29.19677734375,val
-6616,dodecane/n-propylbenzene 20/80 v/v,25.2512,24.958826065063477,val
-6618,dodecane/n-propylbenzene 18/82 v/v,24.0486,23.82658576965332,val
-6633,dodecane/n-propylbenzene 3/97 v/v,15.0922,16.628387451171875,val
-6634,dodecane/n-propylbenzene 2/98 v/v,14.4991,16.22976303100586,val
-6643,cetane/toluene 91/9 v/v,93.2719,89.90487670898438,val
-6645,cetane/toluene 88/12 v/v,90.4759,87.15631103515625,val
-6646,cetane/toluene 87/13 v/v,89.5439,86.24860382080078,val
-6649,cetane/toluene 84/16 v/v,86.7478,83.54570770263672,val
-6650,cetane/toluene 83/17 v/v,85.8158,82.65033721923828,val
-6661,cetane/toluene 70/30 v/v,73.6996,71.1275863647461,val
-6662,cetane/toluene 69/31 v/v,72.7676,70.24173736572266,val
-6665,cetane/toluene 65/35 v/v,69.0395,66.68313598632812,val
-6669,cetane/toluene 61/39 v/v,65.3114,63.0826530456543,val
-6678,cetane/toluene 51/49 v/v,55.9913,53.69243621826172,val
-6682,cetane/toluene 46/54 v/v,51.3312,48.68515396118164,val
-6683,cetane/toluene 45/55 v/v,50.3992,47.6569938659668,val
-6689,cetane/toluene 38/62 v/v,43.8751,40.27216339111328,val
-6692,cetane/toluene 34/66 v/v,40.147,35.98984146118164,val
-6701,cetane/toluene 21/79 v/v,28.0308,23.104644775390625,val
-6707,cetane/toluene 14/86 v/v,21.5067,17.642730712890625,val
-6708,cetane/toluene 13/87 v/v,20.5747,16.96449851989746,val
-6710,cetane/toluene 11/89 v/v,18.7106,15.68171501159668,val
-6712,cetane/toluene 9/91 v/v,16.8466,14.49325180053711,val
-6720,cetane/toluene 1/99 v/v,9.39045,10.56702995300293,val
-6728,decane/toluene 92/8 v/v,62.9062,61.56916427612305,val
-6729,decane/toluene 91/9 v/v,62.4548,61.09497833251953,val
-6732,decane/toluene 87/13 v/v,60.6121,59.16609573364258,val
-6740,decane/toluene 79/21 v/v,56.7484,55.121891021728516,val
-6742,decane/toluene 77/23 v/v,55.7453,54.06449508666992,val
-6743,decane/toluene 76/24 v/v,55.2382,53.52798080444336,val
-6751,decane/toluene 67/33 v/v,50.5071,48.44289016723633,val
-6758,decane/toluene 60/40 v/v,46.6193,44.1488151550293,val
-6765,decane/toluene 52/48 v/v,41.9532,38.90095901489258,val
-6766,decane/toluene 51/49 v/v,41.3533,38.2238655090332,val
-6769,decane/toluene 47/53 v/v,38.9162,35.482521057128906,val
-6776,decane/toluene 40/60 v/v,34.5084,30.631969451904297,val
-6790,decane/toluene 25/75 v/v,24.4502,20.891103744506836,val
-6791,decane/toluene 24/76 v/v,23.7499,20.3098201751709,val
-6806,decane/toluene 9/91 v/v,12.8003,12.954961776733398,val
-6814,decane/toluene 1/99 v/v,6.61868,10.030256271362305,val
-6819,dodecane/toluene 95/5 v/v,71.5635,72.24018096923828,val
-6831,dodecane/toluene 83/17 v/v,65.0285,65.04706573486328,val
-6848,dodecane/toluene 65/35 v/v,54.1106,53.4283332824707,val
-6853,dodecane/toluene 60/40 v/v,50.8403,49.87445068359375,val
-6862,dodecane/toluene 51/49 v/v,44.6935,43.037593841552734,val
-6868,dodecane/toluene 44/56 v/v,39.6814,37.406986236572266,val
-6872,dodecane/toluene 40/60 v/v,36.7264,34.135963439941406,val
-6874,dodecane/toluene 38/62 v/v,35.2241,32.50510025024414,val
-6880,dodecane/toluene 32/68 v/v,30.6181,27.720748901367188,val
-6888,dodecane/toluene 23/77 v/v,23.4303,21.203502655029297,val
-6890,dodecane/toluene 21/79 v/v,21.7876,19.907337188720703,val
+4,PRF 80,27.672,27.049949645996094,val
+15,TRF 70,19.8414,20.42450714111328,val
+20,TPRF 60-20,29.08025,29.228181838989258,val
+27,TPRF 80-10,25.36285,24.7908935546875,val
+39,MCSB 6,21.56161,21.514408111572266,val
+43,MCSB 10,20.93883,21.09095001220703,val
+47,MCSB 14,19.42088,19.98006248474121,val
+51,MCSB 18,17.79176,18.659780502319336,val
+62,PRF 83,26.25817,25.770816802978516,val
+67,Light naphtha J80,27.63156,29.659656524658203,val
+69,Light naphtha J80/Diethyl ether 95/5 v/v,29.3196,33.06325149536133,val
+73,Light naphtha J80/Dipropyl ether 95/5 v/v,31.92,31.869251251220703,val
+281,decane/toluene 88/12 v/v,62.14,59.466453552246094,val
+302,"dodecane/1,3,5-trimethylbenzene 87/13 v/v",65.6,63.41267395019531,val
+306,iso-octane/1-hexene 80/20 v/v,21.17,20.129486083984375,val
+317,iso-octane/cyclohexane 60/40 v/v,18.34,18.88623046875,val
+339,butylbenzene/dodecane 55/45 v/v,48.2,42.20709991455078,val
+340,dodecane/3-ethylheptane 48/52 v/v,59.6,56.7819938659668,val
+344,heptane/ethanol 75/25 v/v,38.7,35.254669189453125,val
+346,heptane/ethanol 25/75 v/v,9.2,9.340270042419434,val
+348,heptane/ethylcyclohexane 80/20 v/v,48.6,47.81885528564453,val
+352,"decane/1,2,4-trimethylbenzene 66/34 v/v",49.1,46.169654846191406,val
+368,dodecane/iso-octane 75/25 v/v,66.5,63.29512405395508,val
+372,dodecane/iso-octane 5/95 v/v,22.2,23.13947296142578,val
+380,decane/iso-octane 50/50 v/v,49.6,48.00531768798828,val
+385,furan/heptane 49/51 v/v,25.4,22.6943302154541,val
+387,furan/heptane 78/22 v/v,10.6,11.41191291809082,val
+389,furan/heptane 92/8 v/v,7.9,8.400790214538574,val
+402,butylcyclohexane/heptane 82/18 v/v,48.34,46.45745849609375,val
+403,methylcyclohexane/heptane 18/82 v/v,47.65,45.86161804199219,val
+406,methylcyclohexane/heptane 78/22 v/v,29.49,28.138351440429688,val
+414,ethanol/heptane 45/55 v/v,23.0,21.26224708557129,val
+422,toluene/hexadecane 75/25 v/v,27.5,29.757164001464844,val
+446,heptane/iso-octane/ethanol 14/71/15 v/v/v,17.98,18.28479766845703,val
+460,heptane/iso-octane/methanol/ethanol 15/77/4/5 v/v/v/v,20.44,20.86935043334961,val
+464,heptane/iso-octane/methanol/ethanol 15/81/2/1 v/v/v/v,23.76,23.296039581298828,val
+465,heptane/iso-octane/methanol/ethanol 14/78/5/3 v/v/v/v,20.24,20.768146514892578,val
+468,toluene/iso-octane/heptane 15/73/13 v/v/v,21.77,21.762413024902344,val
+470,toluene/iso-octane/heptane/1-hexene 15/65/10/10 v/v/v/v,21.56,21.519107818603516,val
+477,iso-octane/heptane/cyclopentane 71/9/20 v/v/v,16.97,18.41674041748047,val
+482,toluene/iso-octane/heptane 15/52/33 v/v/v,33.17,30.34081268310547,val
+485,iso-octane/heptane/1-hexene 57/23/20 v/v/v,29.08,29.79045867919922,val
+502,iso-octane/heptane/ethanol 57/38/5 v/v/v,32.13,32.922454833984375,val
+508,hexylbenzene/hexadecane/butylcyclohexane 54/38/7 v/v/v,60.6,54.27039337158203,val
+530,decane/iso-octane/toluene 54/30/16 v/v/v,49.51,48.099449157714844,val
+564,heptane/toluene/cyclohexane 83/8/9 v/v/v,47.0,46.21367645263672,val
+565,heptane/toluene/cyclohexane 74/17/9 v/v/v,42.3,42.705177307128906,val
+567,heptane/toluene/cyclohexane 65/26/9 v/v/v,37.6,38.73487091064453,val
+568,toluene/iso-octane/decane/Methylcyclohexane 13/19/49/19 v/v/v/v,44.7,46.643455505371094,val
+590,heptane/cetane 5/95 v/v,101.5,100.54602813720703,val
+596,cetane/cyclopentane 71/29 v/v,68.3,66.59929656982422,val
+597,1-hexene/cetane 10/90 v/v,92.7,93.02684020996094,val
+608,heptane/decalin 57/43 v/v,45.4,46.028114318847656,val
+614,heptane/Methylcyclohexane 84/16 v/v,47.7,46.665008544921875,val
+622,iso-octane/cetane 33/67 v/v,65.0,66.39765930175781,val
+651,toluene/decane/indane/1-octene 21/5/11/63 v/v/v/v,33.0,32.02893829345703,val
+653,iso-octane/mesitylene/cetane 24/23/53 v/v/v,55.8,53.35342788696289,val
+658,heptane/isopropylbenzene 39/61 v/v,27.9,27.344066619873047,val
+660,"heptane/2,5-dimethylhexa-2,4-diene 79/21 v/v",44.2,44.842098236083984,val
+670,heptane/n-propylbenzene 80/20 v/v,44.2,43.608802795410156,val
+674,heptane/n-propylbenzene 19/81 v/v,15.3,17.927745819091797,val
+677,heptane/iso-octane/isopropylbenzene 34/58/8 v/v/v,35.7,32.4141731262207,val
+768,dodecane/mesitylene/propylbenzene 30/56/14 v/v/v,24.3,24.854473114013672,val
+774,dodecane/iso-octane/mesitylene 33/38/28 v/v/v,34.7,35.773338317871094,val
+783,dodecane/iso-octane/mesitylene/propylbenzene 51/16/21/12 v/v/v/v,44.7,45.488929748535156,val
+784,dodecane/iso-octane/mesitylene/propylbenzene 51/16/12/21 v/v/v/v,45.4,47.046913146972656,val
+788,dodecane/iso-octane/mesitylene/propylbenzene 55/25/19/2 v/v/v/v,49.4,48.30555725097656,val
+789,dodecane/iso-octane/mesitylene/propylbenzene 52/25/2/21 v/v/v/v,49.8,49.76590347290039,val
+791,dodecane/iso-octane/mesitylene/propylbenzene 74/7/10/8 v/v/v/v,59.1,59.090850830078125,val
+808,heptane/iso-octane/n-propanol 14/71/15 v/v/v,18.91,19.59494400024414,val
+821,heptane/iso-octane/n-butanol 25/59/15 v/v/v,26.55,24.873519897460938,val
+831,heptane/iso-octane/n-butanol 8/42/50 v/v/v,15.17,15.016714096069336,val
+844,heptane/iso-octane/toluene/2-methylbutan-1-ol 30/30/20/20 v/v/v/v,25.4,26.054140090942383,val
+845,ethanol/diethyl ether/ethyl levulinate 5/17/79 v/v/v,18.18,16.5684814453125,val
+853,ethanol/diethyl ether/ethyl levulinate 26/58/16 v/v/v,46.01,43.78297424316406,val
+856,ethanol/diethyl ether/ethyl levulinate 30/11/59 v/v/v,7.72,7.886655807495117,val
+946,dodecane/decane/cis-decalin 30/30/40 v/v/v,52.1,54.543663024902344,val
+971,dodecane/trans-decalin/propylbenzene 56/11/33 v/v/v,50.2,50.85044860839844,val
+981,PRF 14,51.3,50.41485595703125,val
+997,TRF 39,37.7,36.09456253051758,val
+1003,"dodecane/iso-octane/1,3,5-trimethylbenzene/propylbenzene 65/11/5/19 v/v/v/v",56.05,55.599464416503906,val
+1005,"3-methylpentane/2-methylbutane/1,4-diisopropylbenzene/dodecane 36/38/8/18 v/v/v/v",39.73,33.81623077392578,val
+1010,n-heptylbenzene/2-methylhexane 41/59 v/v,44.39,42.444671630859375,val
+1017,2-(2-methoxypropoxy)propan-1-ol,30.2,31.00763702392578,val
+1025,(Z)-2-ethyloctadec-9-enoate,57.21,73.2689437866211,val
+1026,"ethyl (9Z,12Z)-octadeca-9,12-dienoate",46.02,41.46702194213867,val
+1031,octyl acetate,44.41,48.077064514160156,val
+1038,1-propoxypropane,86.12,113.30805969238281,val
+1050,1-(butoxymethoxy)butane,70.0,91.40592956542969,val
+1051,undecane,71.0,65.46764373779297,val
+1053,3-methylbutyl 2-hydroxypropanoate,39.72,14.720788955688477,val
+1054,methyl 3-hydroxyhexanoate,10.09,13.702011108398438,val
+1080,3-methylheptane,45.0,51.389156341552734,val
+1082,"2,6-dimethyloctane",51.7,36.20766830444336,val
+1090,hept-1-ene,32.0,33.47532653808594,val
+1092,oct-1-ene,40.0,40.833740234375,val
+1095,"2,4,4-trimethylpent-1-ene",8.8,13.805453300476074,val
+1097,"deca-1,9-diene",41.0,46.68017578125,val
+1100,cyclopentane,6.1,11.974113464355469,val
+1128,ethanol,8.0,5.362896919250488,val
+1133,butan-2-ol,8.14,9.616117477416992,val
+1138,3-methylbutan-1-ol,12.8,12.235649108886719,val
+1139,2-propan-2-yloxyethanol,27.8,18.776485443115234,val
+1142,heptan-1-ol,29.0,29.953475952148438,val
+1144,heptan-4-ol,20.69,21.517292022705078,val
+1158,2-methyloxolane,21.3,22.421016693115234,val
+1168,2-ethylfuran,10.2,9.295665740966797,val
+1181,5-methylundecane,67.0,76.62335205078125,val
+1194,"(3E)-3,7-dimethylocta-1,3,6-triene",28.0,16.779794692993164,val
+1196,dimethoxymethylbenzene,10.4,15.162532806396484,val
+1202,2-methoxy-4-propylphenol,18.0,14.272405624389648,val
+1205,"3,7-dimethyloct-6-en-1-ol",25.6,15.302760124206543,val
+1209,tetradecan-1-ol,80.8,80.48460388183594,val
+1212,butanal,41.1,19.845069885253906,val
+1231,7-butyloxepan-2-one,40.5,30.960132598876953,val
+1232,5-heptyloxolan-2-one,52.6,39.209434509277344,val
+1234,"2,3-dihydrofuran",20.0,7.219240188598633,val
+1242,ethoxymethoxyethane,57.3,78.25177001953125,val
+1265,methyl dec-9-enoate,38.3,37.57294464111328,val
+1285,1-methoxypropan-2-yl acetate,24.0,13.79567813873291,val
+1290,butyl hexanoate,31.0,38.211700439453125,val
+1303,(Z)-octadec-9-enoic-acid,46.1,43.33816909790039,val
+1312,propyl (Z)-octadec-9-enoate,55.7,66.29168701171875,val
+1317,dibutyl butanedioate,19.4,32.06260299682617,val
+1323,3-methylhexan-2-ol,15.1,16.260229110717773,val
+1324,hexylbenzene,33.3,29.232465744018555,val
+1326,tetradec-1-ene,80.5,65.31167602539062,val
+1337,propylcyclohexane,44.23,40.228816986083984,val
+1356,"3,7,11-trimethyldodecan-3-ol",59.9,45.431514739990234,val
+1359,"3-methoxypropane-1,2-diol",9.9,13.163126945495605,val
+1360,1-methoxy-2-(2-methoxyethoxy)ethane,54.6,73.33121490478516,val
+1363,1-methoxy-2-[2-(2-methoxyethoxy)ethoxy]ethane,120.0,76.10347747802734,val
+1368,methoxy(methoxymethoxy)methane,68.0,66.39353942871094,val
+1370,methoxy(methoxymethoxymethoxymethoxy)methane,84.0,72.44419860839844,val
+1386,2-methyloxolane/heptane 86/14 v/v,25.4,25.37042236328125,val
+1389,"2,5-dimethylfuran/heptane 82/18 v/v",12.0,14.095979690551758,val
+1396,2-methylpropan-2-ol/heptane 76/24 v/v,25.5,17.167110443115234,val
+1398,2-ethylfuran/heptane 75/25 v/v,14.6,14.771223068237305,val
+1410,"2,5-dimethylfuran/heptane 69/31 v/v",16.3,18.206512451171875,val
+1421,iso-octane/diethyl ether 75/25 v/v,44.3,41.99407196044922,val
+1424,decane/iso-octane 65/35 v/v,55.0,54.249176025390625,val
+1439,ethanol/ethyl levulinate 29/71 v/v,6.89,6.705575942993164,val
+1446,heptane/diethyl ether 50/50 v/v,79.4,79.35801696777344,val
+1456,methanol/diethyl ether 20/80 v/v,66.1,72.04650115966797,val
+1463,butan-2-ol/heptane 17/83 v/v,44.1,44.40544891357422,val
+1477,2-methyloxolane/heptane 14/86 v/v,50.4,49.2241325378418,val
+1479,diethyl ether/n-butanol 20/80 v/v,71.9,106.10128784179688,val
+1480,iso-octane/diethyl ether 25/75 v/v,93.4,97.56066131591797,val
+1499,diethyl ether/ethyl levulinate 42/58 v/v,48.07,49.10285949707031,val
+1511,"dodecane/1,3,5-trimethylbenzene 95/5 v/v",70.4895,68.40863037109375,val
+1514,"dodecane/1,3,5-trimethylbenzene 92/8 v/v",68.1059,66.4931640625,val
+1521,"dodecane/1,3,5-trimethylbenzene 84/16 v/v",61.8712,61.59913635253906,val
+1544,"dodecane/1,3,5-trimethylbenzene 60/40 v/v",44.2279,46.11151885986328,val
+1552,"dodecane/1,3,5-trimethylbenzene 51/49 v/v",38.022,39.573020935058594,val
+1558,"dodecane/1,3,5-trimethylbenzene 45/55 v/v",34.0091,35.102848052978516,val
+1565,"dodecane/1,3,5-trimethylbenzene 38/62 v/v",29.453,29.956764221191406,val
+1575,"dodecane/1,3,5-trimethylbenzene 27/73 v/v",22.567,22.52701187133789,val
+1597,"dodecane/1,3,5-trimethylbenzene 5/95 v/v",9.79804,11.981161117553711,val
+1598,"dodecane/1,3,5-trimethylbenzene 4/96 v/v",9.2494,11.646123886108398,val
+1608,cetane/1-hexene 93/7 v/v,95.4377,94.98734283447266,val
+1624,cetane/1-hexene 75/25 v/v,82.6195,81.7361068725586,val
+1625,cetane/1-hexene 74/26 v/v,81.9074,80.96485900878906,val
+1631,cetane/1-hexene 67/33 v/v,76.9225,75.61795043945312,val
+1640,cetane/1-hexene 58/42 v/v,70.5134,69.09716796875,val
+1641,cetane/1-hexene 57/43 v/v,69.8013,68.40370178222656,val
+1642,cetane/1-hexene 56/44 v/v,69.0892,67.7158203125,val
+1646,cetane/1-hexene 52/48 v/v,66.2407,65.010009765625,val
+1650,cetane/1-hexene 48/52 v/v,63.3922,62.346038818359375,val
+1655,cetane/1-hexene 43/57 v/v,59.8316,59.005577087402344,val
+1662,cetane/1-hexene 36/64 v/v,54.8467,54.187889099121094,val
+1666,cetane/1-hexene 32/68 v/v,51.9982,51.32927322387695,val
+1668,cetane/1-hexene 30/70 v/v,50.574,49.8690299987793,val
+1670,cetane/1-hexene 28/72 v/v,49.1497,48.388465881347656,val
+1674,cetane/1-hexene 24/76 v/v,46.3013,45.37034606933594,val
+1675,cetane/1-hexene 23/77 v/v,45.5891,44.60517883300781,val
+1676,cetane/1-hexene 22/78 v/v,44.877,43.83634948730469,val
+1678,cetane/1-hexene 20/80 v/v,43.4528,42.28926086425781,val
+1683,cetane/1-hexene 15/85 v/v,39.8921,38.38938522338867,val
+1795,cetane/cyclopentane 98/2 v/v,97.1627,97.14399719238281,val
+1803,cetane/cyclopentane 89/11 v/v,86.9612,86.75267028808594,val
+1814,cetane/cyclopentane 77/23 v/v,73.9385,72.75608825683594,val
+1817,cetane/cyclopentane 74/26 v/v,70.7863,69.59296417236328,val
+1832,cetane/cyclopentane 58/42 v/v,54.6732,54.18058395385742,val
+1857,cetane/cyclopentane 33/67 v/v,31.8526,28.820777893066406,val
+1859,cetane/cyclopentane 31/69 v/v,30.1511,26.980443954467773,val
+1864,cetane/cyclopentane 26/74 v/v,25.9777,22.748088836669922,val
+1877,cetane/cyclopentane 13/87 v/v,15.6649,14.483837127685547,val
+1881,cetane/cyclopentane 9/91 v/v,12.648,12.681943893432617,val
+1884,cetane/cyclopentane 6/94 v/v,10.4337,11.520387649536133,val
+1894,ethyl levulinate/diethyl ether 95/5 v/v,9.65844,11.201658248901367,val
+1895,ethyl levulinate/diethyl ether 94/6 v/v,10.3641,11.650874137878418,val
+1896,ethyl levulinate/diethyl ether 93/7 v/v,11.0834,12.126368522644043,val
+1904,ethyl levulinate/diethyl ether 84/16 v/v,18.1697,17.818832397460938,val
+1906,ethyl levulinate/diethyl ether 82/18 v/v,19.8942,19.48548126220703,val
+1909,ethyl levulinate/diethyl ether 78/22 v/v,23.5065,23.304611206054688,val
+1915,ethyl levulinate/diethyl ether 72/28 v/v,29.3335,30.180925369262695,val
+1918,ethyl levulinate/diethyl ether 68/32 v/v,33.4905,35.340675354003906,val
+1923,ethyl levulinate/diethyl ether 63/37 v/v,38.9931,42.053951263427734,val
+1932,ethyl levulinate/diethyl ether 53/47 v/v,51.0193,54.962486267089844,val
+1933,ethyl levulinate/diethyl ether 52/48 v/v,52.2968,56.18086242675781,val
+1945,ethyl levulinate/diethyl ether 40/60 v/v,68.6888,70.4783935546875,val
+1949,ethyl levulinate/diethyl ether 36/64 v/v,74.5885,75.68030548095703,val
+1969,ethyl levulinate/diethyl ether 15/85 v/v,109.136,108.8525619506836,val
+1974,ethyl levulinate/diethyl ether 10/90 v/v,118.246,119.26954650878906,val
+1980,ethyl levulinate/diethyl ether 4/96 v/v,129.628,129.5472412109375,val
+1982,ethyl levulinate/diethyl ether 2/98 v/v,133.531,131.4408416748047,val
+1984,diethyl ether/ethanol 99/1 v/v,132.717,129.83241271972656,val
+1991,diethyl ether/ethanol 92/8 v/v,106.115,104.90531921386719,val
+2004,diethyl ether/ethanol 77/23 v/v,62.7624,65.91568756103516,val
+2012,diethyl ether/ethanol 67/33 v/v,42.7599,47.374698638916016,val
+2022,diethyl ether/ethanol 56/44 v/v,27.4804,27.543376922607422,val
+2031,diethyl ether/ethanol 46/54 v/v,18.5281,15.750162124633789,val
+2043,diethyl ether/ethanol 32/68 v/v,11.7753,8.44504165649414,val
+2052,diethyl ether/ethanol 21/79 v/v,9.46507,6.075531482696533,val
+2056,diethyl ether/ethanol 16/84 v/v,8.85359,5.426698684692383,val
+2059,diethyl ether/ethanol 13/87 v/v,8.53606,5.116053581237793,val
+2067,diethyl ether/ethanol 4/96 v/v,7.47456,4.426697731018066,val
+2069,diethyl ether/ethanol 2/98 v/v,7.16094,4.310070037841797,val
+2072,ethyl levulinate/ethanol 98/2 v/v,6.04,9.255390167236328,val
+2073,ethyl levulinate/ethanol 97/3 v/v,6.06,9.10415267944336,val
+2086,ethyl levulinate/ethanol 83/17 v/v,6.34,7.538201332092285,val
+2088,ethyl levulinate/ethanol 81/19 v/v,6.38,7.375962257385254,val
+2107,ethyl levulinate/ethanol 61/39 v/v,6.78,6.223650932312012,val
+2108,ethyl levulinate/ethanol 60/40 v/v,6.8,6.182002067565918,val
+2109,ethyl levulinate/ethanol 59/41 v/v,6.82,6.141450881958008,val
+2110,ethyl levulinate/ethanol 58/42 v/v,6.84,6.101963043212891,val
+2121,ethyl levulinate/ethanol 47/53 v/v,7.06,5.727267265319824,val
+2145,ethyl levulinate/ethanol 22/78 v/v,7.56,5.149902820587158,val
+2152,ethyl levulinate/ethanol 15/85 v/v,7.7,5.031795501708984,val
+2154,ethyl levulinate/ethanol 13/87 v/v,7.74,5.00054931640625,val
+2279,1-hexene/iso-octane 82/18 v/v,27.5595,26.893972396850586,val
+2281,1-hexene/iso-octane 79/21 v/v,27.3471,26.585769653320312,val
+2282,1-hexene/iso-octane 78/22 v/v,27.2742,26.482545852661133,val
+2288,1-hexene/iso-octane 72/28 v/v,26.8148,25.85818099975586,val
+2291,1-hexene/iso-octane 68/32 v/v,26.4875,25.43720245361328,val
+2303,1-hexene/iso-octane 55/45 v/v,25.3081,24.04381561279297,val
+2305,1-hexene/iso-octane 53/47 v/v,25.1109,23.826168060302734,val
+2315,1-hexene/iso-octane 42/58 v/v,23.9515,22.614643096923828,val
+2323,1-hexene/iso-octane 33/67 v/v,22.9085,21.6068172454834,val
+2332,1-hexene/iso-octane 23/77 v/v,21.6501,20.472333908081055,val
+2333,1-hexene/iso-octane 22/78 v/v,21.5185,20.358165740966797,val
+2339,1-hexene/iso-octane 15/85 v/v,20.5678,19.55598258972168,val
+2357,cetane/iso-octane 95/5 v/v,94.1416,91.89089965820312,val
+2358,cetane/iso-octane 94/6 v/v,93.0291,90.92733764648438,val
+2361,cetane/iso-octane 91/9 v/v,89.7304,88.007568359375,val
+2380,cetane/iso-octane 72/28 v/v,70.1995,70.43731689453125,val
+2381,cetane/iso-octane 71/29 v/v,69.2366,69.63227844238281,val
+2383,cetane/iso-octane 69/31 v/v,67.3305,68.06031799316406,val
+2387,cetane/iso-octane 64/36 v/v,62.6792,64.30718994140625,val
+2392,cetane/iso-octane 58/42 v/v,57.3124,59.96876907348633,val
+2393,cetane/iso-octane 57/43 v/v,56.4407,59.24768829345703,val
+2395,cetane/iso-octane 54/46 v/v,53.8648,57.0719108581543,val
+2406,cetane/iso-octane 41/59 v/v,43.3795,47.25415802001953,val
+2407,cetane/iso-octane 40/60 v/v,42.6185,46.47075653076172,val
+2415,cetane/iso-octane 32/68 v/v,36.7651,40.11223602294922,val
+2418,cetane/iso-octane 29/71 v/v,34.6775,37.717445373535156,val
+2421,cetane/iso-octane 26/74 v/v,32.6485,35.3431396484375,val
+2426,cetane/iso-octane 21/79 v/v,29.397,31.48468017578125,val
+2428,cetane/iso-octane 19/81 v/v,28.142,29.99274444580078,val
+2433,cetane/iso-octane 14/86 v/v,25.1185,26.437252044677734,val
+2440,cetane/iso-octane 7/93 v/v,21.159,21.972795486450195,val
+2443,cetane/iso-octane 4/96 v/v,19.5597,20.265108108520508,val
+2446,cetane/iso-octane 1/99 v/v,18.0191,18.684816360473633,val
+2450,cyclohexane/iso-octane 96/4 v/v,19.7982,20.156448364257812,val
+2459,cyclohexane/iso-octane 86/14 v/v,19.5436,19.951980590820312,val
+2461,cyclohexane/iso-octane 84/16 v/v,19.4927,19.91005516052246,val
+2471,cyclohexane/iso-octane 73/27 v/v,19.2126,19.672897338867188,val
+2483,cyclohexane/iso-octane 59/41 v/v,18.8562,19.35383415222168,val
+2484,cyclohexane/iso-octane 58/42 v/v,18.8308,19.33025360107422,val
+2485,cyclohexane/iso-octane 57/43 v/v,18.8053,19.306564331054688,val
+2490,cyclohexane/iso-octane 52/48 v/v,18.678,19.186443328857422,val
+2494,cyclohexane/iso-octane 47/53 v/v,18.5507,19.063446044921875,val
+2514,cyclohexane/iso-octane 25/75 v/v,17.9906,18.485416412353516,val
+2534,cyclohexane/iso-octane 3/97 v/v,17.4306,17.840042114257812,val
+2538,diethyl ether/iso-octane 98/2 v/v,133.278,131.36093139648438,val
+2544,diethyl ether/iso-octane 92/8 v/v,123.656,124.69104766845703,val
+2545,diethyl ether/iso-octane 91/9 v/v,122.086,123.10848999023438,val
+2550,diethyl ether/iso-octane 86/14 v/v,114.381,114.36853790283203,val
+2556,diethyl ether/iso-octane 80/20 v/v,105.454,104.48554992675781,val
+2564,diethyl ether/iso-octane 71/29 v/v,92.7143,92.05801391601562,val
+2575,diethyl ether/iso-octane 60/40 v/v,78.2053,77.4414291381836,val
+2585,diethyl ether/iso-octane 49/51 v/v,64.8641,65.1563720703125,val
+2606,diethyl ether/iso-octane 28/72 v/v,42.6374,44.79500198364258,val
+2611,diethyl ether/iso-octane 22/78 v/v,37.0687,39.057159423828125,val
+2620,diethyl ether/iso-octane 13/87 v/v,29.367,31.057483673095703,val
+2624,diethyl ether/iso-octane 9/91 v/v,26.195,27.888240814208984,val
+2628,diethyl ether/iso-octane 5/95 v/v,23.1774,25.009418487548828,val
+2630,diethyl ether/iso-octane 3/97 v/v,21.7265,23.68321418762207,val
+2632,diethyl ether/iso-octane 1/99 v/v,20.3143,22.43250274658203,val
+2639,methylcyclohexane/iso-octane 93/7 v/v,23.4535,24.83078384399414,val
+2640,methylcyclohexane/iso-octane 92/8 v/v,23.4643,24.767288208007812,val
+2642,methylcyclohexane/iso-octane 90/10 v/v,23.4815,24.64008331298828,val
+2645,methylcyclohexane/iso-octane 87/13 v/v,23.4966,24.44874382019043,val
+2650,methylcyclohexane/iso-octane 82/18 v/v,23.4929,24.128414154052734,val
+2661,methylcyclohexane/iso-octane 70/30 v/v,23.3364,23.35188102722168,val
+2667,methylcyclohexane/iso-octane 64/36 v/v,23.18,22.959304809570312,val
+2682,methylcyclohexane/iso-octane 47/53 v/v,22.4546,21.830280303955078,val
+2683,methylcyclohexane/iso-octane 46/54 v/v,22.3989,21.763065338134766,val
+2685,methylcyclohexane/iso-octane 44/56 v/v,22.2832,21.62835693359375,val
+2692,methylcyclohexane/iso-octane 37/63 v/v,21.8327,21.15393829345703,val
+2694,methylcyclohexane/iso-octane 35/65 v/v,21.6909,21.017532348632812,val
+2702,methylcyclohexane/iso-octane 26/74 v/v,20.9816,20.398927688598633,val
+2719,methylcyclohexane/iso-octane 8/92 v/v,19.2117,19.137531280517578,val
+2735,decane/iso-octane 90/10 v/v,63.3488,62.89241027832031,val
+2758,decane/iso-octane 63/37 v/v,54.8545,53.522308349609375,val
+2766,decane/iso-octane 55/45 v/v,51.5027,50.228912353515625,val
+2781,decane/iso-octane 35/65 v/v,41.4533,40.48108673095703,val
+2804,decane/iso-octane 11/89 v/v,26.2451,26.20406150817871,val
+2828,dodecane/iso-octane 86/14 v/v,69.4005,68.14358520507812,val
+2836,dodecane/iso-octane 77/23 v/v,66.6111,64.16946411132812,val
+2838,dodecane/iso-octane 74/26 v/v,65.553,62.85737609863281,val
+2840,dodecane/iso-octane 71/29 v/v,64.4307,61.538021087646484,val
+2850,dodecane/iso-octane 58/42 v/v,58.826,55.542640686035156,val
+2855,dodecane/iso-octane 53/47 v/v,56.3496,53.0433349609375,val
+2859,dodecane/iso-octane 46/54 v/v,52.5831,49.31156921386719,val
+2860,dodecane/iso-octane 45/55 v/v,52.0166,48.75476837158203,val
+2864,dodecane/iso-octane 40/60 v/v,49.0767,45.87881088256836,val
+2866,dodecane/iso-octane 38/62 v/v,47.8509,44.685447692871094,val
+2870,dodecane/iso-octane 32/68 v/v,44.0023,40.96403121948242,val
+2875,dodecane/iso-octane 27/73 v/v,40.5991,37.71965789794922,val
+2879,dodecane/iso-octane 21/79 v/v,36.28,33.70751190185547,val
+2886,dodecane/iso-octane 12/88 v/v,29.3202,27.650043487548828,val
+2888,dodecane/iso-octane 9/91 v/v,26.8719,25.681156158447266,val
+2890,dodecane/iso-octane 7/93 v/v,25.2041,24.396480560302734,val
+2892,dodecane/iso-octane 4/96 v/v,22.6489,22.522689819335938,val
+2993,dibutyl ether/methanol 92/8 v/v,87.9189,86.10741424560547,val
+2995,dibutyl ether/methanol 89/11 v/v,81.3096,79.49536895751953,val
+2998,dibutyl ether/methanol 86/14 v/v,74.9695,73.46641540527344,val
+3003,dibutyl ether/methanol 80/20 v/v,63.097,63.25245666503906,val
+3010,dibutyl ether/methanol 73/27 v/v,50.6066,52.03771209716797,val
+3022,dibutyl ether/methanol 59/41 v/v,30.023,27.571880340576172,val
+3031,dibutyl ether/methanol 49/51 v/v,18.9098,14.788541793823242,val
+3032,dibutyl ether/methanol 48/52 v/v,17.9629,13.901578903198242,val
+3037,dibutyl ether/methanol 43/57 v/v,13.6776,10.355396270751953,val
+3046,dibutyl ether/methanol 34/66 v/v,7.84836,6.650221824645996,val
+3053,dibutyl ether/methanol 26/74 v/v,4.70081,4.974520683288574,val
+3060,dibutyl ether/methanol 19/81 v/v,3.51707,4.134359359741211,val
+3061,dibutyl ether/methanol 18/82 v/v,3.46761,4.04426908493042,val
+3064,dibutyl ether/methanol 15/85 v/v,3.4987,3.807173252105713,val
+3069,dibutyl ether/methanol 10/90 v/v,4.14876,3.500264883041382,val
+3072,dibutyl ether/methanol 7/93 v/v,4.89773,3.356351613998413,val
+3078,dibutyl ether/methanol 1/99 v/v,7.20328,3.13338303565979,val
+3080,diethyl ether/methanol 98/2 v/v,125.661,127.02267456054688,val
+3082,diethyl ether/methanol 96/4 v/v,119.226,120.2441635131836,val
+3083,diethyl ether/methanol 95/5 v/v,116.072,116.39032745361328,val
+3092,diethyl ether/methanol 85/15 v/v,86.8352,84.7582778930664,val
+3097,diethyl ether/methanol 79/21 v/v,71.3078,69.75474548339844,val
+3103,diethyl ether/methanol 73/27 v/v,57.2916,57.31825256347656,val
+3109,diethyl ether/methanol 67/33 v/v,44.7863,44.208229064941406,val
+3127,diethyl ether/methanol 48/52 v/v,15.155,11.554443359375,val
+3134,diethyl ether/methanol 41/59 v/v,8.05782,7.577486515045166,val
+3139,diethyl ether/methanol 35/65 v/v,3.61145,5.7618913650512695,val
+3147,diethyl ether/methanol 27/73 v/v,0.0334636,4.4432053565979,val
+3151,diethyl ether/methanol 23/77 v/v,-0.748173,4.03965950012207,val
+3152,diethyl ether/methanol 22/78 v/v,-0.838648,3.9560418128967285,val
+3155,diethyl ether/methanol 19/81 v/v,-0.858236,3.7377495765686035,val
+3168,diethyl ether/methanol 6/94 v/v,3.4221,3.1573336124420166,val
+3172,diethyl ether/methanol 2/98 v/v,6.16622,3.050417423248291,val
+3173,diethyl ether/methanol 1/99 v/v,6.95719,3.0270071029663086,val
+3176,dibutyl ether/n-butanol 97/3 v/v,96.9569,96.84228515625,val
+3179,dibutyl ether/n-butanol 93/7 v/v,89.7707,88.37062072753906,val
+3182,dibutyl ether/n-butanol 89/11 v/v,82.9054,80.3460922241211,val
+3191,dibutyl ether/n-butanol 80/20 v/v,68.6317,66.13050842285156,val
+3203,dibutyl ether/n-butanol 68/32 v/v,52.1272,51.759307861328125,val
+3204,dibutyl ether/n-butanol 67/33 v/v,50.8822,50.595176696777344,val
+3214,dibutyl ether/n-butanol 56/44 v/v,38.5109,38.025657653808594,val
+3218,dibutyl ether/n-butanol 52/48 v/v,34.6139,33.756690979003906,val
+3220,dibutyl ether/n-butanol 50/50 v/v,32.7857,31.734176635742188,val
+3221,dibutyl ether/n-butanol 49/51 v/v,31.9017,30.75558853149414,val
+3222,dibutyl ether/n-butanol 48/52 v/v,31.0378,29.80021858215332,val
+3225,dibutyl ether/n-butanol 45/55 v/v,28.5663,27.081645965576172,val
+3246,dibutyl ether/n-butanol 23/77 v/v,15.9576,13.900409698486328,val
+3249,dibutyl ether/n-butanol 19/81 v/v,14.708,12.525962829589844,val
+3254,dibutyl ether/n-butanol 14/86 v/v,13.5973,11.100299835205078,val
+3256,dibutyl ether/n-butanol 12/88 v/v,13.2935,10.607091903686523,val
+3262,dibutyl ether/n-butanol 6/94 v/v,12.8632,9.34426212310791,val
+3361,"2,5-dimethylfuran/heptane 99/1 v/v",10.9222,10.459126472473145,val
+3362,"2,5-dimethylfuran/heptane 98/2 v/v",10.9732,10.640966415405273,val
+3375,"2,5-dimethylfuran/heptane 83/17 v/v",12.665,13.94050121307373,val
+3376,"2,5-dimethylfuran/heptane 81/19 v/v",13.0219,14.470427513122559,val
+3382,"2,5-dimethylfuran/heptane 75/25 v/v",14.2781,16.201980590820312,val
+3386,"2,5-dimethylfuran/heptane 71/29 v/v",15.27,17.479534149169922,val
+3391,"2,5-dimethylfuran/heptane 65/35 v/v",16.9895,19.58763313293457,val
+3399,"2,5-dimethylfuran/heptane 57/43 v/v",19.7149,22.75958251953125,val
+3405,"2,5-dimethylfuran/heptane 51/49 v/v",22.0834,25.40024185180664,val
+3421,"2,5-dimethylfuran/heptane 34/66 v/v",30.3043,33.896522521972656,val
+3454,"2,5-dimethylhexa-2,4-diene/heptane 98/2 v/v",19.6009,13.466144561767578,val
+3457,"2,5-dimethylhexa-2,4-diene/heptane 95/5 v/v",19.9477,14.344951629638672,val
+3458,"2,5-dimethylhexa-2,4-diene/heptane 94/6 v/v",20.0734,14.648633003234863,val
+3461,"2,5-dimethylhexa-2,4-diene/heptane 91/9 v/v",20.4808,15.591691017150879,val
+3472,"2,5-dimethylhexa-2,4-diene/heptane 79/21 v/v",22.5652,19.8233699798584,val
+3482,"2,5-dimethylhexa-2,4-diene/heptane 69/31 v/v",24.8578,23.835796356201172,val
+3483,"2,5-dimethylhexa-2,4-diene/heptane 68/32 v/v",25.1148,24.256376266479492,val
+3495,"2,5-dimethylhexa-2,4-diene/heptane 55/45 v/v",28.9162,29.934282302856445,val
+3513,"2,5-dimethylhexa-2,4-diene/heptane 35/65 v/v",36.4315,38.86907958984375,val
+3514,"2,5-dimethylhexa-2,4-diene/heptane 34/66 v/v",36.8604,39.30695343017578,val
+3523,"2,5-dimethylhexa-2,4-diene/heptane 25/75 v/v",40.947,43.17107009887695,val
+3533,"2,5-dimethylhexa-2,4-diene/heptane 14/86 v/v",46.4975,47.67243194580078,val
+3540,"2,5-dimethylhexa-2,4-diene/heptane 7/93 v/v",50.3478,50.40003967285156,val
+3556,2-butylfuran/heptane 90/10 v/v,15.5733,15.598749160766602,val
+3560,2-butylfuran/heptane 86/14 v/v,16.765,16.70973014831543,val
+3569,2-butylfuran/heptane 77/23 v/v,19.6276,19.488414764404297,val
+3570,2-butylfuran/heptane 75/25 v/v,20.2978,20.158348083496094,val
+3586,2-butylfuran/heptane 59/41 v/v,26.1055,26.16220474243164,val
+3589,2-butylfuran/heptane 56/44 v/v,27.2827,27.4024658203125,val
+3593,2-butylfuran/heptane 51/49 v/v,29.3066,29.53554916381836,val
+3599,2-butylfuran/heptane 45/55 v/v,31.8376,32.1871337890625,val
+3604,2-butylfuran/heptane 40/60 v/v,34.0318,34.456512451171875,val
+3605,2-butylfuran/heptane 39/61 v/v,34.48,34.91551971435547,val
+3607,2-butylfuran/heptane 37/63 v/v,35.3856,35.837799072265625,val
+3618,2-butylfuran/heptane 25/75 v/v,41.0793,41.44780349731445,val
+3648,2-butyloxolane/heptane 93/7 v/v,45.9512,43.933616638183594,val
+3650,2-butyloxolane/heptane 91/9 v/v,46.1767,44.20488739013672,val
+3660,2-butyloxolane/heptane 81/19 v/v,47.2779,45.509918212890625,val
+3669,2-butyloxolane/heptane 71/29 v/v,48.3354,46.73554992675781,val
+3673,2-butyloxolane/heptane 67/33 v/v,48.7461,47.20529556274414,val
+3674,2-butyloxolane/heptane 66/34 v/v,48.8477,47.32099151611328,val
+3685,2-butyloxolane/heptane 55/45 v/v,49.9364,48.550079345703125,val
+3703,2-butyloxolane/heptane 37/63 v/v,51.6038,50.4049072265625,val
+3709,2-butyloxolane/heptane 31/69 v/v,52.1281,50.98476791381836,val
+3715,2-butyloxolane/heptane 25/75 v/v,52.6367,51.547271728515625,val
+3717,2-butyloxolane/heptane 23/77 v/v,52.8027,51.73109817504883,val
+3726,2-butyloxolane/heptane 13/87 v/v,53.6066,52.62441635131836,val
+3746,2-ethylfuran/heptane 90/10 v/v,11.4785,11.09246826171875,val
+3761,2-ethylfuran/heptane 74/26 v/v,15.5887,15.05252456665039,val
+3770,2-ethylfuran/heptane 65/35 v/v,18.5863,18.009376525878906,val
+3782,2-ethylfuran/heptane 52/48 v/v,23.7878,23.33112144470215,val
+3785,2-ethylfuran/heptane 49/51 v/v,25.1345,24.73578643798828,val
+3797,2-ethylfuran/heptane 37/63 v/v,31.0695,30.943998336791992,val
+3810,2-ethylfuran/heptane 23/77 v/v,39.1029,39.07524871826172,val
+3811,2-ethylfuran/heptane 22/78 v/v,39.7224,39.6790771484375,val
+3813,2-ethylfuran/heptane 20/80 v/v,40.9798,40.892581939697266,val
+3822,2-ethylfuran/heptane 10/90 v/v,47.6322,47.03497314453125,val
+3824,2-ethylfuran/heptane 8/92 v/v,49.0358,48.27142333984375,val
+3830,2-ethylfuran/heptane 2/98 v/v,53.3929,51.98994445800781,val
+3842,2-ethyloxolane/heptane 89/11 v/v,30.9722,31.658578872680664,val
+3856,2-ethyloxolane/heptane 74/26 v/v,35.4019,35.61650848388672,val
+3857,2-ethyloxolane/heptane 73/27 v/v,35.694,35.87947082519531,val
+3859,2-ethyloxolane/heptane 71/29 v/v,36.2768,36.404693603515625,val
+3871,2-ethyloxolane/heptane 59/41 v/v,39.7393,39.52948760986328,val
+3879,2-ethyloxolane/heptane 50/50 v/v,42.2973,41.83422088623047,val
+3882,2-ethyloxolane/heptane 47/53 v/v,43.1425,42.59376525878906,val
+3885,2-ethyloxolane/heptane 44/56 v/v,43.9841,43.348716735839844,val
+3889,2-ethyloxolane/heptane 40/60 v/v,45.1005,44.347991943359375,val
+3891,2-ethyloxolane/heptane 38/62 v/v,45.6562,44.84445571899414,val
+3893,2-ethyloxolane/heptane 36/64 v/v,46.2103,45.338783264160156,val
+3900,2-ethyloxolane/heptane 28/72 v/v,48.4101,47.29484558105469,val
+3903,2-ethyloxolane/heptane 25/75 v/v,49.2282,48.019737243652344,val
+3909,2-ethyloxolane/heptane 19/81 v/v,50.8534,49.45599365234375,val
+3918,2-ethyloxolane/heptane 9/91 v/v,53.5293,51.81322479248047,val
+3923,2-ethyloxolane/heptane 2/98 v/v,55.3779,53.44108581542969,val
+3927,2-methylfuran/heptane 97/3 v/v,9.25372,8.141655921936035,val
+3937,2-methylfuran/heptane 86/14 v/v,10.5827,9.997812271118164,val
+3940,2-methylfuran/heptane 82/18 v/v,11.306,10.829877853393555,val
+3950,2-methylfuran/heptane 71/29 v/v,13.9553,13.65520191192627,val
+3951,2-methylfuran/heptane 70/30 v/v,14.2441,13.95596981048584,val
+3954,2-methylfuran/heptane 67/33 v/v,15.1587,14.906597137451172,val
+3957,2-methylfuran/heptane 63/37 v/v,16.4901,16.291690826416016,val
+3960,2-methylfuran/heptane 60/40 v/v,17.5727,17.422719955444336,val
+3962,2-methylfuran/heptane 58/42 v/v,18.3344,18.222023010253906,val
+3968,2-methylfuran/heptane 52/48 v/v,20.8117,20.842071533203125,val
+3969,2-methylfuran/heptane 51/49 v/v,21.2525,21.311321258544922,val
+3976,2-methylfuran/heptane 44/56 v/v,24.5628,24.851600646972656,val
+3980,2-methylfuran/heptane 40/60 v/v,26.6303,27.0656795501709,val
+3983,2-methylfuran/heptane 36/64 v/v,28.8259,29.404943466186523,val
+3984,2-methylfuran/heptane 35/65 v/v,29.3948,30.007600784301758,val
+3988,2-methylfuran/heptane 31/69 v/v,31.7505,32.48165512084961,val
+3991,2-methylfuran/heptane 28/72 v/v,33.6012,34.39577102661133,val
+3995,2-methylfuran/heptane 24/76 v/v,36.1809,37.010833740234375,val
+4003,2-methylfuran/heptane 15/85 v/v,42.4533,43.06788635253906,val
+4013,2-methylfuran/heptane 4/96 v/v,50.9997,50.595741271972656,val
+4020,2-methyloxolane/heptane 96/4 v/v,21.8407,22.426591873168945,val
+4024,2-methyloxolane/heptane 92/8 v/v,23.2532,23.578826904296875,val
+4043,2-methyloxolane/heptane 71/29 v/v,30.6685,30.12185287475586,val
+4054,2-methyloxolane/heptane 60/40 v/v,34.5528,33.77941131591797,val
+4062,2-methyloxolane/heptane 52/48 v/v,37.3777,36.48920822143555,val
+4075,2-methyloxolane/heptane 38/62 v/v,42.3212,41.26182174682617,val
+4094,2-methyloxolane/heptane 18/82 v/v,49.3835,48.01487731933594,val
+4095,2-methyloxolane/heptane 17/83 v/v,49.7366,48.34865951538086,val
+4099,2-methyloxolane/heptane 12/88 v/v,51.5021,50.0118408203125,val
+4101,2-methyloxolane/heptane 9/91 v/v,52.5615,51.00552749633789,val
+4120,2-methylpropan-2-ol/heptane 86/14 v/v,17.6217,14.128724098205566,val
+4121,2-methylpropan-2-ol/heptane 85/15 v/v,18.2604,14.40329360961914,val
+4123,2-methylpropan-2-ol/heptane 82/18 v/v,20.1451,15.26245403289795,val
+4125,2-methylpropan-2-ol/heptane 80/20 v/v,21.3755,15.865347862243652,val
+4126,2-methylpropan-2-ol/heptane 79/21 v/v,21.9829,16.175975799560547,val
+4131,2-methylpropan-2-ol/heptane 73/27 v/v,25.5182,18.17051124572754,val
+4142,2-methylpropan-2-ol/heptane 62/38 v/v,31.5134,22.410890579223633,val
+4144,2-methylpropan-2-ol/heptane 60/40 v/v,32.5358,23.26028060913086,val
+4172,2-methylpropan-2-ol/heptane 30/70 v/v,45.3757,38.0649299621582,val
+4174,2-methylpropan-2-ol/heptane 28/72 v/v,46.0653,39.12882614135742,val
+4183,2-methylpropan-2-ol/heptane 19/81 v/v,48.9109,43.929786682128906,val
+4184,2-methylpropan-2-ol/heptane 17/83 v/v,49.486,44.99457550048828,val
+4185,2-methylpropan-2-ol/heptane 16/84 v/v,49.7658,45.52618408203125,val
+4188,2-methylpropan-2-ol/heptane 13/87 v/v,50.5739,47.117210388183594,val
+4198,2-methylpropan-2-ol/heptane 2/98 v/v,53.1365,52.897247314453125,val
+4201,butan-2-ol/heptane 98/2 v/v,8.65562,11.156023025512695,val
+4202,butan-2-ol/heptane 97/3 v/v,8.95902,11.35766887664795,val
+4214,butan-2-ol/heptane 85/15 v/v,12.8593,14.172699928283691,val
+4217,butan-2-ol/heptane 82/18 v/v,13.9092,15.000411987304688,val
+4219,butan-2-ol/heptane 80/20 v/v,14.6257,15.581863403320312,val
+4233,butan-2-ol/heptane 65/35 v/v,20.4242,20.736488342285156,val
+4245,butan-2-ol/heptane 52/48 v/v,26.055,26.325773239135742,val
+4248,butan-2-ol/heptane 49/51 v/v,27.4343,27.74680519104004,val
+4270,butan-2-ol/heptane 26/74 v/v,39.0034,39.68475341796875,val
+4273,butan-2-ol/heptane 23/77 v/v,40.6421,41.314056396484375,val
+4288,butan-2-ol/heptane 7/93 v/v,49.8878,50.0129280090332,val
+4296,butyl pentanoate/heptane 97/3 v/v,24.4884,22.847562789916992,val
+4299,butyl pentanoate/heptane 94/6 v/v,25.4035,23.939157485961914,val
+4310,butyl pentanoate/heptane 82/18 v/v,29.0639,28.344694137573242,val
+4311,butyl pentanoate/heptane 81/19 v/v,29.3689,28.710670471191406,val
+4315,butyl pentanoate/heptane 77/23 v/v,30.5891,30.167011260986328,val
+4318,butyl pentanoate/heptane 74/26 v/v,31.5041,31.24890899658203,val
+4322,butyl pentanoate/heptane 70/30 v/v,32.7243,32.673728942871094,val
+4323,butyl pentanoate/heptane 69/31 v/v,33.0293,33.02633285522461,val
+4338,butyl pentanoate/heptane 53/47 v/v,37.9098,38.42857360839844,val
+4350,butyl pentanoate/heptane 40/60 v/v,41.8753,42.443973541259766,val
+4364,butyl pentanoate/heptane 26/74 v/v,46.1457,46.38810348510742,val
+4365,butyl pentanoate/heptane 25/75 v/v,46.4507,46.65545654296875,val
+4370,butyl pentanoate/heptane 19/81 v/v,48.2809,48.221656799316406,val
+4372,butyl pentanoate/heptane 17/83 v/v,48.891,48.729705810546875,val
+4374,butyl pentanoate/heptane 15/85 v/v,49.5011,49.23101043701172,val
+4381,butyl pentanoate/heptane 8/92 v/v,51.6363,50.93511962890625,val
+4383,butyl pentanoate/heptane 6/94 v/v,52.2464,51.40840148925781,val
+4385,butyl pentanoate/heptane 4/96 v/v,52.8564,51.87604522705078,val
+4396,cetane/heptane 91/9 v/v,99.3807,99.39448547363281,val
+4397,cetane/heptane 89/11 v/v,98.8874,98.81999206542969,val
+4409,cetane/heptane 75/25 v/v,94.7948,94.46653747558594,val
+4419,cetane/heptane 65/35 v/v,91.1859,90.84646606445312,val
+4427,cetane/heptane 57/43 v/v,87.8873,87.53893280029297,val
+4428,cetane/heptane 56/44 v/v,87.4493,87.09716796875,val
+4447,cetane/heptane 37/63 v/v,78.0412,77.536376953125,val
+4450,cetane/heptane 34/66 v/v,76.3671,75.85638427734375,val
+4453,cetane/heptane 31/69 v/v,74.6417,74.14611053466797,val
+4455,cetane/heptane 29/71 v/v,73.4628,72.9925765991211,val
+4482,cetane/heptane 2/98 v/v,55.3111,56.539886474609375,val
+4605,cyclohexane/heptane 71/29 v/v,25.5448,26.155914306640625,val
+4610,cyclohexane/heptane 66/34 v/v,26.824,27.693958282470703,val
+4613,cyclohexane/heptane 63/37 v/v,27.6416,28.647945404052734,val
+4615,cyclohexane/heptane 61/39 v/v,28.2076,29.296279907226562,val
+4621,cyclohexane/heptane 55/45 v/v,30.0057,31.296648025512695,val
+4624,cyclohexane/heptane 50/50 v/v,31.6191,33.021018981933594,val
+4632,cyclohexane/heptane 42/58 v/v,34.4176,35.869834899902344,val
+4633,cyclohexane/heptane 41/59 v/v,34.7862,36.232418060302734,val
+4636,cyclohexane/heptane 38/62 v/v,35.9172,37.327308654785156,val
+4640,cyclohexane/heptane 34/66 v/v,37.4835,38.8013916015625,val
+4644,cyclohexane/heptane 29/71 v/v,39.5355,40.661216735839844,val
+4645,cyclohexane/heptane 28/72 v/v,39.9584,41.03487014770508,val
+4657,cyclohexane/heptane 16/84 v/v,45.3592,45.536529541015625,val
+4661,cyclohexane/heptane 11/89 v/v,47.7871,47.410099029541016,val
+4664,cyclohexane/heptane 8/92 v/v,49.294,48.530731201171875,val
+4682,cyclooctane/heptane 89/11 v/v,24.673,23.545833587646484,val
+4687,cyclooctane/heptane 84/16 v/v,25.7881,24.648468017578125,val
+4692,cyclooctane/heptane 78/22 v/v,27.2089,26.061044692993164,val
+4694,cyclooctane/heptane 76/24 v/v,27.7025,26.554113388061523,val
+4701,cyclooctane/heptane 69/31 v/v,29.5091,28.369094848632812,val
+4717,cyclooctane/heptane 52/48 v/v,34.4075,33.360137939453125,val
+4733,cyclooctane/heptane 35/65 v/v,40.0297,39.13574981689453,val
+4737,cyclooctane/heptane 31/69 v/v,41.4578,40.59541702270508,val
+4743,cyclooctane/heptane 25/75 v/v,43.675,42.84706115722656,val
+4754,cyclooctane/heptane 13/87 v/v,48.38,47.54387664794922,val
+4770,cyclopentane/heptane 96/4 v/v,8.09788,9.747447967529297,val
+4778,cyclopentane/heptane 88/12 v/v,10.8433,11.513374328613281,val
+4779,cyclopentane/heptane 87/13 v/v,11.1998,11.761140823364258,val
+4786,cyclopentane/heptane 80/20 v/v,13.7781,13.679786682128906,val
+4793,cyclopentane/heptane 73/27 v/v,16.5014,15.9427490234375,val
+4799,cyclopentane/heptane 66/34 v/v,19.3696,18.569612503051758,val
+4814,cyclopentane/heptane 50/50 v/v,26.47,25.893444061279297,val
+4821,cyclopentane/heptane 43/57 v/v,29.8146,29.57255744934082,val
+4832,cyclopentane/heptane 32/68 v/v,35.3633,35.68932342529297,val
+4837,cyclopentane/heptane 25/75 v/v,39.0806,39.661231994628906,val
+4849,cyclopentane/heptane 12/88 v/v,46.3689,46.91961669921875,val
+4853,cyclopentane/heptane 8/92 v/v,48.7121,49.08623123168945,val
+4855,cyclopentane/heptane 6/94 v/v,49.9014,50.15538024902344,val
+4871,diethyl ether/heptane 89/11 v/v,123.325,123.83152770996094,val
+4883,diethyl ether/heptane 77/23 v/v,107.715,107.24667358398438,val
+4903,diethyl ether/heptane 56/44 v/v,85.0558,85.033447265625,val
+4908,diethyl ether/heptane 51/49 v/v,80.5346,80.17472076416016,val
+4910,diethyl ether/heptane 48/52 v/v,77.9832,77.44498443603516,val
+4923,diethyl ether/heptane 35/65 v/v,68.3256,67.66142272949219,val
+4934,diethyl ether/heptane 23/77 v/v,61.4275,61.014678955078125,val
+4950,diethyl ether/heptane 7/93 v/v,55.2416,53.88318634033203,val
+4951,diethyl ether/heptane 6/94 v/v,54.9692,53.47896194458008,val
+4954,diethyl ether/heptane 3/97 v/v,54.2329,52.291221618652344,val
+4970,ethanol/heptane 86/14 v/v,8.33207,7.2172698974609375,val
+4978,ethanol/heptane 78/22 v/v,9.94823,8.67562484741211,val
+4983,ethanol/heptane 72/28 v/v,11.5263,10.079864501953125,val
+4988,ethanol/heptane 67/33 v/v,13.0811,11.49927806854248,val
+4989,ethanol/heptane 65/35 v/v,13.764,12.138946533203125,val
+4993,ethanol/heptane 61/39 v/v,15.2343,13.553656578063965,val
+4997,ethanol/heptane 57/43 v/v,16.8441,15.162378311157227,val
+5014,ethanol/heptane 38/62 v/v,26.3945,25.702449798583984,val
+5020,ethanol/heptane 32/68 v/v,30.064,29.945287704467773,val
+5024,ethanol/heptane 27/73 v/v,33.3616,33.70870590209961,val
+5026,ethanol/heptane 24/76 v/v,35.4447,36.03403854370117,val
+5029,ethanol/heptane 21/79 v/v,37.6062,38.391212463378906,val
+5034,ethanol/heptane 16/84 v/v,41.383,42.35436248779297,val
+5038,ethanol/heptane 11/89 v/v,45.3777,46.31916809082031,val
+5041,ethanol/heptane 8/92 v/v,47.879,48.685791015625,val
+5051,ethyl pentanoate/heptane 96/4 v/v,20.0163,18.095584869384766,val
+5056,ethyl pentanoate/heptane 91/9 v/v,21.7908,19.874107360839844,val
+5060,ethyl pentanoate/heptane 87/13 v/v,23.2104,21.353511810302734,val
+5065,ethyl pentanoate/heptane 82/18 v/v,24.985,23.259910583496094,val
+5068,ethyl pentanoate/heptane 78/22 v/v,26.4046,24.819927215576172,val
+5072,ethyl pentanoate/heptane 74/26 v/v,27.8242,26.401145935058594,val
+5074,ethyl pentanoate/heptane 72/28 v/v,28.5341,27.196895599365234,val
+5082,ethyl pentanoate/heptane 64/36 v/v,31.3733,30.389419555664062,val
+5086,ethyl pentanoate/heptane 59/41 v/v,33.1478,32.37296676635742,val
+5088,ethyl pentanoate/heptane 57/43 v/v,33.8577,33.160152435302734,val
+5089,ethyl pentanoate/heptane 56/44 v/v,34.2126,33.55204772949219,val
+5092,ethyl pentanoate/heptane 53/47 v/v,35.2773,34.71998596191406,val
+5096,ethyl pentanoate/heptane 49/51 v/v,36.6969,36.25654602050781,val
+5103,ethyl pentanoate/heptane 42/58 v/v,39.1813,38.87867736816406,val
+5104,ethyl pentanoate/heptane 41/59 v/v,39.5362,39.24565124511719,val
+5106,ethyl pentanoate/heptane 38/62 v/v,40.6009,40.334449768066406,val
+5135,ethyl pentanoate/heptane 8/92 v/v,51.2481,50.18809509277344,val
+5139,ethyl pentanoate/heptane 4/96 v/v,52.6678,51.36851501464844,val
+5150,ethylcyclohexane/heptane 92/8 v/v,36.5871,34.8023681640625,val
+5167,ethylcyclohexane/heptane 75/25 v/v,38.6107,37.53899383544922,val
+5169,ethylcyclohexane/heptane 73/27 v/v,38.8822,37.87559509277344,val
+5184,ethylcyclohexane/heptane 58/42 v/v,41.1429,40.495033264160156,val
+5196,ethylcyclohexane/heptane 46/54 v/v,43.2366,42.706321716308594,val
+5198,ethylcyclohexane/heptane 44/56 v/v,43.6102,43.08439636230469,val
+5201,ethylcyclohexane/heptane 41/59 v/v,44.1838,43.65643310546875,val
+5216,ethylcyclohexane/heptane 25/75 v/v,47.5105,46.80354309082031,val
+5229,ethylcyclohexane/heptane 11/89 v/v,50.791,49.68303680419922,val
+5233,ethylcyclohexane/heptane 6/94 v/v,52.0463,50.73877716064453,val
+5239,furan/heptane 99/1 v/v,5.841,7.311866760253906,val
+5249,furan/heptane 88/12 v/v,8.92793,9.13631820678711,val
+5253,furan/heptane 83/17 v/v,10.5231,10.190031051635742,val
+5258,furan/heptane 77/23 v/v,12.5957,11.678277969360352,val
+5260,furan/heptane 75/25 v/v,13.3249,12.234264373779297,val
+5263,furan/heptane 72/28 v/v,14.4548,13.12875747680664,val
+5268,furan/heptane 67/33 v/v,16.434,14.790451049804688,val
+5269,furan/heptane 65/35 v/v,17.2593,15.517860412597656,val
+5275,furan/heptane 59/41 v/v,19.8502,17.9246826171875,val
+5279,furan/heptane 55/45 v/v,21.6736,19.719755172729492,val
+5283,furan/heptane 51/49 v/v,23.5737,21.66608428955078,val
+5285,furan/heptane 48/52 v/v,25.0492,23.221765518188477,val
+5288,furan/heptane 45/55 v/v,26.5679,24.855247497558594,val
+5289,furan/heptane 44/56 v/v,27.0837,25.416118621826172,val
+5292,furan/heptane 41/59 v/v,28.66,27.1445255279541,val
+5300,furan/heptane 32/68 v/v,33.6481,32.674560546875,val
+5302,furan/heptane 30/70 v/v,34.8094,33.95729064941406,val
+5310,furan/heptane 22/78 v/v,39.6465,39.20066833496094,val
+5311,furan/heptane 21/79 v/v,40.2727,39.86367416381836,val
+5327,furan/heptane 3/97 v/v,52.3657,51.74535369873047,val
+5334,iso-butanol/heptane 95/5 v/v,9.17631,11.77348518371582,val
+5343,iso-butanol/heptane 86/14 v/v,11.2888,13.907047271728516,val
+5346,iso-butanol/heptane 83/17 v/v,12.0941,14.717496871948242,val
+5357,iso-butanol/heptane 71/29 v/v,15.8212,18.503658294677734,val
+5358,iso-butanol/heptane 70/30 v/v,16.1684,18.85995101928711,val
+5372,iso-butanol/heptane 55/45 v/v,22.0498,24.951318740844727,val
+5375,iso-butanol/heptane 52/48 v/v,23.3778,26.326812744140625,val
+5382,iso-butanol/heptane 45/55 v/v,26.6733,29.706974029541016,val
+5407,iso-butanol/heptane 19/81 v/v,41.3248,43.492698669433594,val
+5408,iso-butanol/heptane 18/82 v/v,41.9642,44.03738784790039,val
+5409,iso-butanol/heptane 16/84 v/v,43.2598,45.126502990722656,val
+5415,iso-butanol/heptane 10/90 v/v,47.2817,48.38727951049805,val
+5420,iso-butanol/heptane 4/96 v/v,51.5059,51.634490966796875,val
+5431,iso-octane/heptane 89/11 v/v,23.5107,23.217435836791992,val
+5432,iso-octane/heptane 88/12 v/v,24.0058,23.641334533691406,val
+5433,iso-octane/heptane 87/13 v/v,24.4972,24.066150665283203,val
+5439,iso-octane/heptane 79/21 v/v,28.2989,27.475536346435547,val
+5440,iso-octane/heptane 78/22 v/v,28.7579,27.90045928955078,val
+5441,iso-octane/heptane 77/23 v/v,29.2132,28.324575424194336,val
+5447,iso-octane/heptane 69/31 v/v,32.7259,31.671979904174805,val
+5456,iso-octane/heptane 59/41 v/v,36.7917,35.68166732788086,val
+5457,iso-octane/heptane 58/42 v/v,37.1784,36.069244384765625,val
+5476,iso-octane/heptane 37/63 v/v,44.4649,43.56719970703125,val
+5480,iso-octane/heptane 33/67 v/v,45.6722,44.85529327392578,val
+5483,iso-octane/heptane 29/71 v/v,46.8217,46.10045623779297,val
+5486,iso-octane/heptane 26/74 v/v,47.6459,47.00703430175781,val
+5489,iso-octane/heptane 22/78 v/v,48.6942,48.180755615234375,val
+5492,iso-octane/heptane 18/82 v/v,49.6848,49.31605529785156,val
+5502,iso-octane/heptane 7/93 v/v,52.1107,52.25616455078125,val
+5503,iso-octane/heptane 6/94 v/v,52.3096,52.51127624511719,val
+5514,iso-propylbenzene/heptane 94/6 v/v,13.7564,13.441046714782715,val
+5530,iso-propylbenzene/heptane 77/23 v/v,21.3151,19.968002319335938,val
+5541,iso-propylbenzene/heptane 66/34 v/v,26.2061,24.85107421875,val
+5547,iso-propylbenzene/heptane 59/41 v/v,29.3185,28.081100463867188,val
+5553,iso-propylbenzene/heptane 53/47 v/v,31.9862,30.86073875427246,val
+5556,iso-propylbenzene/heptane 49/51 v/v,33.7648,32.69875717163086,val
+5560,iso-propylbenzene/heptane 45/55 v/v,35.5433,34.51322937011719,val
+5565,iso-propylbenzene/heptane 39/61 v/v,38.2111,37.173553466796875,val
+5570,iso-propylbenzene/heptane 34/66 v/v,40.4342,39.32126998901367,val
+5577,iso-propylbenzene/heptane 27/73 v/v,43.5466,42.20632553100586,val
+5588,iso-propylbenzene/heptane 15/85 v/v,48.8822,46.79583740234375,val
+5604,methyl pentanoate/heptane 98/2 v/v,14.4659,15.324604034423828,val
+5607,methyl pentanoate/heptane 95/5 v/v,15.8258,16.305130004882812,val
+5621,methyl pentanoate/heptane 81/19 v/v,22.0404,21.390243530273438,val
+5627,methyl pentanoate/heptane 74/26 v/v,25.0666,24.179168701171875,val
+5631,methyl pentanoate/heptane 70/30 v/v,26.7715,25.82066535949707,val
+5646,methyl pentanoate/heptane 54/46 v/v,33.4145,32.51743698120117,val
+5647,methyl pentanoate/heptane 53/47 v/v,33.8203,32.9347038269043,val
+5651,methyl pentanoate/heptane 49/51 v/v,35.4325,34.59406280517578,val
+5653,methyl pentanoate/heptane 47/53 v/v,36.2319,35.4166145324707,val
+5656,methyl pentanoate/heptane 44/56 v/v,37.4228,36.63967514038086,val
+5660,methyl pentanoate/heptane 40/60 v/v,38.9952,38.24748611450195,val
+5662,methyl pentanoate/heptane 38/62 v/v,39.7748,39.040557861328125,val
+5663,methyl pentanoate/heptane 36/64 v/v,40.5499,39.8259162902832,val
+5679,methyl pentanoate/heptane 20/80 v/v,46.592,45.80729675292969,val
+5683,methyl pentanoate/heptane 15/85 v/v,48.4222,47.56356430053711,val
+5689,methyl pentanoate/heptane 9/91 v/v,50.582,49.60301971435547,val
+5699,methylcyclohexane/heptane 98/2 v/v,24.2142,23.546390533447266,val
+5700,methylcyclohexane/heptane 97/3 v/v,24.4207,23.756595611572266,val
+5707,methylcyclohexane/heptane 90/10 v/v,25.922,25.28535270690918,val
+5717,methylcyclohexane/heptane 80/20 v/v,28.2357,27.64276123046875,val
+5722,methylcyclohexane/heptane 73/27 v/v,29.9736,29.41152572631836,val
+5731,methylcyclohexane/heptane 64/36 v/v,32.3513,31.821258544921875,val
+5732,methylcyclohexane/heptane 63/37 v/v,32.6254,32.09790802001953,val
+5754,methylcyclohexane/heptane 38/62 v/v,40.1251,39.49517059326172,val
+5763,methylcyclohexane/heptane 27/73 v/v,43.8188,42.96657943725586,val
+5773,methylcyclohexane/heptane 15/85 v/v,48.1227,46.83369445800781,val
+5774,methylcyclohexane/heptane 14/86 v/v,48.4943,47.158302307128906,val
+5776,methylcyclohexane/heptane 12/88 v/v,49.2435,47.80828094482422,val
+5785,methylcyclohexane/heptane 3/97 v/v,52.7131,50.742698669433594,val
+5805,n-butanol/heptane 82/18 v/v,15.8913,14.920225143432617,val
+5807,n-butanol/heptane 80/20 v/v,16.4332,15.445535659790039,val
+5811,n-butanol/heptane 76/24 v/v,17.5742,16.562732696533203,val
+5815,n-butanol/heptane 71/29 v/v,19.1075,18.089311599731445,val
+5819,n-butanol/heptane 67/33 v/v,20.4197,19.418621063232422,val
+5821,n-butanol/heptane 65/35 v/v,21.1044,20.120058059692383,val
+5825,n-butanol/heptane 61/39 v/v,22.5308,21.59710693359375,val
+5830,n-butanol/heptane 55/45 v/v,24.8131,23.99696922302246,val
+5834,n-butanol/heptane 51/49 v/v,26.4298,25.716264724731445,val
+5841,n-butanol/heptane 44/56 v/v,29.4421,28.93865966796875,val
+5852,n-butanol/heptane 32/68 v/v,35.1484,34.991939544677734,val
+5854,n-butanol/heptane 30/70 v/v,36.166,36.05182647705078,val
+5860,n-butanol/heptane 24/76 v/v,39.3331,39.29514694213867,val
+5861,n-butanol/heptane 23/77 v/v,39.8776,39.843528747558594,val
+5862,n-butanol/heptane 22/78 v/v,40.4268,40.393798828125,val
+5873,n-butanol/heptane 10/90 v/v,47.3889,47.10685729980469,val
+5874,n-butanol/heptane 9/91 v/v,48.0,47.67304229736328,val
+5876,n-butanol/heptane 7/93 v/v,49.2364,48.80786895751953,val
+5879,n-butanol/heptane 3/97 v/v,51.7664,51.08776092529297,val
+5880,n-butanol/heptane 2/98 v/v,52.4108,51.66015625,val
+5881,n-butanol/heptane 1/99 v/v,53.06,52.23372268676758,val
+5882,n-butylcyclohexane/heptane 99/1 v/v,47.763,45.47370529174805,val
+5908,n-butylcyclohexane/heptane 72/28 v/v,48.5898,47.05247497558594,val
+5924,n-butylcyclohexane/heptane 55/45 v/v,49.4062,48.09202575683594,val
+5925,n-butylcyclohexane/heptane 54/46 v/v,49.4613,48.15427780151367,val
+5931,n-butylcyclohexane/heptane 48/52 v/v,49.8087,48.53041076660156,val
+5943,n-butylcyclohexane/heptane 35/65 v/v,50.6591,49.36071014404297,val
+5951,n-butylcyclohexane/heptane 27/73 v/v,51.2489,49.882205963134766,val
+5959,n-butylcyclohexane/heptane 18/82 v/v,51.9728,50.47858428955078,val
+5962,n-butylcyclohexane/heptane 15/85 v/v,52.2284,50.6796875,val
+5964,n-butylcyclohexane/heptane 13/87 v/v,52.4027,50.81439971923828,val
+5966,n-butylcyclohexane/heptane 11/89 v/v,52.5802,50.949623107910156,val
+5976,n-butylcyclohexane/heptane 1/99 v/v,53.5151,51.63359069824219,val
+5991,n-propylbenzene/heptane 85/15 v/v,17.0621,16.4067325592041,val
+5992,n-propylbenzene/heptane 84/16 v/v,17.3769,16.768096923828125,val
+6003,n-propylbenzene/heptane 72/28 v/v,21.3893,21.465316772460938,val
+6004,n-propylbenzene/heptane 71/29 v/v,21.7433,21.882492065429688,val
+6009,n-propylbenzene/heptane 66/34 v/v,23.5586,24.012847900390625,val
+6013,n-propylbenzene/heptane 62/38 v/v,25.0652,25.759584426879883,val
+6016,n-propylbenzene/heptane 58/42 v/v,26.6201,27.531190872192383,val
+6022,n-propylbenzene/heptane 52/48 v/v,29.043,30.209712982177734,val
+6061,n-propylbenzene/heptane 10/90 v/v,49.0473,47.39244079589844,val
+6062,n-propylbenzene/heptane 9/91 v/v,49.5885,47.74357604980469,val
+6065,n-propylbenzene/heptane 6/94 v/v,51.2302,48.77931213378906,val
+6066,n-propylbenzene/heptane 5/95 v/v,51.7835,49.118736267089844,val
+6070,n-propylbenzene/heptane 1/99 v/v,54.0269,50.447967529296875,val
+6082,oxane/heptane 88/12 v/v,39.5312,39.442710876464844,val
+6096,oxane/heptane 74/26 v/v,41.2718,41.58538055419922,val
+6099,oxane/heptane 71/29 v/v,41.6709,42.038604736328125,val
+6112,oxane/heptane 58/42 v/v,43.5068,43.97848129272461,val
+6126,oxane/heptane 44/56 v/v,45.6774,46.025691986083984,val
+6135,oxane/heptane 35/65 v/v,47.1787,47.32093048095703,val
+6143,oxane/heptane 26/74 v/v,48.763,48.60186767578125,val
+6145,oxane/heptane 24/76 v/v,49.1263,48.88478088378906,val
+6154,oxane/heptane 14/86 v/v,51.0043,50.2911262512207,val
+6157,oxane/heptane 11/89 v/v,51.5877,50.710697174072266,val
+6172,pentyl pentanoate/heptane 94/6 v/v,29.1095,26.325706481933594,val
+6173,pentyl pentanoate/heptane 93/7 v/v,29.3732,26.692150115966797,val
+6177,pentyl pentanoate/heptane 89/11 v/v,30.4278,28.15102195739746,val
+6180,pentyl pentanoate/heptane 86/14 v/v,31.2188,29.23514175415039,val
+6188,pentyl pentanoate/heptane 77/23 v/v,33.5916,32.41162872314453,val
+6190,pentyl pentanoate/heptane 75/25 v/v,34.1189,33.09861755371094,val
+6202,pentyl pentanoate/heptane 62/38 v/v,37.5464,37.36346435546875,val
+6203,pentyl pentanoate/heptane 61/39 v/v,37.8101,37.67627716064453,val
+6215,pentyl pentanoate/heptane 49/51 v/v,40.9739,41.25640869140625,val
+6217,pentyl pentanoate/heptane 46/54 v/v,41.7648,42.10212326049805,val
+6218,pentyl pentanoate/heptane 45/55 v/v,42.0285,42.379764556884766,val
+6219,pentyl pentanoate/heptane 44/56 v/v,42.2922,42.655296325683594,val
+6221,pentyl pentanoate/heptane 42/58 v/v,42.8195,43.200096130371094,val
+6222,pentyl pentanoate/heptane 41/59 v/v,43.0831,43.46940612792969,val
+6223,pentyl pentanoate/heptane 40/60 v/v,43.3468,43.73666000366211,val
+6228,pentyl pentanoate/heptane 35/65 v/v,44.665,45.04288864135742,val
+6248,pentyl pentanoate/heptane 14/86 v/v,50.2017,50.026554107666016,val
+6251,pentyl pentanoate/heptane 11/89 v/v,50.9927,50.67902755737305,val
+6252,pentyl pentanoate/heptane 10/90 v/v,51.2563,50.8935661315918,val
+6258,pentyl pentanoate/heptane 4/96 v/v,52.8382,52.151611328125,val
+6358,toluene/heptane 97/3 v/v,7.13683,9.464818954467773,val
+6382,toluene/heptane 73/27 v/v,19.3685,18.96444320678711,val
+6398,toluene/heptane 53/47 v/v,29.2521,29.119792938232422,val
+6404,toluene/heptane 46/54 v/v,32.645,32.67500305175781,val
+6414,toluene/heptane 33/67 v/v,38.8545,38.881004333496094,val
+6425,toluene/heptane 22/78 v/v,44.0159,43.59208297729492,val
+6426,toluene/heptane 21/79 v/v,44.4809,43.99409484863281,val
+6446,toluene/heptane 1/99 v/v,53.6331,51.169620513916016,val
+6451,trans-decahydronaphthalene/heptane 95/5 v/v,34.5466,35.190101623535156,val
+6455,trans-decahydronaphthalene/heptane 91/9 v/v,35.6752,36.052268981933594,val
+6465,trans-decahydronaphthalene/heptane 80/20 v/v,38.6275,38.40708923339844,val
+6480,trans-decahydronaphthalene/heptane 65/35 v/v,42.2952,41.558284759521484,val
+6487,trans-decahydronaphthalene/heptane 57/43 v/v,44.0823,43.201656341552734,val
+6489,trans-decahydronaphthalene/heptane 55/45 v/v,44.5107,43.60792541503906,val
+6491,trans-decahydronaphthalene/heptane 53/47 v/v,44.9318,44.01228332519531,val
+6492,trans-decahydronaphthalene/heptane 52/48 v/v,45.1395,44.21373748779297,val
+6505,trans-decahydronaphthalene/heptane 38/62 v/v,47.8555,46.98162841796875,val
+6511,trans-decahydronaphthalene/heptane 32/68 v/v,48.9092,48.13713073730469,val
+6521,trans-decahydronaphthalene/heptane 21/79 v/v,50.6694,50.20742416381836,val
+6526,trans-decahydronaphthalene/heptane 16/84 v/v,51.396,51.1283073425293,val
+6530,trans-decahydronaphthalene/heptane 12/88 v/v,51.9442,51.85628128051758,val
+6531,trans-decahydronaphthalene/heptane 11/89 v/v,52.0766,52.037086486816406,val
+6535,trans-decahydronaphthalene/heptane 7/93 v/v,52.5881,52.75572967529297,val
+6537,trans-decahydronaphthalene/heptane 5/95 v/v,52.8328,53.11236572265625,val
+6538,trans-decahydronaphthalene/heptane 4/96 v/v,52.9524,53.2900390625,val
+6561,dodecane/n-propylbenzene 79/21 v/v,61.6233,61.215965270996094,val
+6567,dodecane/n-propylbenzene 73/27 v/v,57.8454,58.147056579589844,val
+6584,dodecane/n-propylbenzene 54/46 v/v,46.0002,47.18116760253906,val
+6593,dodecane/n-propylbenzene 44/56 v/v,39.8379,40.479339599609375,val
+6609,dodecane/n-propylbenzene 27/73 v/v,29.4761,28.328723907470703,val
+6616,dodecane/n-propylbenzene 20/80 v/v,25.2512,23.573883056640625,val
+6618,dodecane/n-propylbenzene 18/82 v/v,24.0486,22.291927337646484,val
+6633,dodecane/n-propylbenzene 3/97 v/v,15.0922,14.192819595336914,val
+6634,dodecane/n-propylbenzene 2/98 v/v,14.4991,13.757137298583984,val
+6643,cetane/toluene 91/9 v/v,93.2719,91.67412567138672,val
+6645,cetane/toluene 88/12 v/v,90.4759,89.045654296875,val
+6646,cetane/toluene 87/13 v/v,89.5439,88.14729309082031,val
+6649,cetane/toluene 84/16 v/v,86.7478,85.39454650878906,val
+6650,cetane/toluene 83/17 v/v,85.8158,84.46107482910156,val
+6661,cetane/toluene 70/30 v/v,73.6996,72.30126190185547,val
+6662,cetane/toluene 69/31 v/v,72.7676,71.4073486328125,val
+6665,cetane/toluene 65/35 v/v,69.0395,67.92486572265625,val
+6669,cetane/toluene 61/39 v/v,65.3114,64.55999755859375,val
+6678,cetane/toluene 51/49 v/v,55.9913,56.08482360839844,val
+6682,cetane/toluene 46/54 v/v,51.3312,51.516807556152344,val
+6683,cetane/toluene 45/55 v/v,50.3992,50.56663513183594,val
+6689,cetane/toluene 38/62 v/v,43.8751,43.572792053222656,val
+6692,cetane/toluene 34/66 v/v,40.147,39.35132598876953,val
+6701,cetane/toluene 21/79 v/v,28.0308,25.733474731445312,val
+6707,cetane/toluene 14/86 v/v,21.5067,19.506916046142578,val
+6708,cetane/toluene 13/87 v/v,20.5747,18.72024917602539,val
+6710,cetane/toluene 11/89 v/v,18.7106,17.229509353637695,val
+6712,cetane/toluene 9/91 v/v,16.8466,15.849346160888672,val
+6720,cetane/toluene 1/99 v/v,9.39045,11.383859634399414,val
+6728,decane/toluene 92/8 v/v,62.9062,61.071563720703125,val
+6729,decane/toluene 91/9 v/v,62.4548,60.675148010253906,val
+6732,decane/toluene 87/13 v/v,60.6121,59.05634307861328,val
+6740,decane/toluene 79/21 v/v,56.7484,55.6146125793457,val
+6742,decane/toluene 77/23 v/v,55.7453,54.702186584472656,val
+6743,decane/toluene 76/24 v/v,55.2382,54.2371711730957,val
+6751,decane/toluene 67/33 v/v,50.5071,49.75952911376953,val
+6758,decane/toluene 60/40 v/v,46.6193,45.872222900390625,val
+6765,decane/toluene 52/48 v/v,41.9532,40.964271545410156,val
+6766,decane/toluene 51/49 v/v,41.3533,40.316749572753906,val
+6769,decane/toluene 47/53 v/v,38.9162,37.658058166503906,val
+6776,decane/toluene 40/60 v/v,34.5084,32.79092025756836,val
+6790,decane/toluene 25/75 v/v,24.4502,22.224929809570312,val
+6791,decane/toluene 24/76 v/v,23.7499,21.557476043701172,val
+6806,decane/toluene 9/91 v/v,12.8003,12.922607421875,val
+6814,decane/toluene 1/99 v/v,6.61868,9.607438087463379,val
+6819,dodecane/toluene 95/5 v/v,71.5635,71.11851501464844,val
+6831,dodecane/toluene 83/17 v/v,65.0285,64.54450225830078,val
+6848,dodecane/toluene 65/35 v/v,54.1106,54.342655181884766,val
+6853,dodecane/toluene 60/40 v/v,50.8403,51.14942932128906,val
+6862,dodecane/toluene 51/49 v/v,44.6935,44.85012435913086,val
+6868,dodecane/toluene 44/56 v/v,39.6814,39.471900939941406,val
+6872,dodecane/toluene 40/60 v/v,36.7264,36.2542839050293,val
+6874,dodecane/toluene 38/62 v/v,35.2241,34.62156677246094,val
+6880,dodecane/toluene 32/68 v/v,30.6181,29.70846939086914,val
+6888,dodecane/toluene 23/77 v/v,23.4303,22.675922393798828,val
+6890,dodecane/toluene 21/79 v/v,21.7876,21.229259490966797,val

@@ -5,106 +5,149 @@ This folder contains the production-ready checkpoints, dataset caches, evaluatio
 ## Directory Structure
 
 ```
-model_testing/
-├── checkpoints_opt/        # Final stage checkpoints of the optimized attention-based model
-│   ├── seed0_s1_vae.pt     # Stage 1: Pre-trained VAE
-│   ├── seed0_s2_model.pt   # Stage 2: Mixture predictor
-│   └── seed0_s3_model.pt   # Stage 3: Fine-tuned joint model (PyTorch checkpoint)
-├── checkpoints/            # Baseline model checkpoints (for comparison)
-├── data/                   # Preprocessed dataset and tokenizer vocabulary
-│   ├── cn_mixtures_selfies.pkl
-│   └── vocab.json
-├── vae/                    # Component implementation and utility scripts
-│   ├── train_vae_optimized.py    # Training logic with self-attention slot-encoder
-│   ├── evaluate_and_export.py    # Evaluates performance and exports to ONNX
-│   ├── mixture_cn_predictor.py   # Baseline linear mixture predictor definition
-│   ├── selfies_vae.py            # Core VAE module definition
-│   └── selfies_rf_benchmark.py   # Random Forest fingerprint baseline
-├── selfies_tokenizer.py    # Tokenizer implementation
-├── selfies_vae_optimized.onnx    # Unified exported ONNX model (weights embedded)
-├── selfies_vae_predictions.csv   # Predictions log on validation split
-├── inverse_design.py       # Gradient-based inverse design: CN target → novel fuel mixture
-└── inference.py            # Standalone, two-file execution inference engine
+SELFIES/
+├── data/                         # ← Single source of truth for data
+│   ├── preprocess_selfies.py     # Run this to rebuild the dataset cache
+│   ├── cn_mixtures_selfies.pkl   # Tokenised dataset cache
+│   └── vocab.json                # Tokenizer vocabulary
+├── vae/                          # ← Single source of truth for all model code
+│   ├── train_vae_optimized.py    # Training script (Stage 1/2/3)
+│   ├── selfies_vae.py            # VAE model definition
+│   ├── mixture_cn_predictor.py   # Baseline predictor
+│   ├── selfies_rf_benchmark.py   # Random Forest baseline
+│   ├── train_vae.py              # Baseline training script
+│   ├── inverse_design.py         # (legacy) latent-space inverse design
+│   └── evaluate_and_export.py    # (legacy) evaluation script
+├── selfies_tokenizer.py          # Tokenizer implementation
+├── inchi_to_selfies.py           # InChI → SELFIES conversion utility
+└── model_testing/                # ← Production artifacts only
+    ├── checkpoints_opt/          # Trained model weights
+    │   ├── seed0_s1_vae.pt       # Stage 1: Pre-trained VAE
+    │   ├── seed0_s2_model.pt     # Stage 2: Mixture predictor
+    │   └── seed0_s3_model.pt     # Stage 3: Fine-tuned joint model ← used for inference
+    ├── checkpoints/              # Legacy baseline checkpoints
+    ├── vae/
+    │   └── evaluate_and_export.py  # Evaluate model + export to ONNX
+    ├── selfies_vae_optimized.onnx  # Exported ONNX model
+    ├── selfies_vae_predictions.csv # Validation predictions
+    ├── inverse_design.py           # Inverse design: CN target → novel mixture
+    └── inference.py                # Standalone inference engine
 ```
 
 ---
 
-## Standalone Inference (`inference.py`)
-
-The [`inference.py`](inference.py) script is designed for production deployment. It embeds the tokenizer vocabulary, structural chemistry descriptor extractors, and model class architectures internally. 
-
-To run inferences, you only need **two files**:
-1. The inference engine script: `inference.py`
-2. The model file: either the PyTorch checkpoint `checkpoints_opt/seed0_s3_model.pt` or the ONNX model `selfies_vae_optimized.onnx`.
-
-> [!NOTE]
-> The exported `selfies_vae_optimized.onnx` file has its weights directly embedded (compiled with `external_data=False`). No separate `.data` files are required.
-
-### Requirements & Setup
-Please refer to the root [`README.md`](../../README.md) for unified environment creation (`intensors` conda environment) and library installation.
+## Quick Start: Run Inference
 
 > [!IMPORTANT]
-> For single mixture predictions, the `--selfies`, `--vols`, and `--inchis` parameters are now **mandatory arguments** and must all be provided with matching component counts (up to 10 components).
+> Make sure you are inside the `intensors` conda environment before running anything.
+> See the root [`README.md`](../../README.md) for setup instructions.
 
+All scripts print progress in real-time. **No environment variables needed.**
 
-### Usage Examples
+### 1. Single Mixture Prediction (PyTorch checkpoint)
 
-#### 1. Single Mixture Prediction (PyTorch Backend)
+Run from the `turingtrain/` root directory:
+
 ```bash
-python inference.py \
-    --model checkpoints_opt/seed0_s3_model.pt \
+python SELFIES/model_testing/inference.py \
+    --model SELFIES/model_testing/checkpoints_opt/seed0_s3_model.pt \
     --selfies "[C][C]" "[C][O]" \
     --vols 0.5 0.5 \
     --inchis "InChI=1S/C2H6/c1-2/h1-2H3" "InChI=1S/CH4O/c1-2/h2H,1H3"
 ```
 
-#### 2. Single Mixture Prediction (ONNX Runtime Backend)
+### 2. Single Mixture Prediction (ONNX — faster, no PyTorch required)
+
 ```bash
-python inference.py \
-    --model selfies_vae_optimized.onnx \
+python SELFIES/model_testing/inference.py \
+    --model SELFIES/model_testing/selfies_vae_optimized.onnx \
     --selfies "[C][C]" "[C][O]" \
     --vols 0.5 0.5 \
     --inchis "InChI=1S/C2H6/c1-2/h1-2H3" "InChI=1S/CH4O/c1-2/h2H,1H3"
 ```
 
-#### 3. Batch Inference on Database CSV
-If you have a CSV file formatted with columns matching the dataset (e.g. `cpnt_selfies_1`, `cpnt_vol_1`, `cpnt_inchi_1` up to 10 components):
+> [!NOTE]
+> The `selfies_vae_optimized.onnx` file has model weights directly embedded — no separate `.data` file needed.
+
+### 3. Batch Inference from CSV
+
 ```bash
-python inference.py \
-    --model selfies_vae_optimized.onnx \
-    --csv data/cn_mixtures_selfies.csv \
+python SELFIES/model_testing/inference.py \
+    --model SELFIES/model_testing/selfies_vae_optimized.onnx \
+    --csv SELFIES/model_testing/data/cn_mixtures_selfies.pkl \
     --out predictions_out.csv
 ```
 
 ---
 
+## Retraining
+
+Follow these steps **in order**. Do not skip steps.
+
+### Step 1 — Preprocess the dataset
+
+Run this whenever the raw `.dat` file changes:
+
+```bash
+python SELFIES/data/preprocess_selfies.py
+```
+
+This rebuilds `SELFIES/data/cn_mixtures_selfies.pkl` and `vocab.json`.
+
+### Step 2 — Train the model
+
+This takes several hours on CPU. Progress is printed in real-time.
+
+```bash
+python SELFIES/vae/train_vae_optimized.py --no-ensemble
+```
+
+Checkpoints are saved to `SELFIES/checkpoints_opt/` automatically.
+
+### Step 3 — Evaluate and export to ONNX
+
+```bash
+python SELFIES/model_testing/vae/evaluate_and_export.py
+```
+
+This produces:
+- `SELFIES/model_testing/selfies_vae_predictions.csv` — validation predictions
+- `SELFIES/model_testing/selfies_vae_optimized.onnx` — exportable model
+
+> [!NOTE]
+> No manual file copying is ever needed. All scripts read from `SELFIES/checkpoints_opt/` and `SELFIES/data/` directly.
+
+---
+
 ## Inverse Design (`inverse_design.py`)
 
-The [`inverse_design.py`](inverse_design.py) script performs **gradient-based inverse design** in the VAE latent space: given a target cetane number, it discovers novel fuel mixture compositions that the trained model predicts will achieve it.
+Given a target cetane number, finds novel fuel mixture compositions the model predicts will achieve it.
 
-### Strategy
-1. **Warm-start**: Encode known dataset mixtures into a latent bank; select nearest-CN mixtures as initial seeds.
-2. **Gradient optimisation**: Jointly relax per-component latent vectors *z_i* and volume fractions (via softmax) to minimise `(pred_CN − target_CN)²` with diversity and entropy regularisation.
-3. **Decode**: Optimised *z_i* → SELFIES → SMILES (validated with RDKit if available).
-4. **Report**: Write ranked candidate mixtures to a CSV file.
+### How it works
+1. **Warm-start**: Encode ~2000 dataset mixtures into a latent bank; select nearest-CN as seeds.
+2. **Gradient optimisation**: Jointly relax per-component latent vectors *z_i* and volume fractions to minimise `(pred_CN − target_CN)²` with diversity + entropy regularisation.
+3. **Decode**: Optimised *z_i* → SELFIES → SMILES (RDKit validated).
+4. **Report**: Write ranked candidates to a CSV file.
 
-### Usage Examples
+### Usage
+
+Run from the `turingtrain/` root directory:
 
 ```bash
 # Single target
-python model_testing/inverse_design.py \
+python SELFIES/model_testing/inverse_design.py \
     --target-cn 90 \
     --n-candidates 10 \
     --opt-steps 500
 
-# Multiple targets
-python model_testing/inverse_design.py \
+# Multiple targets at once
+python SELFIES/model_testing/inverse_design.py \
     --target-cn 60 80 100 \
     --n-candidates 5 \
     --output inverse_results.csv
 
-# Faster search (fewer components and steps)
-python model_testing/inverse_design.py \
+# Fast search (fewer components, fewer steps)
+python SELFIES/model_testing/inverse_design.py \
     --target-cn 85 \
     --n-comp 3 \
     --n-candidates 8 \
@@ -114,17 +157,17 @@ python model_testing/inverse_design.py \
 
 | Argument | Default | Description |
 |---|---|---|
-| `--target-cn` | *required* | Target cetane number(s), space-separated |
+| `--target-cn` | **required** | Target cetane number(s), space-separated |
 | `--n-candidates` | 10 | Candidate mixtures per target |
 | `--n-comp` | 10 | Max components per mixture |
 | `--opt-steps` | 500 | Gradient optimisation steps per candidate |
-| `--n-restarts` | 5 | Random restarts per candidate (best kept) |
+| `--n-restarts` | 5 | Random restarts per candidate (best is kept) |
 | `--lr` | 0.01 | Adam learning rate for latent optimisation |
-| `--noise-std` | 0.5 | Gaussian noise std on warm-start latents |
+| `--noise-std` | 0.5 | Gaussian noise on warm-start latents |
 | `--output` | auto | Output CSV path |
 | `--ckpt-dir` | `checkpoints_opt/` | Checkpoint directory |
 
-Results are saved to `inverse_design_results/inverse_cn<target>.csv`.
+Results are saved to `SELFIES/model_testing/inverse_design_results/inverse_cn<target>.csv`.
 
 ---
 
@@ -133,12 +176,12 @@ Results are saved to `inverse_design_results/inverse_cn<target>.csv`.
 You can also use the inference engine in your own Python code:
 
 ```python
-from inference import CNInferenceModel
+from SELFIES.model_testing.inference import CNInferenceModel
 
-# Load model (PyTorch or ONNX)
-model = CNInferenceModel("selfies_vae_optimized.onnx")
+# Load model (PyTorch or ONNX — both work)
+model = CNInferenceModel("SELFIES/model_testing/selfies_vae_optimized.onnx")
 
-# Define candidate mixture
+# Define a mixture
 mixture = {
     "components": [
         {"selfies": "[C][C]", "vol": 0.5, "inchi": "InChI=1S/C2H6/c1-2/h1-2H3"},
@@ -146,7 +189,7 @@ mixture = {
     ]
 }
 
-# Run prediction
+# Predict
 predicted_cn = model.predict([mixture])[0]
 print(f"Predicted Cetane Number: {predicted_cn:.4f}")
 ```

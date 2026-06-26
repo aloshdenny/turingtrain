@@ -34,6 +34,7 @@ Usage (CLI):
 import os
 import re
 import sys
+sys.stdout.reconfigure(line_buffering=True)  # real-time output — no PYTHONUNBUFFERED=1 needed
 import math
 import argparse
 from pathlib import Path

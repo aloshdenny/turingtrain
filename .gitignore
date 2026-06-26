@@ -1,5 +1,62 @@
-**.pyc
-**.data
-SELFIES/ignore_model_test_composition_dcn_ambiguity_mixture_no_expt_dcn/
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
 
-SELFIES/ignore_model_test_abraham_et_al_chem_2025_ambiguity_mixture_no_expt_dcn/
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Build & distribution
+build/
+dist/
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+
+# Python tooling
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.pyre/
+.tox/
+.nox/
+.coverage
+.coverage.*
+htmlcov/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDEs & editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Environment variables
+.env
+.env.*
+*.local
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+
+# Project-specific data (optional)
+*.data

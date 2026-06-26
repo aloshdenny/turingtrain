@@ -46,6 +46,7 @@ import math
 import pickle
 import re
 import sys
+sys.stdout.reconfigure(line_buffering=True)  # real-time progress — no PYTHONUNBUFFERED=1 needed
 import time
 from pathlib import Path
 

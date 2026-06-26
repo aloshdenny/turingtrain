@@ -23,6 +23,7 @@ from __future__ import annotations
 
 import pickle
 import sys
+sys.stdout.reconfigure(line_buffering=True)  # real-time output — no PYTHONUNBUFFERED=1 needed
 from pathlib import Path
 
 import pandas as pd

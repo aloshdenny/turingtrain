@@ -59,21 +59,17 @@ Predict Cetane Number using a Transformer-based VAE + Attention Mixture model fo
 
 ## Retraining
 
-To retrain the SELFIES VAE model from scratch on updated data:
+To retrain the SELFIES VAE model from scratch on updated data, follow these steps **in order**:
 
 ```bash
-# 1. Preprocess dataset → rebuild tokenizer cache
+# Step 1 — Rebuild the tokenizer cache from the raw dataset
 python SELFIES/data/preprocess_selfies.py
 
-# 2. Train (single run on CPU for stability)
+# Step 2 — Train (takes several hours on CPU; progress is printed in real-time)
 python SELFIES/vae/train_vae_optimized.py --no-ensemble
 
-# 3. Evaluate and export to ONNX
+# Step 3 — Evaluate and export to ONNX
 python SELFIES/model_testing/vae/evaluate_and_export.py
-
-# 4. Copy new checkpoints into model_testing/
-cp SELFIES/checkpoints_opt/*.pt SELFIES/model_testing/checkpoints_opt/
 ```
 
-> [!TIP]
-> Use `PYTHONUNBUFFERED=1 python ...` or `python -u ...` to get real-time progress output during long-running training or inference tasks.
+No manual file copying is ever needed. All scripts read checkpoints from `SELFIES/checkpoints_opt/` and data from `SELFIES/data/` directly.

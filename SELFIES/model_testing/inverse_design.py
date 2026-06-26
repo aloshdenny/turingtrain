@@ -54,11 +54,11 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-# ── Paths ─────────────────────────────────────────────────────────────────────
-_HERE      = Path(__file__).resolve().parent          # model_testing/
-_VAE_DIR   = _HERE / "vae"
-sys.path.insert(0, str(_HERE))
-sys.path.insert(0, str(_VAE_DIR))
+# ── Paths: import from canonical SELFIES/ source (no local copies needed) ────
+_HERE     = Path(__file__).resolve().parent          # model_testing/
+_SELFIES  = _HERE.parent                             # SELFIES/
+sys.path.insert(0, str(_SELFIES))                   # for selfies_tokenizer
+sys.path.insert(0, str(_SELFIES / "vae"))           # for selfies_vae, train_vae_optimized, etc.
 
 from selfies_tokenizer import SELFIESTokenizer        # noqa: E402
 
@@ -93,8 +93,8 @@ except ImportError:
 # ─────────────────────────────────────────────────────────────────────────────
 # Default paths
 # ─────────────────────────────────────────────────────────────────────────────
-CKPT_OPT   = _HERE / "checkpoints_opt"
-DATA_CACHE = _HERE / "data" / "cn_mixtures_selfies.pkl"
+CKPT_OPT   = _SELFIES / "checkpoints_opt"             # same dir training writes to — no copy needed
+DATA_CACHE = _SELFIES / "data" / "cn_mixtures_selfies.pkl"   # single source of truth
 OUT_DIR    = _HERE / "inverse_design_results"
 
 
