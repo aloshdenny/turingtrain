@@ -19,11 +19,11 @@ model_testing/
 │   ├── evaluate_and_export.py    # Evaluates performance and exports to ONNX
 │   ├── mixture_cn_predictor.py   # Baseline linear mixture predictor definition
 │   ├── selfies_vae.py            # Core VAE module definition
-│   ├── inverse_design.py         # Latent space Bayesian Optimization for fuel design
 │   └── selfies_rf_benchmark.py   # Random Forest fingerprint baseline
 ├── selfies_tokenizer.py    # Tokenizer implementation
 ├── selfies_vae_optimized.onnx    # Unified exported ONNX model (weights embedded)
 ├── selfies_vae_predictions.csv   # Predictions log on validation split
+├── inverse_design.py       # Gradient-based inverse design: CN target → novel fuel mixture
 └── inference.py            # Standalone, two-file execution inference engine
 ```
 
@@ -75,6 +75,56 @@ python inference.py \
     --csv data/cn_mixtures_selfies.csv \
     --out predictions_out.csv
 ```
+
+---
+
+## Inverse Design (`inverse_design.py`)
+
+The [`inverse_design.py`](inverse_design.py) script performs **gradient-based inverse design** in the VAE latent space: given a target cetane number, it discovers novel fuel mixture compositions that the trained model predicts will achieve it.
+
+### Strategy
+1. **Warm-start**: Encode known dataset mixtures into a latent bank; select nearest-CN mixtures as initial seeds.
+2. **Gradient optimisation**: Jointly relax per-component latent vectors *z_i* and volume fractions (via softmax) to minimise `(pred_CN − target_CN)²` with diversity and entropy regularisation.
+3. **Decode**: Optimised *z_i* → SELFIES → SMILES (validated with RDKit if available).
+4. **Report**: Write ranked candidate mixtures to a CSV file.
+
+### Usage Examples
+
+```bash
+# Single target
+python model_testing/inverse_design.py \
+    --target-cn 90 \
+    --n-candidates 10 \
+    --opt-steps 500
+
+# Multiple targets
+python model_testing/inverse_design.py \
+    --target-cn 60 80 100 \
+    --n-candidates 5 \
+    --output inverse_results.csv
+
+# Faster search (fewer components and steps)
+python model_testing/inverse_design.py \
+    --target-cn 85 \
+    --n-comp 3 \
+    --n-candidates 8 \
+    --opt-steps 300 \
+    --lr 5e-3
+```
+
+| Argument | Default | Description |
+|---|---|---|
+| `--target-cn` | *required* | Target cetane number(s), space-separated |
+| `--n-candidates` | 10 | Candidate mixtures per target |
+| `--n-comp` | 10 | Max components per mixture |
+| `--opt-steps` | 500 | Gradient optimisation steps per candidate |
+| `--n-restarts` | 5 | Random restarts per candidate (best kept) |
+| `--lr` | 0.01 | Adam learning rate for latent optimisation |
+| `--noise-std` | 0.5 | Gaussian noise std on warm-start latents |
+| `--output` | auto | Output CSV path |
+| `--ckpt-dir` | `checkpoints_opt/` | Checkpoint directory |
+
+Results are saved to `inverse_design_results/inverse_cn<target>.csv`.
 
 ---
 

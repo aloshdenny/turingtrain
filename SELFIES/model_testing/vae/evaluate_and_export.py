@@ -6,11 +6,14 @@ mixture models to ONNX format.
 """
 import os
 import sys
+# Always show progress in real-time — no need for PYTHONUNBUFFERED=1
+sys.stdout.reconfigure(line_buffering=True)
 import pickle
 import torch
 import numpy as np
 import pandas as pd
 from pathlib import Path
+from torch.utils.data import DataLoader
 
 # Project paths
 _HERE = Path(__file__).resolve().parent
@@ -67,11 +70,34 @@ def main():
     df_all["split"] = split_col
     
     device = torch.device("cpu")  # use cpu for stable ONNX export
-    
-    # Paths to checkpoints
+
+    # ── Auto-detect newest trained checkpoint ─────────────────────────────────
+    # Checks both the training output dir (SELFIES/checkpoints_opt/) and the
+    # local copy (model_testing/checkpoints_opt/). Always picks the newer one.
+    # This means you do NOT need to manually 'cp' after retraining.
+    def _find_best_checkpoint_dir(*candidates: Path) -> Path:
+        """Return the directory containing the most recently modified Stage-3 checkpoint."""
+        best, best_mtime = candidates[0], 0
+        for d in candidates:
+            for ckpt_name in ("seed0_s3_model.pt", "seed0_s2_model.pt", "seed0_s1_vae.pt"):
+                p = d / ckpt_name
+                if p.exists():
+                    t = p.stat().st_mtime
+                    if t > best_mtime:
+                        best_mtime = t
+                        best = d
+                    break  # found a ckpt in this dir, no need to check lower stages
+        return best
+
+    ckpt_opt_dir = _find_best_checkpoint_dir(
+        _HERE.parent / "checkpoints_opt",           # model_testing/checkpoints_opt/ (local copy)
+        _HERE.parent.parent / "checkpoints_opt",    # SELFIES/checkpoints_opt/       (training output)
+    )
+    print(f"Using checkpoint directory: {ckpt_opt_dir}")
+
+    # Paths to baseline checkpoints (legacy, skipped if vocab mismatch)
     ckpt_dir = _HERE.parent / "checkpoints"
-    ckpt_opt_dir = _HERE.parent / "checkpoints_opt"
-    
+
     # Load optimized model
     opt_vae_ckpt = ckpt_opt_dir / "seed0_s1_vae.pt"
     opt_model_ckpt = ckpt_opt_dir / "seed0_s3_model.pt"
@@ -138,32 +164,39 @@ def main():
     else:
         print("⚠ Baseline model checkpoint not found.")
         
-    # Generate predictions
+
+    # Generate predictions (batched for speed)
     print("Generating predictions...")
-    preds_opt = []
-    preds_base = []
-    
     dataset = MixtureDataset(df_all, tokenizer, max_seq_len)
+    loader  = DataLoader(dataset, batch_size=64, shuffle=False, num_workers=0)
+
+    preds_opt  = []
+    preds_base = []
 
     with torch.no_grad():
-        for i in range(len(dataset)):
-            comp_tok, vf, chem_mix, chem_pc, _ = dataset[i]
-            comp_tok = comp_tok.unsqueeze(0).to(device)
-            vf       = vf.unsqueeze(0).to(device)
-            chem_mix = chem_mix.unsqueeze(0).to(device)
-            chem_pc  = chem_pc.unsqueeze(0).to(device)
+        for batch_i, (comp_tok, vf, chem_mix, chem_pc, _) in enumerate(loader):
+            comp_tok = comp_tok.to(device)
+            vf       = vf.to(device)
+            chem_mix = chem_mix.to(device)
+            chem_pc  = chem_pc.to(device)
 
             if has_opt:
                 p_opt, _ = model_opt(comp_tok, vf, chem_mix, chem_pc)
-                preds_opt.append(p_opt.squeeze(0).item())
+                preds_opt.extend(p_opt.cpu().tolist())
             else:
-                preds_opt.append(np.nan)
+                preds_opt.extend([np.nan] * len(comp_tok))
 
             if has_base:
                 p_base, _ = model_base(comp_tok, vf)
-                preds_base.append(p_base.squeeze(0).item())
+                preds_base.extend(p_base.cpu().tolist())
             else:
-                preds_base.append(np.nan)
+                preds_base.extend([np.nan] * len(comp_tok))
+
+            if (batch_i + 1) % 10 == 0:
+                print(f"  {min((batch_i + 1) * 64, len(dataset))}/{len(dataset)} predictions done...",
+                      flush=True)
+
+    print(f"  {len(dataset)}/{len(dataset)} predictions done.")
                 
     # Save to CSV
     df_pred = pd.DataFrame({
@@ -209,8 +242,8 @@ def main():
                     "predicted_CN": {0: "batch_size"},
                     "z_mix":    {0: "batch_size"},
                 },
-                opset_version=18,
-                external_data=False,
+                opset_version=17,
+                verbose=False,
             )
             print(f"✓ Exported optimized model to {opt_onnx_path}")
         except Exception as e:
@@ -232,8 +265,8 @@ def main():
                     "predicted_CN": {0: "batch_size"},
                     "z_mix": {0: "batch_size"},
                 },
-                opset_version=18,
-                external_data=False,
+                opset_version=17,
+                verbose=False,
             )
             print(f"✓ Exported baseline model to {base_onnx_path}")
         except Exception as e:

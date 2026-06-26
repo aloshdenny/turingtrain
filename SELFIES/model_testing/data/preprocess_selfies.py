@@ -29,10 +29,9 @@ import pandas as pd
 
 # ── Resolve project root so we can import from SELFIES/ ──────────────────────
 _HERE = Path(__file__).resolve().parent
-_ROOT = _HERE.parents[1]          # turingtrain/
+_ROOT = _HERE.parents[2]          # model_testing/data/ → model_testing/ → SELFIES/ → turingtrain/
 sys.path.insert(0, str(_ROOT / "SELFIES"))
 
-from inchi_to_selfies import convert_series, MoleculeConversionError  # noqa: E402
 from selfies_tokenizer import SELFIESTokenizer                          # noqa: E402
 
 # ── Paths ────────────────────────────────────────────────────────────────────

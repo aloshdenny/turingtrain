@@ -52,4 +52,28 @@ Predict Cetane Number directly from molecular InChI strings and volume fractions
 ### 3. [SELFIES](SELFIES/)
 Predict Cetane Number using a Transformer-based VAE + Attention Mixture model for complex oxygenate blends.
 - **Inference Script**: [`SELFIES/model_testing/inference.py`](SELFIES/model_testing/inference.py)
+- **Inverse Design**: [`SELFIES/model_testing/inverse_design.py`](SELFIES/model_testing/inverse_design.py) — gradient-based latent space search to discover novel mixtures with a target CN.
 - **Documentation**: See [`SELFIES/model_testing/README.md`](SELFIES/model_testing/README.md) for usage commands and details.
+
+---
+
+## Retraining
+
+To retrain the SELFIES VAE model from scratch on updated data:
+
+```bash
+# 1. Preprocess dataset → rebuild tokenizer cache
+python SELFIES/data/preprocess_selfies.py
+
+# 2. Train (single run on CPU for stability)
+python SELFIES/vae/train_vae_optimized.py --no-ensemble
+
+# 3. Evaluate and export to ONNX
+python SELFIES/model_testing/vae/evaluate_and_export.py
+
+# 4. Copy new checkpoints into model_testing/
+cp SELFIES/checkpoints_opt/*.pt SELFIES/model_testing/checkpoints_opt/
+```
+
+> [!TIP]
+> Use `PYTHONUNBUFFERED=1 python ...` or `python -u ...` to get real-time progress output during long-running training or inference tasks.

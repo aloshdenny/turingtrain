@@ -545,7 +545,6 @@ def make_oversampled_loader(ds: MixtureDataset, batch_size: int, kde, max_densit
 # ─────────────────────────────────────────────────────────────────────────────
 
 def get_device():
-    if torch.backends.mps.is_available(): return torch.device("mps")
     if torch.cuda.is_available():         return torch.device("cuda")
     return torch.device("cpu")
 
