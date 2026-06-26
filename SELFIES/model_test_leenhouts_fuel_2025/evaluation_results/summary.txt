@@ -1,0 +1,8 @@
+dataset: /home/nimalnaser/DevSpace/TuringTrain/SELFIES/model_test_leenhouts_fuel_2025/leenhouts_2025_test_dataset_for_model.dat
+model: /home/nimalnaser/DevSpace/TuringTrain/SELFIES/model_test_leenhouts_fuel_2025/selfies_vae_optimized.onnx
+samples: 376
+mae: 2.7068
+rmse: 3.9675
+r2: 0.9670
+mae_dcn_gt_80: 3.0755
+n_dcn_gt_80: 27
