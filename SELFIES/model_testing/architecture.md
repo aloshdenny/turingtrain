@@ -10,37 +10,39 @@ Predicting fuel properties for complex, multi-component mixtures (especially oxy
 
 ```mermaid
 graph TD
-    subgraph Components ["Input Components (1 to 10)"]
-        C1["Comp 1: [SELFIES, Vol, Chem]"]
-        C2["Comp 2: [SELFIES, Vol, Chem]"]
-        CN["Comp N: [SELFIES, Vol, Chem]"]
+    IN["Input Mixture\n(1 – 10 components)"]
+
+    subgraph VAE ["① Monomer Encoding  ×N components"]
+        direction TB
+        SEL["SELFIES Token Sequence\n65 tokens  ·  vocab = 23"]
+        ENC["VAE Transformer Encoder\n4 layers · 4 heads · d = 128"]
+        MU["Latent Mean  μᵢ\n128-dim"]
+        SEL --> ENC --> MU
     end
 
-    subgraph VAE ["Monomer Encoding"]
-        C1 --> VAE_Enc["SELFIES VAE Encoder"]
-        C2 --> VAE_Enc
-        CN --> VAE_Enc
-        VAE_Enc --> L1["μ₁ (128d)"]
-        VAE_Enc --> L2["μ₂ (128d)"]
-        VAE_Enc --> LN["μ_N (128d)"]
+    subgraph Slot ["② Mixture Slot Encoder  (MixtureSlotEncoder)"]
+        direction TB
+        TOK["Slot Token  =  concat[ μᵢ · vᵢ · chemᵢ ]\n128d + 1d + 12d  =  141d"]
+        PROJ["Linear Projection  →  128d"]
+        TRANS["Transformer Self-Attention\n2 layers · 4 heads\n(empty slots masked)"]
+        POOL["Volume-Weighted Pooling"]
+        ZMIX["Mixture Representation  z_mix\n128-dim"]
+        TOK --> PROJ --> TRANS --> POOL --> ZMIX
     end
 
-    subgraph Attention ["Mixture Slot Encoder (Transformer)"]
-        L1 & C1_v["v₁"] & C1_c["chem₁"] --> Slot1["Slot 1 Token (141d)"]
-        L2 & C2_v["v₂"] & C2_c["chem₂"] --> Slot2["Slot 2 Token (141d)"]
-        LN & CN_v["v_N"] & CN_c["chem_N"] --> SlotN["Slot N Token (141d)"]
-        Slot1 & Slot2 & SlotN --> Proj["Linear Projection (128d)"]
-        Proj --> Trans["Transformer Encoder Layers (Self-Attention)"]
-        Trans --> Pool["Volume-Weighted Pool"]
-        Pool --> z_mix["z_mix (128d)"]
+    subgraph Pred ["③ Hybrid CN Predictor  (HybridCNPredictor)"]
+        direction TB
+        CHEM["Volume-Averaged Chemistry\nchem_mix  ·  12-dim"]
+        CAT["Concat  [ z_mix ‖ chem_mix ]\n140-dim"]
+        MLP["MLP:  512 → 256 → 128 → 1\nReLU · Dropout · LayerNorm"]
+        OUT(["Predicted Cetane Number"])
+        CHEM --> CAT
+        CAT --> MLP --> OUT
     end
 
-    subgraph Predictor ["Property Predictor (MLP)"]
-        z_mix --> Cat["Concat [z_mix || chem_mix]"]
-        Avg["chem_mix (Volume-Avg)"] --> Cat
-        Cat --> MLP["Hybrid CN Predictor"]
-        MLP --> Out["Predicted Cetane Number"]
-    end
+    IN --> SEL
+    MU --> TOK
+    ZMIX --> CAT
 ```
 
 ---
