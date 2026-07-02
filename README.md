@@ -73,3 +73,15 @@ python SELFIES/model_testing/vae/evaluate_and_export.py
 ```
 
 No manual file copying is ever needed. All scripts read checkpoints from `SELFIES/checkpoints_opt/` and data from `SELFIES/data/` directly.
+
+---
+
+### KeroML Models
+
+To retrain the KeroML forward and inverse models:
+
+```bash
+python KeroML/scripts/train_export.py
+```
+
+This trains the Pre-BRIX model, folds BRIX constraints directly into the Post-BRIX model coefficients, and trains the multi-output inverse regressor. The resulting ONNX models are written to `KeroML/models/`.

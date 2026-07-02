@@ -34,19 +34,48 @@ def load_input_file(filepath):
         
     df = pd.read_csv(filepath, index_col=0)
     
-    # Flatten it into the 160-element array required by our ONNX model
-    cols = [
-        'n-paraffins', 'iso-paraffins', '1R-cycloparaffins', '2R-cycloparaffins',
-        '3R-cycloparaffins', '1R-aromatics', '2R-aromatics', 'cycloaromatics'
-    ]
+    # Map input index to standard uppercase format (e.g. C1-C30)
+    df.index = [str(idx).strip().upper() for idx in df.index]
+    
+    # Map input columns using classes_map (supporting both short and long names)
+    classes_map = {
+        'n-paraffins': 'nor_par',
+        'iso-paraffins': 'iso_par',
+        '1R-cycloparaffins': 'mon_nap',
+        '2R-cycloparaffins': 'di_nap',
+        '3R-cycloparaffins': 'tri_nap',
+        '1R-aromatics': 'mon_aro',
+        '2R-aromatics': 'di_aro',
+        'cycloaromatics': 'nap_aro',
+        'olefins': 'olef',
+        'synthetic-oxygenates': 'syn_oxy',
+        'antioxidant-oxygenates': 'ant_oxy',
+        'dienes': 'dien',
+        'indenes': 'inde'
+    }
+    
+    canonical_classes = sorted(list(set(classes_map.values())))
+    
+    # Standard carbon numbers 1 to 30
     features = []
-    for col in cols:
-        for c in range(5, 25):
+    for cls in canonical_classes:
+        # Find which column in df maps to this class
+        df_col = None
+        for col in df.columns:
+            col_clean = str(col).strip().lower()
+            if col_clean == cls or classes_map.get(col_clean) == cls:
+                df_col = col
+                break
+                
+        for c in range(1, 31):
             idx = f"C{c}"
-            val = df.at[idx, col] if col in df.columns and idx in df.index else 0.0
+            val = 0.0
+            if df_col is not None and idx in df.index:
+                val = df.at[idx, df_col]
             if pd.isna(val):
                 val = 0.0
             features.append(float(val))
+            
     return np.array(features, dtype=np.float32).reshape(1, -1)
 
 def run_forward(model_path, input_path, out_plot_path=None):
@@ -95,20 +124,37 @@ def run_inverse(model_path, target_cn, out_csv_path=None, out_plot_path=None):
     res = sess.run(None, {input_name: input_data})
     predictions = res[0][0]
     
-    cols = [
-        'n-paraffins', 'iso-paraffins', '1R-cycloparaffins', '2R-cycloparaffins',
-        '3R-cycloparaffins', '1R-aromatics', '2R-aromatics', 'cycloaromatics'
-    ]
+    classes_map = {
+        'n-paraffins': 'nor_par',
+        'iso-paraffins': 'iso_par',
+        '1R-cycloparaffins': 'mon_nap',
+        '2R-cycloparaffins': 'di_nap',
+        '3R-cycloparaffins': 'tri_nap',
+        '1R-aromatics': 'mon_aro',
+        '2R-aromatics': 'di_aro',
+        'cycloaromatics': 'nap_aro',
+        'olefins': 'olef',
+        'synthetic-oxygenates': 'syn_oxy',
+        'antioxidant-oxygenates': 'ant_oxy',
+        'dienes': 'dien',
+        'indenes': 'inde'
+    }
+    
+    canonical_classes = sorted(list(set(classes_map.values())))
     
     # Reconstruct composition matrix
-    df_pred = pd.DataFrame(index=[f"C{c}" for c in range(5, 25)], columns=cols)
+    df_pred = pd.DataFrame(index=[f"C{c}" for c in range(1, 31)], columns=canonical_classes)
     idx = 0
-    for col in cols:
-        for c in range(5, 25):
+    for cls in canonical_classes:
+        for c in range(1, 31):
             val = predictions[idx]
-            df_pred.at[f"C{c}", col] = max(0.0, float(val)) # Bound zero
+            df_pred.at[f"C{c}", cls] = max(0.0, float(val)) # Bound zero
             idx += 1
             
+    # Map column headers back to user-friendly names for display/save
+    reverse_map = {v: k for k, v in classes_map.items()}
+    df_pred.columns = [reverse_map.get(col, col) for col in df_pred.columns]
+    
     if not out_csv_path:
         out_csv_path = f"inverse_cn_{target_cn}.csv"
         
@@ -116,11 +162,11 @@ def run_inverse(model_path, target_cn, out_csv_path=None, out_plot_path=None):
     print(f"Saved predicted composition matrix to {out_csv_path}")
 
     # Plot stacked bar chart
-    df_pred.plot(kind='bar', stacked=True, figsize=(14, 7), colormap='tab10')
+    df_pred.plot(kind='bar', stacked=True, figsize=(14, 7), colormap='tab20')
     plt.title(f'Predicted Carbon Number Distribution for Cetane Number = {target_cn}')
     plt.xlabel('Carbon Number')
     plt.ylabel('Mass Fraction / Concentration')
-    plt.legend(title='Compound Class')
+    plt.legend(title='Compound Class', bbox_to_anchor=(1.05, 1), loc='upper left')
     plt.tight_layout()
     
     if not out_plot_path:
@@ -128,6 +174,7 @@ def run_inverse(model_path, target_cn, out_csv_path=None, out_plot_path=None):
         
     plt.savefig(out_plot_path)
     print(f"Saved visualization to {out_plot_path}")
+
 
 def main():
     parser = argparse.ArgumentParser(description="Unified forward and inverse inference engine for KeroML.")
