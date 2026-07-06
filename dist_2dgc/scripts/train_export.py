@@ -11,6 +11,8 @@ from sklearn.impute import SimpleImputer
 import skl2onnx
 from skl2onnx import convert_sklearn
 from skl2onnx.common.data_types import FloatTensorType
+import onnx
+from onnx import helper, numpy_helper, TensorProto
 
 def main():
     # Configure unbuffered output
@@ -21,8 +23,13 @@ def main():
     _ROOT = _HERE.parent.parent              # turingtrain/
     
     data_path = _ROOT / "model_training" / "dist_2dgc" / "training_data" / "dist_2dgc_dataset.dat"
+    
+    # Define outputs paths for both old and new layouts to keep backward compatibility
     models_dir = _HERE.parent / "models"
+    shared_models_dir = _ROOT / "models" / "distillation_2dgc"
+    
     models_dir.mkdir(parents=True, exist_ok=True)
+    shared_models_dir.mkdir(parents=True, exist_ok=True)
 
     print(f"Loading distillation dataset from: {data_path}")
     # Handle mixed types columns to prevent Performance/DtypeWarning
@@ -31,6 +38,13 @@ def main():
     # Define standard outputs
     targets = ['T05', 'T10', 'T20', 'T30', 'T40', 'T50', 'T60', 'T70', 'T80', 'T90', 'T95']
     df = df.dropna(subset=targets)
+    
+    # Filter out non-monotonic anomalies in the training set (8 samples)
+    df_valid = df[targets]
+    diffs = df_valid.diff(axis=1)
+    monotonic_mask = ~(diffs.iloc[:, 1:] < 0).any(axis=1)
+    df = df[monotonic_mask]
+    print(f"Filtered out non-monotonic training rows. Remaining samples: {len(df)}")
     
     # Define standard classes map
     classes_map = {
@@ -65,20 +79,29 @@ def main():
     X_raw = df[feature_cols].apply(pd.to_numeric, errors='coerce').fillna(0.0).values
     Y_raw = df[targets].apply(pd.to_numeric, errors='coerce').fillna(0.0).values
     
-    print(f"Dataset Loaded. Samples count: {len(X_raw)}")
-    print(f"X shape: {X_raw.shape}, Y shape: {Y_raw.shape}")
+    # Compute target deltas for training:
+    # d0 = T05
+    # d1 = T10 - T05
+    # d2 = T20 - T10, etc.
+    Y_deltas = np.zeros_like(Y_raw)
+    Y_deltas[:, 0] = Y_raw[:, 0]
+    for idx in range(1, 11):
+        Y_deltas[:, idx] = Y_raw[:, idx] - Y_raw[:, idx - 1]
     
-    # 1. Train Forward Model (Ridge regression with target-specific alphas)
-    # Alphas chosen from cross-validation: 50.0 for T60, 10.0 for other targets
-    alphas = np.array([10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 50.0, 10.0, 10.0, 10.0, 10.0])
+    print(f"Dataset Loaded. Samples count: {len(X_raw)}")
+    print(f"X shape: {X_raw.shape}, Y_deltas shape: {Y_deltas.shape}")
+    
+    # 1. Train Forward Model (Ridge regression predicting deltas)
+    # Alphas chosen from delta cross-validation:
+    alphas = np.array([10.0, 10.0, 10.0, 10.0, 10.0, 50.0, 10.0, 50.0, 10.0, 1.0, 1.0])
     
     forward_model = Pipeline([
         ('imputer', SimpleImputer(strategy='constant', fill_value=0.0)),
         ('scaler', StandardScaler()),
         ('regressor', Ridge(alpha=alphas, random_state=42))
     ])
-    print("Training Forward Model (Composition -> Distillation Curve)...")
-    forward_model.fit(X_raw, Y_raw)
+    print("Training Forward Model on temperature deltas...")
+    forward_model.fit(X_raw, Y_deltas)
     
     # 2. Train Inverse Model (Distillation Curve -> Composition)
     # Alpha chosen from cross-validation: 1.0
@@ -92,23 +115,103 @@ def main():
     # --- Export to ONNX ---
     print("Converting models to ONNX...")
     
-    # Forward Model ONNX Conversion
+    # Convert standard Ridge pipeline predicting deltas to ONNX
     initial_type_fwd = [('float_input', FloatTensorType([None, len(feature_cols)]))]
     onx_fwd = convert_sklearn(forward_model, initial_types=initial_type_fwd)
-    fwd_path = models_dir / "distillation_model.onnx"
-    with open(fwd_path, "wb") as f:
-        f.write(onx_fwd.SerializeToString())
-    print(f"✓ Exported Forward Model to: {fwd_path}")
+    
+    # Inject ONNX nodes to enforce monotonicity post-regressor
+    raw_output_name = onx_fwd.graph.output[0].name
+    raw_graph = onx_fwd.graph
+    
+    # Define constant U (11x11 upper triangular matrix of ones) to compute the forward cumulative sum
+    U_matrix = np.triu(np.ones((11, 11), dtype=np.float32))
+    U_tensor = numpy_helper.from_array(U_matrix, name="U_matrix")
+    raw_graph.initializer.append(U_tensor)
+    
+    # Slicing parameters to separate d0 from d_rest
+    starts_0 = numpy_helper.from_array(np.array([0], dtype=np.int64), name="starts_0")
+    ends_1 = numpy_helper.from_array(np.array([1], dtype=np.int64), name="ends_1")
+    starts_1 = numpy_helper.from_array(np.array([1], dtype=np.int64), name="starts_1")
+    ends_11 = numpy_helper.from_array(np.array([11], dtype=np.int64), name="ends_11")
+    axes_1 = numpy_helper.from_array(np.array([1], dtype=np.int64), name="axes_1")
+    raw_graph.initializer.extend([starts_0, ends_1, starts_1, ends_11, axes_1])
+    
+    # ONNX Nodes:
+    # 1. Slice d0
+    node_slice_d0 = helper.make_node(
+        'Slice',
+        inputs=[raw_output_name, 'starts_0', 'ends_1', 'axes_1'],
+        outputs=['d0'],
+        name='slice_d0'
+    )
+    # 2. Slice d_rest (indices 1 to 10)
+    node_slice_drest = helper.make_node(
+        'Slice',
+        inputs=[raw_output_name, 'starts_1', 'ends_11', 'axes_1'],
+        outputs=['d_rest'],
+        name='slice_d_rest'
+    )
+    # 3. Clip rest of deltas using Relu to be non-negative
+    node_relu = helper.make_node(
+        'Relu',
+        inputs=['d_rest'],
+        outputs=['d_rest_clipped'],
+        name='relu_drest'
+    )
+    # 4. Concatenate d0 and d_rest_clipped
+    node_concat = helper.make_node(
+        'Concat',
+        inputs=['d0', 'd_rest_clipped'],
+        outputs=['clipped_deltas'],
+        axis=1,
+        name='concat_deltas'
+    )
+    # 5. Multiply by U to do the cumulative sum: T_i = sum_{j=0}^i d_j
+    node_matmul = helper.make_node(
+        'MatMul',
+        inputs=['clipped_deltas', 'U_matrix'],
+        outputs=['monotonic_temps'],
+        name='matmul_U'
+    )
+    
+    raw_graph.node.extend([node_slice_d0, node_slice_drest, node_relu, node_concat, node_matmul])
+    
+    # Update graph output to be the monotonic_temps
+    new_output = helper.make_tensor_value_info(
+        'monotonic_temps',
+        TensorProto.FLOAT,
+        [None, 11]
+    )
+    raw_graph.output.pop()
+    raw_graph.output.append(new_output)
+    
+    # Save the modified ONNX model to both directories
+    onnx.checker.check_model(onx_fwd)
+    
+    fwd_paths = [
+        models_dir / "distillation_model.onnx",
+        shared_models_dir / "distillation_2dgc_model.onnx"
+    ]
+    for p in fwd_paths:
+        with open(p, "wb") as f:
+            f.write(onx_fwd.SerializeToString())
+        print(f"✓ Exported Monotonic Forward Model to: {p}")
         
     # Inverse Model ONNX Conversion
     initial_type_inv = [('float_input', FloatTensorType([None, len(targets)]))]
     onx_inv = convert_sklearn(inverse_model, initial_types=initial_type_inv)
-    inv_path = models_dir / "inverse_model.onnx"
-    with open(inv_path, "wb") as f:
-        f.write(onx_inv.SerializeToString())
-    print(f"✓ Exported Inverse Model to: {inv_path}")
     
-    print("✓ All distillation models trained and exported successfully.")
+    inv_paths = [
+        models_dir / "inverse_model.onnx",
+        shared_models_dir / "distillation_2dgc_inverse_model.onnx"
+    ]
+    for p in inv_paths:
+        with open(p, "wb") as f:
+            f.write(onx_inv.SerializeToString())
+        print(f"✓ Exported Inverse Model to: {p}")
+    
+    print("✓ All distillation models trained, compiled, and exported successfully.")
 
 if __name__ == "__main__":
     main()
+

@@ -52,7 +52,7 @@ def load_input_file(filepath):
     # Map input index to standard uppercase format (e.g. C1-C30)
     df.index = [str(idx).strip().upper() for idx in df.index]
     
-    # Map input columns using classes_map (supporting both short and long names)
+    # Map input columns using classes_map (supporting both short and long names to internal names)
     classes_map = {
         'n-paraffins': 'nor_par',
         'iso-paraffins': 'iso_par',
@@ -63,10 +63,12 @@ def load_input_file(filepath):
         '2R-aromatics': 'di_aro',
         'cycloaromatics': 'nap_aro',
         'olefins': 'olef',
-        'synthetic-oxygenates': 'synergistic_oxygenates',
-        'synergistic_oxygenates': 'synergistic_oxygenates',
-        'antioxidant-oxygenates': 'antagonistic_oxygenates',
-        'antagonistic_oxygenates': 'antagonistic_oxygenates',
+        'synthetic-oxygenates': 'syn_oxy',
+        'synergistic_oxygenates': 'syn_oxy',
+        'syn_oxy': 'syn_oxy',
+        'antioxidant-oxygenates': 'ant_oxy',
+        'antagonistic_oxygenates': 'ant_oxy',
+        'ant_oxy': 'ant_oxy',
         'dienes': 'dien',
         'indenes': 'inde'
     }
@@ -188,10 +190,12 @@ def run_inverse(model_path, target_temps, out_csv_path=None, out_plot_path=None)
         '2R-aromatics': 'di_aro',
         'cycloaromatics': 'nap_aro',
         'olefins': 'olef',
-        'synthetic-oxygenates': 'synergistic_oxygenates',
-        'synergistic_oxygenates': 'synergistic_oxygenates',
-        'antioxidant-oxygenates': 'antagonistic_oxygenates',
-        'antagonistic_oxygenates': 'antagonistic_oxygenates',
+        'synthetic-oxygenates': 'syn_oxy',
+        'synergistic_oxygenates': 'syn_oxy',
+        'syn_oxy': 'syn_oxy',
+        'antioxidant-oxygenates': 'ant_oxy',
+        'antagonistic_oxygenates': 'ant_oxy',
+        'ant_oxy': 'ant_oxy',
         'dienes': 'dien',
         'indenes': 'inde'
     }
@@ -213,8 +217,22 @@ def run_inverse(model_path, target_temps, out_csv_path=None, out_plot_path=None)
         df_pred = df_pred / total_sum
         
     # Map column headers back to user-friendly names for display/save
-    reverse_map = {v: k for k, v in classes_map.items()}
-    df_pred.columns = [reverse_map.get(col, col) for col in df_pred.columns]
+    display_names = {
+        'nor_par': 'n-paraffins',
+        'iso_par': 'iso-paraffins',
+        'mon_nap': '1R-cycloparaffins',
+        'di_nap': '2R-cycloparaffins',
+        'tri_nap': '3R-cycloparaffins',
+        'mon_aro': '1R-aromatics',
+        'di_aro': '2R-aromatics',
+        'nap_aro': 'cycloaromatics',
+        'olef': 'olefins',
+        'syn_oxy': 'synergistic_oxygenates',
+        'ant_oxy': 'antagonistic_oxygenates',
+        'dien': 'dienes',
+        'inde': 'indenes'
+    }
+    df_pred.columns = [display_names.get(col, col) for col in df_pred.columns]
     
     if not out_csv_path:
         out_csv_path = _DEFAULT_INVERSE_CSV
