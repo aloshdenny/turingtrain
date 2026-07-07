@@ -24,6 +24,24 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
+_SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+_FUEL_CHEM_DIR = os.path.normpath(os.path.join(_SCRIPT_DIR, ".."))
+_DEFAULT_FORWARD_MODEL = os.path.join(
+    _FUEL_CHEM_DIR, "models", "distillation_2dgc", "distillation_2dgc_model.onnx"
+)
+_DEFAULT_INVERSE_MODEL = os.path.join(
+    _FUEL_CHEM_DIR, "models", "distillation_2dgc", "distillation_2dgc_inverse_model.onnx"
+)
+_DEFAULT_FORWARD_PLOT = os.path.join(_SCRIPT_DIR, "distillation_curve.png")
+_DEFAULT_INVERSE_CSV = os.path.join(_SCRIPT_DIR, "inverse_dist_composition.csv")
+_DEFAULT_INVERSE_PLOT = os.path.join(_SCRIPT_DIR, "inverse_dist_composition.png")
+
+
+def _ensure_parent_dir(filepath):
+    parent = os.path.dirname(os.path.abspath(filepath))
+    if parent:
+        os.makedirs(parent, exist_ok=True)
+
 def load_input_file(filepath):
     """Reads the input composition matrix (carbon numbers x classes) and flattens it."""
     if not os.path.exists(filepath):
@@ -34,7 +52,7 @@ def load_input_file(filepath):
     # Map input index to standard uppercase format (e.g. C1-C30)
     df.index = [str(idx).strip().upper() for idx in df.index]
     
-    # Map input columns using classes_map (supporting both short and long names)
+    # Map input columns using classes_map (supporting both short and long names to internal names)
     classes_map = {
         'n-paraffins': 'nor_par',
         'iso-paraffins': 'iso_par',
@@ -46,7 +64,11 @@ def load_input_file(filepath):
         'cycloaromatics': 'nap_aro',
         'olefins': 'olef',
         'synthetic-oxygenates': 'syn_oxy',
+        'synergistic_oxygenates': 'syn_oxy',
+        'syn_oxy': 'syn_oxy',
         'antioxidant-oxygenates': 'ant_oxy',
+        'antagonistic_oxygenates': 'ant_oxy',
+        'ant_oxy': 'ant_oxy',
         'dienes': 'dien',
         'indenes': 'inde'
     }
@@ -141,8 +163,9 @@ def run_forward(model_path, input_path, out_plot_path=None):
     plt.tight_layout()
     
     if not out_plot_path:
-        out_plot_path = "dist_2dgc/distillation_curve.png"
-        
+        out_plot_path = _DEFAULT_FORWARD_PLOT
+ 
+    _ensure_parent_dir(out_plot_path)
     plt.savefig(out_plot_path, dpi=300)
     print(f"\nSaved distillation curve and probability distribution plots to: {out_plot_path}")
 
@@ -168,7 +191,11 @@ def run_inverse(model_path, target_temps, out_csv_path=None, out_plot_path=None)
         'cycloaromatics': 'nap_aro',
         'olefins': 'olef',
         'synthetic-oxygenates': 'syn_oxy',
+        'synergistic_oxygenates': 'syn_oxy',
+        'syn_oxy': 'syn_oxy',
         'antioxidant-oxygenates': 'ant_oxy',
+        'antagonistic_oxygenates': 'ant_oxy',
+        'ant_oxy': 'ant_oxy',
         'dienes': 'dien',
         'indenes': 'inde'
     }
@@ -190,12 +217,27 @@ def run_inverse(model_path, target_temps, out_csv_path=None, out_plot_path=None)
         df_pred = df_pred / total_sum
         
     # Map column headers back to user-friendly names for display/save
-    reverse_map = {v: k for k, v in classes_map.items()}
-    df_pred.columns = [reverse_map.get(col, col) for col in df_pred.columns]
+    display_names = {
+        'nor_par': 'n-paraffins',
+        'iso_par': 'iso-paraffins',
+        'mon_nap': '1R-cycloparaffins',
+        'di_nap': '2R-cycloparaffins',
+        'tri_nap': '3R-cycloparaffins',
+        'mon_aro': '1R-aromatics',
+        'di_aro': '2R-aromatics',
+        'nap_aro': 'cycloaromatics',
+        'olef': 'olefins',
+        'syn_oxy': 'synergistic_oxygenates',
+        'ant_oxy': 'antagonistic_oxygenates',
+        'dien': 'dienes',
+        'inde': 'indenes'
+    }
+    df_pred.columns = [display_names.get(col, col) for col in df_pred.columns]
     
     if not out_csv_path:
-        out_csv_path = "inverse_dist_composition.csv"
-        
+        out_csv_path = _DEFAULT_INVERSE_CSV
+ 
+    _ensure_parent_dir(out_csv_path)
     df_pred.to_csv(out_csv_path)
     print(f"✓ Saved predicted composition matrix to: {out_csv_path}")
 
@@ -208,8 +250,9 @@ def run_inverse(model_path, target_temps, out_csv_path=None, out_plot_path=None)
     plt.tight_layout()
     
     if not out_plot_path:
-        out_plot_path = "dist_2dgc/inverse_dist_composition.png"
-        
+        out_plot_path = _DEFAULT_INVERSE_PLOT
+ 
+    _ensure_parent_dir(out_plot_path)
     plt.savefig(out_plot_path, dpi=300)
     print(f"✓ Saved visualization to: {out_plot_path}")
 
@@ -249,9 +292,7 @@ def main():
             parser.error("the --input argument is required in forward mode")
             
         if not args.model:
-            args.model = "dist_2dgc/models/distillation_model.onnx"
-            if not os.path.exists(args.model) and os.path.exists("models/distillation_model.onnx"):
-                args.model = "models/distillation_model.onnx"
+            args.model = _DEFAULT_FORWARD_MODEL
                 
         if not os.path.exists(args.model):
             print(f"Error: Forward model file not found at {args.model}")
@@ -264,9 +305,7 @@ def main():
             parser.error("the --temps argument requires exactly 11 temperature values corresponding to T05 T10 T20 T30 T40 T50 T60 T70 T80 T90 T95")
             
         if not args.model:
-            args.model = "dist_2dgc/models/inverse_model.onnx"
-            if not os.path.exists(args.model) and os.path.exists("models/inverse_model.onnx"):
-                args.model = "models/inverse_model.onnx"
+            args.model = _DEFAULT_INVERSE_MODEL
                 
         if not os.path.exists(args.model):
             print(f"Error: Inverse model file not found at {args.model}")
