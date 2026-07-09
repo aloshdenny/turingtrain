@@ -24,12 +24,9 @@ def main():
     
     data_path = _ROOT / "model_training" / "dist_2dgc" / "training_data" / "dist_2dgc_dataset.dat"
     
-    # Define outputs paths for both old and new layouts to keep backward compatibility
+    # Define outputs path
     models_dir = _HERE.parent / "models"
-    shared_models_dir = _ROOT / "models" / "distillation_2dgc"
-    
     models_dir.mkdir(parents=True, exist_ok=True)
-    shared_models_dir.mkdir(parents=True, exist_ok=True)
 
     print(f"Loading distillation dataset from: {data_path}")
     # Handle mixed types columns to prevent Performance/DtypeWarning
@@ -188,27 +185,19 @@ def main():
     # Save the modified ONNX model to both directories
     onnx.checker.check_model(onx_fwd)
     
-    fwd_paths = [
-        models_dir / "distillation_model.onnx",
-        shared_models_dir / "distillation_2dgc_model.onnx"
-    ]
-    for p in fwd_paths:
-        with open(p, "wb") as f:
-            f.write(onx_fwd.SerializeToString())
-        print(f"✓ Exported Monotonic Forward Model to: {p}")
+    fwd_path = models_dir / "distillation_model.onnx"
+    with open(fwd_path, "wb") as f:
+        f.write(onx_fwd.SerializeToString())
+    print(f"✓ Exported Monotonic Forward Model to: {fwd_path}")
         
     # Inverse Model ONNX Conversion
     initial_type_inv = [('float_input', FloatTensorType([None, len(targets)]))]
     onx_inv = convert_sklearn(inverse_model, initial_types=initial_type_inv)
     
-    inv_paths = [
-        models_dir / "inverse_model.onnx",
-        shared_models_dir / "distillation_2dgc_inverse_model.onnx"
-    ]
-    for p in inv_paths:
-        with open(p, "wb") as f:
-            f.write(onx_inv.SerializeToString())
-        print(f"✓ Exported Inverse Model to: {p}")
+    inv_path = models_dir / "inverse_model.onnx"
+    with open(inv_path, "wb") as f:
+        f.write(onx_inv.SerializeToString())
+    print(f"✓ Exported Inverse Model to: {inv_path}")
     
     print("✓ All distillation models trained, compiled, and exported successfully.")
 
