@@ -88,16 +88,17 @@ def main():
     print(f"Dataset Loaded. Samples count: {len(X_raw)}")
     print(f"X shape: {X_raw.shape}, Y_deltas shape: {Y_deltas.shape}")
     
-    # 1. Train Forward Model (Ridge regression predicting deltas)
-    # Alphas chosen from delta cross-validation:
-    alphas = np.array([10.0, 10.0, 10.0, 10.0, 10.0, 50.0, 10.0, 50.0, 10.0, 1.0, 1.0])
+    # 1. Train Forward Model (Ridge regression predicting deltas on raw inputs)
+    # Alphas optimized for raw composition inputs:
+    # - Index 0 (T05 starting temperature) uses alpha=50.0 for stability against OOD scaling explosions
+    # - Indices 1-10 (deltas) use alpha=10.0 to prevent cumulative shape explosions on out-of-distribution compositions
+    alphas = np.array([50.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0])
     
     forward_model = Pipeline([
         ('imputer', SimpleImputer(strategy='constant', fill_value=0.0)),
-        ('scaler', StandardScaler()),
         ('regressor', Ridge(alpha=alphas, random_state=42))
     ])
-    print("Training Forward Model on temperature deltas...")
+    print("Training Forward Model on temperature deltas (raw inputs)...")
     forward_model.fit(X_raw, Y_deltas)
     
     # 2. Train Inverse Model (Distillation Curve -> Composition)
