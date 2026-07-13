@@ -25,12 +25,11 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 _SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-_FUEL_CHEM_DIR = os.path.normpath(os.path.join(_SCRIPT_DIR, "..", ".."))
 _DEFAULT_FORWARD_MODEL = os.path.join(
-    _FUEL_CHEM_DIR, "models", "distillation_2dgc", "distillation_2dgc_model.onnx"
+    _SCRIPT_DIR, "..", "models", "distillation_model.onnx"
 )
 _DEFAULT_INVERSE_MODEL = os.path.join(
-    _FUEL_CHEM_DIR, "models", "distillation_2dgc", "distillation_2dgc_inverse_model.onnx"
+    _SCRIPT_DIR, "..", "models", "inverse_model.onnx"
 )
 _DEFAULT_FORWARD_PLOT = os.path.join(_SCRIPT_DIR, "distillation_curve.png")
 _DEFAULT_INVERSE_CSV = os.path.join(_SCRIPT_DIR, "inverse_dist_composition.csv")
