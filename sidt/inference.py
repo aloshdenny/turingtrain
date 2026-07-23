@@ -15,17 +15,18 @@ def load_and_predict(model_path, inputs):
     input_data = np.array([inputs], dtype=np.float32)
     
     res = sess.run(None, {input_name: input_data})
-    return float(res[0].item())
+    val = res[0].item() if isinstance(res[0], np.ndarray) and res[0].size == 1 else res[0][0]
+    return float(val)
 
 def main():
-    parser = argparse.ArgumentParser(description="Inference runner for SIDT forward and inverse models.")
-    parser.add_argument("--mode", type=str, choices=["forward", "inverse"], required=True,
-                        help="Prediction mode: 'forward' (predict idt) or 'inverse' (predict condition)")
-    parser.add_argument("--compound", type=str, required=True,
+    parser = argparse.ArgumentParser(description="Inference runner for SIDT forward, inverse, and NTC models.")
+    parser.add_argument("--mode", type=str, choices=["forward", "inverse", "ntc"], required=True,
+                        help="Prediction mode: 'forward' (predict idt), 'inverse' (predict condition), or 'ntc' (predict NTC presence & bounds)")
+    parser.add_argument("--compound", type=str, default="methane",
                         help="Compound model directory to use (e.g., 'methane', 'ethane')")
     parser.add_argument("--target", type=str, choices=["pressure", "temperature", "phi", "egr_fraction"],
                         help="Target variable to predict in inverse mode (required for inverse mode)")
-    parser.add_argument("--out_plot", type=str, help="Output plot file path (for forward temperature sweep)")
+    parser.add_argument("--out_plot", type=str, help="Output plot file path (for forward or NTC temperature sweep)")
     
     # Optional inputs for conditions
     parser.add_argument("--pressure", type=float, help="Pressure (bar)")
@@ -68,7 +69,6 @@ def main():
             try:
                 import matplotlib.pyplot as plt
                 
-                # 1. Evaluate sweep over temperature range 600K to 1600K
                 temp_sweep = np.linspace(600.0, 1600.0, 101)
                 sweep_inputs = np.array([[args.pressure, t, args.phi, args.egr_fraction] for t in temp_sweep], dtype=np.float32)
                 
@@ -77,13 +77,11 @@ def main():
                 sweep_preds = sess_sweep.run(None, {input_name_sweep: sweep_inputs})[0]
                 sweep_idt_ms = sweep_preds.flatten() * 1000.0
                 
-                # 2. Try loading corresponding dataset points
                 df_points = None
                 dataset_path = os.path.join(script_dir, "..", "model_training", "sidt", f"sidt_selfies_{args.compound}.dat")
                 if os.path.exists(dataset_path):
                     try:
                         df_dat = pd.read_csv(dataset_path, sep='\t', comment='#')
-                        # Filter for similar conditions
                         mask = (
                             (df_dat['pressure_bar'].between(args.pressure - 0.5, args.pressure + 0.5)) &
                             (df_dat['phi'].between(args.phi - 0.05, args.phi + 0.05)) &
@@ -93,9 +91,7 @@ def main():
                     except Exception:
                         pass
                 
-                # 3. Create Arrhenius Plot (ln(IDT) vs 1000/T)
                 fig, ax1 = plt.subplots(figsize=(8, 6))
-                
                 recip_temp_sweep = 1000.0 / temp_sweep
                 ax1.plot(recip_temp_sweep, sweep_idt_ms, label=f"Model Prediction ({args.pressure:.1f} bar, phi={args.phi:.2f}, egr={args.egr_fraction:.2f})", color='#00d2ff', linewidth=2.5)
                 
@@ -104,7 +100,6 @@ def main():
                     idt_data_ms = df_points['idt_s'].values * 1000.0
                     ax1.scatter(recip_temp_data, idt_data_ms, color='#ff007f', alpha=0.8, edgecolors='black', zorder=5, label=f"Dataset Points ({len(df_points)} samples)")
                 
-                # Highlight prediction point
                 ax1.scatter([1000.0 / args.temperature], [pred_idt * 1000.0], color='#ffea00', s=120, edgecolors='black', marker='*', zorder=6, label=f"Prediction: {pred_idt * 1000.0:.2f} ms")
                 
                 ax1.set_yscale('log')
@@ -114,7 +109,6 @@ def main():
                 ax1.grid(True, which="both", ls="--", alpha=0.5)
                 ax1.legend(frameon=True, facecolor='white', edgecolor='lightgray', loc='upper right')
                 
-                # Twin axis for Temperature in Kelvin
                 ax2 = ax1.twiny()
                 x1_ticks = ax1.get_xticks()
                 x2_labels = [f"{int(round(1000.0 / x)) if x > 0 else 0} K" for x in x1_ticks]
@@ -141,7 +135,6 @@ def main():
             sys.exit(1)
             
         if args.target == "pressure":
-            # Inputs: temperature, phi, egr_fraction, idt
             missing = [param for param, val in [("temperature", args.temperature),
                                                 ("phi", args.phi),
                                                 ("egr_fraction", args.egr_fraction),
@@ -156,7 +149,6 @@ def main():
             unit = "bar"
             
         elif args.target == "temperature":
-            # Inputs: pressure, phi, egr_fraction, idt
             missing = [param for param, val in [("pressure", args.pressure),
                                                 ("phi", args.phi),
                                                 ("egr_fraction", args.egr_fraction),
@@ -171,7 +163,6 @@ def main():
             unit = "K"
             
         elif args.target == "phi":
-            # Inputs: pressure, temperature, egr_fraction, idt
             missing = [param for param, val in [("pressure", args.pressure),
                                                 ("temperature", args.temperature),
                                                 ("egr_fraction", args.egr_fraction),
@@ -186,7 +177,6 @@ def main():
             unit = ""
             
         elif args.target == "egr_fraction":
-            # Inputs: pressure, temperature, phi, idt
             missing = [param for param, val in [("pressure", args.pressure),
                                                 ("temperature", args.temperature),
                                                 ("phi", args.phi),
@@ -213,6 +203,83 @@ def main():
             print(f"    Predicted {output_name}: {pred_val:.4f} {unit}".strip())
         except Exception as e:
             print(f"Error running inverse prediction: {e}")
+            sys.exit(1)
+
+    elif args.mode == "ntc":
+        # NTC inputs: pressure, phi, egr_fraction
+        missing = [param for param, val in [("pressure", args.pressure),
+                                            ("phi", args.phi),
+                                            ("egr_fraction", args.egr_fraction)] if val is None]
+        if missing:
+            print(f"Error: Missing required input parameters for NTC mode: {', '.join(missing)}")
+            sys.exit(1)
+            
+        ntc_dir = os.path.join(compound_dir, "ntc")
+        classifier_path = os.path.join(ntc_dir, "has_ntc_classifier.onnx")
+        t_min_path = os.path.join(ntc_dir, "ntc_t_min_model.onnx")
+        t_max_path = os.path.join(ntc_dir, "ntc_t_max_model.onnx")
+        
+        inputs = [args.pressure, args.phi, args.egr_fraction]
+        
+        try:
+            has_ntc_val = int(load_and_predict(classifier_path, inputs))
+            t_min_val = load_and_predict(t_min_path, inputs)
+            t_max_val = load_and_predict(t_max_path, inputs)
+            
+            print(f"\nNTC Bounds Model Prediction for {args.compound.capitalize()}:")
+            print(f"  Inputs:")
+            print(f"    Pressure: {args.pressure:.2f} bar")
+            print(f"    Phi: {args.phi:.4f}")
+            print(f"    EGR Fraction: {args.egr_fraction:.4f}")
+            print(f"  Outputs:")
+            print(f"    Has NTC Region: {'Yes (1)' if has_ntc_val == 1 else 'No (0)'}")
+            print(f"    NTC Lower Temp (T_min): {t_min_val:.1f} K ({t_min_val - 273.15:.1f} °C)")
+            print(f"    NTC Upper Temp (T_max): {t_max_val:.1f} K ({t_max_val - 273.15:.1f} °C)")
+            
+            # Generate Arrhenius curve with highlighted NTC region
+            try:
+                import matplotlib.pyplot as plt
+                fwd_model_path = os.path.join(compound_dir, "forward_model.onnx")
+                if os.path.exists(fwd_model_path):
+                    temp_sweep = np.linspace(600.0, 1600.0, 200)
+                    sweep_inputs = np.column_stack([
+                        np.full_like(temp_sweep, args.pressure),
+                        temp_sweep,
+                        np.full_like(temp_sweep, args.phi),
+                        np.full_like(temp_sweep, args.egr_fraction)
+                    ]).astype(np.float32)
+                    
+                    sess_fwd = rt.InferenceSession(fwd_model_path)
+                    fwd_in_name = sess_fwd.get_inputs()[0].name
+                    idt_preds = sess_fwd.run(None, {fwd_in_name: sweep_inputs})[0].flatten() * 1000.0
+                    
+                    fig, ax = plt.subplots(figsize=(9, 6))
+                    inv_T = 1000.0 / temp_sweep
+                    ax.plot(inv_T, idt_preds, color='#1d4ed8', linewidth=2.5, label='Predicted Arrhenius Curve')
+                    
+                    if has_ntc_val == 1:
+                        inv_t_min = 1000.0 / t_min_val
+                        inv_t_max = 1000.0 / t_max_val
+                        ax.axvspan(inv_t_max, inv_t_min, color='#f59e0b', alpha=0.25, label=f'Predicted NTC Region ({t_min_val:.0f}K – {t_max_val:.0f}K)')
+                        ax.axvline(inv_t_min, color='#d97706', linestyle='--', linewidth=1.5)
+                        ax.axvline(inv_t_max, color='#d97706', linestyle='--', linewidth=1.5)
+                    
+                    ax.set_yscale('log')
+                    ax.set_title(f"{args.compound.capitalize()} SIDT Ignition Delay & NTC Region (P={args.pressure:.1f} bar, phi={args.phi:.2f})", fontsize=12, fontweight='bold')
+                    ax.set_xlabel("1000 / Temperature (1/K)", fontsize=11)
+                    ax.set_ylabel("Ignition Delay Time (ms)", fontsize=11)
+                    ax.grid(True, which='both', linestyle='--', alpha=0.5)
+                    ax.legend(loc='upper right')
+                    
+                    plot_file = args.out_plot if args.out_plot else os.path.join(script_dir, f"{args.compound}_ntc_curve.png")
+                    plt.savefig(plot_file, dpi=300, bbox_inches='tight')
+                    plt.close()
+                    print(f"✓ Saved NTC curve plot to: {plot_file}")
+            except Exception as plot_err:
+                print(f"Warning: Could not generate NTC plot: {plot_err}")
+                
+        except Exception as e:
+            print(f"Error running NTC prediction: {e}")
             sys.exit(1)
 
 if __name__ == "__main__":
