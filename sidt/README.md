@@ -19,14 +19,15 @@ sidt/
 │   ├── train_export.py        # Parameterized training & ONNX export script (Forward/Inverse IDT)
 │   └── train_ntc_export.py    # Training & ONNX export script for NTC bounds
 └── models/
-    ├── methane/
-    │   ├── forward_model.onnx
-    │   ├── inverse_*.onnx
-    │   └── ntc/               # Exported ONNX models for NTC bounds
-    │       ├── has_ntc_classifier.onnx
-    │       ├── ntc_t_min_model.onnx
-    │       └── ntc_t_max_model.onnx
-    └── ethane/
+    ├── methane/               # Exported ONNX models for methane
+    ├── ethane/                # Exported ONNX models for ethane
+    └── propane/               # Exported ONNX models for propane
+        ├── forward_model.onnx
+        ├── inverse_*.onnx
+        └── ntc/               # Exported ONNX models for NTC bounds
+            ├── has_ntc_classifier.onnx
+            ├── ntc_t_min_model.onnx
+            └── ntc_t_max_model.onnx
 ```
 
 ---
@@ -46,19 +47,15 @@ sidt/
 To train and export models, run the corresponding scripts:
 
 ```bash
-# 1. Train Forward & Inverse IDT models for Methane & Ethane
+# 1. Train Forward & Inverse IDT models (Methane, Ethane, Propane)
 python sidt/scripts/train_export.py \
-    --input model_training/sidt/sidt_selfies_methane.dat \
-    --out_dir sidt/models/methane
+    --input model_training/sidt/sidt_selfies_propane.dat \
+    --out_dir sidt/models/propane
 
-python sidt/scripts/train_export.py \
-    --input model_training/sidt/sidt_selfies_ethane.dat \
-    --out_dir sidt/models/ethane
-
-# 2. Train NTC Bounds models for Methane
+# 2. Train NTC Bounds models (Methane, Propane)
 python sidt/scripts/train_ntc_export.py \
-    --input model_training/sidt/sidt_ntc_bounds_methane.dat \
-    --out_dir sidt/models/methane/ntc
+    --input model_training/sidt/sidt_ntc_bounds_propane.dat \
+    --out_dir sidt/models/propane/ntc
 ```
 
 ---
@@ -71,7 +68,7 @@ python sidt/scripts/train_ntc_export.py \
 ```bash
 python sidt/inference.py \
     --mode forward \
-    --compound methane \
+    --compound propane \
     --pressure 10.0 \
     --temperature 1000.0 \
     --phi 1.0 \
@@ -80,24 +77,24 @@ python sidt/inference.py \
 
 ### B. Inverse Mode (Predict Operating Condition)
 ```bash
-# Predict Temperature for Methane
+# Predict Temperature for Propane
 python sidt/inference.py \
     --mode inverse \
-    --compound methane \
+    --compound propane \
     --target temperature \
     --pressure 10.0 \
     --phi 1.0 \
     --egr_fraction 0.0 \
-    --idt 0.1
+    --idt 0.01
 ```
 
 ### C. NTC Mode (Predict NTC Presence & Bounds)
 ```bash
 python sidt/inference.py \
     --mode ntc \
-    --compound methane \
+    --compound propane \
     --pressure 10.0 \
     --phi 0.5 \
     --egr_fraction 0.0
 ```
-* **Output**: Prints `has_ntc`, `T_min`, and `T_max`, and automatically generates the Arrhenius NTC curve plot saved at `sidt/methane_ntc_curve.png`.
+* **Output**: Prints `has_ntc`, `T_min`, and `T_max`, and automatically generates the Arrhenius NTC curve plot saved at `sidt/propane_ntc_curve.png`.
