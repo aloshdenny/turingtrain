@@ -5,7 +5,8 @@ import numpy as np
 import pandas as pd
 from pathlib import Path
 from sklearn.linear_model import Ridge
-from sklearn.ensemble import RandomForestRegressor
+from sklearn.ensemble import HistGradientBoostingRegressor
+from sklearn.multioutput import MultiOutputRegressor
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.impute import SimpleImputer
@@ -89,13 +90,20 @@ def main():
     print(f"Dataset Loaded. Samples count: {len(X_raw)}")
     print(f"X shape: {X_raw.shape}, Y_deltas shape: {Y_deltas.shape}")
     
-    # 1. Train Forward Model (Random Forest predicting deltas on raw inputs)
-    # n_estimators=100 and max_depth=15 chosen for optimal accuracy and reasonable model file size (73 MB)
-    forward_model = Pipeline([
-        ('imputer', SimpleImputer(strategy='constant', fill_value=0.0)),
-        ('regressor', RandomForestRegressor(n_estimators=100, max_depth=15, random_state=42, n_jobs=-1))
-    ])
-    print("Training Forward Model (Random Forest) on temperature deltas (raw inputs)...")
+    # 1. Train Forward Model (HistGradientBoosting predicting deltas on raw inputs)
+    # Architecture selected via 3-fold CV on v1.3.0 (104K rows):
+    # HistGBT (lr=0.05, leaves=127, iter=500, msl=20): MAE=1.02 K vs RF MAE=2.08 K
+    forward_model = MultiOutputRegressor(
+        HistGradientBoostingRegressor(
+            learning_rate=0.05,
+            max_leaf_nodes=127,
+            max_iter=500,
+            min_samples_leaf=20,
+            random_state=42,
+        ),
+        n_jobs=-1,
+    )
+    print("Training Forward Model (HistGradientBoosting) on temperature deltas (raw inputs)...")
     forward_model.fit(X_raw, Y_deltas)
     
     # 2. Train Inverse Model (Distillation Curve -> Composition)
@@ -110,7 +118,7 @@ def main():
     # --- Export to ONNX ---
     print("Converting models to ONNX...")
     
-    # Convert Random Forest pipeline predicting deltas to ONNX
+    # Convert HistGradientBoosting MultiOutputRegressor predicting deltas to ONNX
     initial_type_fwd = [('float_input', FloatTensorType([None, len(feature_cols)]))]
     onx_fwd = convert_sklearn(forward_model, initial_types=initial_type_fwd)
     
