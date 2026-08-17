@@ -23,7 +23,8 @@ sidt/
     ├── ethane/                # Exported ONNX models for ethane
     ├── propane/               # Exported ONNX models for propane
     ├── butane/                # Exported ONNX models for butane
-    └── pentane/               # Exported ONNX models for pentane
+    ├── pentane/               # Exported ONNX models for pentane
+    └── hexane/                # Exported ONNX models for hexane
         ├── forward_model.onnx
         ├── inverse_*.onnx
         └── ntc/               # Exported ONNX models for NTC bounds
@@ -49,7 +50,7 @@ sidt/
 To train and export models, run the corresponding scripts:
 
 ```bash
-# 1. Train Forward & Inverse IDT models (Methane, Ethane, Propane, Butane, Pentane)
+# 1. Train Forward & Inverse IDT models (Methane, Ethane, Propane, Butane, Pentane, Hexane)
 python sidt/scripts/train_export.py \
     --input model_training/sidt/sidt_selfies_propane.dat \
     --out_dir sidt/models/propane
@@ -62,7 +63,11 @@ python sidt/scripts/train_export.py \
     --input model_training/sidt/sidt_selfies_pentane.dat \
     --out_dir sidt/models/pentane
 
-# 2. Train NTC Bounds models (Methane, Propane, Butane, Pentane)
+python sidt/scripts/train_export.py \
+    --input model_training/sidt/sidt_selfies_hexane.dat \
+    --out_dir sidt/models/hexane
+
+# 2. Train NTC Bounds models (Methane, Propane, Butane, Pentane, Hexane)
 python sidt/scripts/train_ntc_export.py \
     --input model_training/sidt/sidt_ntc_bounds_propane.dat \
     --out_dir sidt/models/propane/ntc
