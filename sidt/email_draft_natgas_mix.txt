@@ -1,0 +1,61 @@
+Subject: Natural Gas Mixture IDT Model (idt_400K_s) — SIDT Framework
+
+Hi Nimal,
+
+I have completed training and exporting the forward Ignition Delay Time (IDT) model for the 6-component natural gas mixture (natgas_mix) dataset under the SIDT approach. All trained models have been compiled into ONNX binaries and exported to sidt/models/natgas_mix/.
+
+
+Technique & Modeling Methodology:
+
+1. Model Architecture & Pipeline:
+   - Built an end-to-end scikit-learn Pipeline incorporating SimpleImputer (median strategy) and an optimized RandomForestRegressor (100 estimators, max depth of 13, min_samples_leaf of 2, parallelized across all CPU cores).
+   - Compiled and exported the complete pipeline to a standalone ONNX computational graph (FloatTensorType: [None, 10]) via skl2onnx. The exported binary is compact (32.2 MB, down from 136.6 MB), allowing direct versioning and fast zero-dependency inference in C++, Python, and production environments using onnxruntime.
+
+2. Feature Formulation (10 Input Dimensions):
+   - 6 Fuel Blend Mole Fractions:
+     * cpnt_mole_frac_1: Ethane (C2H6)
+     * cpnt_mole_frac_2: Propane (C3H8)
+     * cpnt_mole_frac_3: n-Butane (C4H10)
+     * cpnt_mole_frac_4: Methane (CH4)
+     * cpnt_mole_frac_5: Isobutane (i-C4H10)
+     * cpnt_mole_frac_6: n-Pentane (n-C5H12)
+   - 4 Thermodynamic & Operating Conditions:
+     * pressure_pa: Initial chamber pressure in Pascals (1.0e6 Pa to 5.0e6 Pa, corresponding to 10 to 50 bar)
+     * temperature_K: Initial mixture temperature (700 K to 1500 K)
+     * phi: Fuel-to-air equivalence ratio (0.5 to 2.0)
+     * egr_fraction: Exhaust Gas Recirculation dilution fraction (0.0 to 0.30)
+
+3. Target Variable:
+   - idt_400K_s: Ignition delay time defined by a 400 K temperature rise (Delta T = 400 K), trained on 98,869 clean CVWSR simulation runs from the LHS design blocks.
+
+
+Model Performance & Reactivity Comparison:
+
+1. Validation Metrics (10% Holdout Split):
+   - MAE: 10.14 ms (0.01014 s)
+   - RMSE: 39.65 ms (0.03965 s)
+
+2. Sample Prediction (P = 10 bar / 1.0 MPa, T = 1000 K, phi = 1.0, EGR = 0.0, equimolar 6-component mix with 1/6 each):
+   - Predicted IDT (Delta T = 400 K): 5.54 ms (0.005543 s)
+
+3. Reactivity Progression Across Fuel Series & Natural Gas Mix:
+   Methane (49.55 ms) -> Ethane (7.43 ms) -> Propane (6.42 ms) -> Natural Gas 6-Mix (5.54 ms) -> Butane (5.01 ms) -> Pentane (3.59 ms) -> Hexane (2.91 ms) -> Heptane (3.00 ms)
+
+   *Note: The natural gas blend IDT (5.54 ms) aligns closely with chemical kinetics expectations, demonstrating accelerated autoignition relative to pure methane (49.55 ms) due to radical-pool sensitization by the ethane, propane, butane, and pentane fractions.
+
+
+How to Run Natural Gas Mixture Model (README has also been updated):
+
+1. Forward Prediction & Arrhenius Plot:
+   python sidt/inference.py --mode forward --compound natgas_mix --pressure 10.0 --temperature 1000.0 --phi 1.0 --egr_fraction 0.0
+
+2. Custom Component Mole Fractions & Direct Pascal Inputs:
+   python sidt/inference.py --mode forward --compound natgas_mix --pressure_pa 1000000.0 --temperature 1000.0 --phi 1.0 --egr_fraction 0.0 --cpnt_mol_fracs 0.1667 0.1667 0.1667 0.1667 0.1667 0.1667
+
+
+The validation Arrhenius plot for the natural gas mixture model is attached to this email (natgas_mix_forward_plot.png).
+
+Please let me know if you have any questions or would like inverse condition or multi-threshold models trained on this dataset.
+
+Regards,
+Alosh

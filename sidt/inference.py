@@ -30,10 +30,13 @@ def main():
     
     # Optional inputs for conditions
     parser.add_argument("--pressure", type=float, help="Pressure (bar)")
+    parser.add_argument("--pressure_pa", type=float, help="Pressure (Pa, for mixture models)")
     parser.add_argument("--temperature", type=float, help="Temperature (Kelvin)")
     parser.add_argument("--phi", type=float, help="Equivalence ratio phi")
     parser.add_argument("--egr_fraction", type=float, help="Exhaust Gas Recirculation (EGR) fraction (0-1)")
     parser.add_argument("--idt", type=float, help="Ignition Delay Time (s)")
+    parser.add_argument("--cpnt_mol_fracs", type=float, nargs=6, default=None,
+                        help="6 component mole fractions (default: 1/6 each)")
     
     args = parser.parse_args()
     
@@ -43,7 +46,8 @@ def main():
     
     if args.mode == "forward":
         # Forward inputs: pressure, temperature, phi, egr_fraction
-        missing = [param for param, val in [("pressure", args.pressure),
+        p_val = args.pressure if args.pressure is not None else (args.pressure_pa / 1.0e5 if args.pressure_pa is not None else None)
+        missing = [param for param, val in [("pressure", p_val),
                                             ("temperature", args.temperature),
                                             ("phi", args.phi),
                                             ("egr_fraction", args.egr_fraction)] if val is None]
@@ -52,13 +56,24 @@ def main():
             sys.exit(1)
             
         model_path = os.path.join(compound_dir, "forward_model.onnx")
-        inputs = [args.pressure, args.temperature, args.phi, args.egr_fraction]
+        is_mix = (args.compound == "natgas_mix")
+        
+        if is_mix:
+            mol_fracs = args.cpnt_mol_fracs if args.cpnt_mol_fracs is not None else [1.0/6.0]*6
+            p_pa = args.pressure_pa if args.pressure_pa is not None else (args.pressure * 1.0e5)
+            inputs = mol_fracs + [p_pa, args.temperature, args.phi, args.egr_fraction]
+        else:
+            inputs = [args.pressure, args.temperature, args.phi, args.egr_fraction]
         
         try:
             pred_idt = load_and_predict(model_path, inputs)
-            print(f"\nForward Model Prediction for {args.compound.capitalize()}:")
+            print(f"\nForward Model Prediction for {args.compound.replace('_', ' ').title()}:")
             print(f"  Inputs:")
-            print(f"    Pressure: {args.pressure:.2f} bar")
+            if is_mix:
+                print(f"    Component Mole Fractions: {[round(x, 4) for x in mol_fracs]}")
+                print(f"    Pressure: {p_val:.2f} bar ({p_pa:.2e} Pa)")
+            else:
+                print(f"    Pressure: {args.pressure:.2f} bar")
             print(f"    Temperature: {args.temperature:.2f} K")
             print(f"    Phi: {args.phi:.4f}")
             print(f"    EGR Fraction: {args.egr_fraction:.4f}")
@@ -70,7 +85,10 @@ def main():
                 import matplotlib.pyplot as plt
                 
                 temp_sweep = np.linspace(600.0, 1600.0, 101)
-                sweep_inputs = np.array([[args.pressure, t, args.phi, args.egr_fraction] for t in temp_sweep], dtype=np.float32)
+                if is_mix:
+                    sweep_inputs = np.array([mol_fracs + [p_pa, t, args.phi, args.egr_fraction] for t in temp_sweep], dtype=np.float32)
+                else:
+                    sweep_inputs = np.array([[args.pressure, t, args.phi, args.egr_fraction] for t in temp_sweep], dtype=np.float32)
                 
                 sess_sweep = rt.InferenceSession(str(model_path))
                 input_name_sweep = sess_sweep.get_inputs()[0].name
@@ -82,8 +100,11 @@ def main():
                 if os.path.exists(dataset_path):
                     try:
                         df_dat = pd.read_csv(dataset_path, sep='\t', comment='#')
+                        p_col = 'pressure_bar' if 'pressure_bar' in df_dat.columns else 'pressure_pa'
+                        p_query = p_val if p_col == 'pressure_bar' else p_pa
+                        p_tol = 0.5 if p_col == 'pressure_bar' else 5e4
                         mask = (
-                            (df_dat['pressure_bar'].between(args.pressure - 0.5, args.pressure + 0.5)) &
+                            (df_dat[p_col].between(p_query - p_tol, p_query + p_tol)) &
                             (df_dat['phi'].between(args.phi - 0.05, args.phi + 0.05)) &
                             (df_dat['egr_fraction'].between(args.egr_fraction - 0.02, args.egr_fraction + 0.02))
                         )
@@ -93,11 +114,12 @@ def main():
                 
                 fig, ax1 = plt.subplots(figsize=(8, 6))
                 recip_temp_sweep = 1000.0 / temp_sweep
-                ax1.plot(recip_temp_sweep, sweep_idt_ms, label=f"Model Prediction ({args.pressure:.1f} bar, phi={args.phi:.2f}, egr={args.egr_fraction:.2f})", color='#00d2ff', linewidth=2.5)
+                ax1.plot(recip_temp_sweep, sweep_idt_ms, label=f"Model Prediction ({p_val:.1f} bar, phi={args.phi:.2f}, egr={args.egr_fraction:.2f})", color='#00d2ff', linewidth=2.5)
                 
                 if df_points is not None and len(df_points) > 0:
                     recip_temp_data = 1000.0 / df_points['temperature_K'].values
-                    idt_data_ms = df_points['idt_s'].values * 1000.0
+                    idt_col = 'idt_400K_s' if 'idt_400K_s' in df_points.columns else 'idt_s'
+                    idt_data_ms = df_points[idt_col].values * 1000.0
                     ax1.scatter(recip_temp_data, idt_data_ms, color='#ff007f', alpha=0.8, edgecolors='black', zorder=5, label=f"Dataset Points ({len(df_points)} samples)")
                 
                 ax1.scatter([1000.0 / args.temperature], [pred_idt * 1000.0], color='#ffea00', s=120, edgecolors='black', marker='*', zorder=6, label=f"Prediction: {pred_idt * 1000.0:.2f} ms")
@@ -105,7 +127,7 @@ def main():
                 ax1.set_yscale('log')
                 ax1.set_xlabel("1000 / Temperature (1/K)", fontsize=11, fontweight='bold')
                 ax1.set_ylabel("Ignition Delay Time (ms)", fontsize=11, fontweight='bold')
-                ax1.set_title(f"Arrhenius Plot of {args.compound.capitalize()} Ignition Delay Time", fontsize=13, fontweight='bold', pad=15)
+                ax1.set_title(f"Arrhenius Plot of {args.compound.replace('_', ' ').title()} Ignition Delay Time", fontsize=13, fontweight='bold', pad=15)
                 ax1.grid(True, which="both", ls="--", alpha=0.5)
                 ax1.legend(frameon=True, facecolor='white', edgecolor='lightgray', loc='upper right')
                 

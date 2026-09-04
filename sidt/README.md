@@ -25,9 +25,10 @@ sidt/
     ├── butane/                # Exported ONNX models for butane
     ├── pentane/               # Exported ONNX models for pentane
     ├── hexane/                # Exported ONNX models for hexane
-    └── heptane/               # Exported ONNX models for heptane
+    ├── heptane/               # Exported ONNX models for heptane
+    └── natgas_mix/            # Exported ONNX models for 6-component natural gas mix
         ├── forward_model.onnx
-        ├── inverse_*.onnx
+        └── idt_400k_model.onnx
         └── ntc/               # Exported ONNX models for NTC bounds
             ├── has_ntc_classifier.onnx
             ├── ntc_t_min_model.onnx
@@ -38,7 +39,8 @@ sidt/
 
 ## 2. Model Architecture
 
-* **Forward IDT Model**: Predicts `idt_s` from physical conditions `(pressure_bar, temperature_K, phi, egr_fraction)`.
+* **Forward IDT Model (Pure Compounds)**: Predicts `idt_s` from physical conditions `(pressure_bar, temperature_K, phi, egr_fraction)`.
+* **Forward Mixture IDT Model (`natgas_mix`)**: Predicts `idt_400K_s` from 10 inputs: 6 fuel component mole fractions `(cpnt_mole_frac_1..6)` and operating conditions `(pressure_pa, temperature_K, phi, egr_fraction)`.
 * **Inverse Condition Models**: Predicts one parameter from the remaining conditions and `idt_s`.
 * **NTC Bounds Models**:
   * **Classifier (`has_ntc_classifier.onnx`)**: Random Forest Classifier predicting whether an NTC pocket exists (`has_ntc` = 1 or 0) for given operating conditions `(pressure_bar, phi, egr_fraction)`.
@@ -51,35 +53,20 @@ sidt/
 To train and export models, run the corresponding scripts:
 
 ```bash
-# 1. Train Forward & Inverse IDT models (Methane, Ethane, Propane, Butane, Pentane, Hexane, Heptane)
+# 1. Train Forward & Inverse IDT models (Pure Compounds)
 python sidt/scripts/train_export.py \
-    --input model_training/sidt/sidt_selfies_propane.dat \
-    --out_dir sidt/models/propane
+    --input model_training/sidt/sidt_selfies_heptane.dat \
+    --out_dir sidt/models/heptane
 
-python sidt/scripts/train_export.py \
-    --input model_training/sidt/sidt_selfies_butane.dat \
-    --out_dir sidt/models/butane
+# 2. Train Natural Gas Mixture Model (6-Component Fuel Blend)
+python sidt/scripts/train_natgas_mix_export.py \
+    --input model_training/sidt/sidt_selfies_natgas_mix.dat \
+    --out_dir sidt/models/natgas_mix
 
-python sidt/scripts/train_export.py \
-    --input model_training/sidt/sidt_selfies_pentane.dat \
-    --out_dir sidt/models/pentane
-
-python sidt/scripts/train_export.py \
-    --input model_training/sidt/sidt_selfies_hexane.dat \
-    --out_dir sidt/models/hexane
-
-# 2. Train NTC Bounds models (Methane, Propane, Butane, Pentane, Hexane)
+# 3. Train NTC Bounds models
 python sidt/scripts/train_ntc_export.py \
     --input model_training/sidt/sidt_ntc_bounds_propane.dat \
     --out_dir sidt/models/propane/ntc
-
-python sidt/scripts/train_ntc_export.py \
-    --input model_training/sidt/sidt_ntc_bounds_butane.dat \
-    --out_dir sidt/models/butane/ntc
-
-python sidt/scripts/train_ntc_export.py \
-    --input model_training/sidt/sidt_ntc_bounds_pentane.dat \
-    --out_dir sidt/models/pentane/ntc
 ```
 
 ---
@@ -90,9 +77,19 @@ python sidt/scripts/train_ntc_export.py \
 
 ### A. Forward Mode (Predict IDT & Generate Arrhenius Plot)
 ```bash
+# Pure Compound (e.g. Propane)
 python sidt/inference.py \
     --mode forward \
     --compound propane \
+    --pressure 10.0 \
+    --temperature 1000.0 \
+    --phi 1.0 \
+    --egr_fraction 0.0
+
+# 6-Component Natural Gas Mixture (e.g. at P = 10 bar / 1.0e6 Pa, T = 1000 K, φ = 1.0, EGR = 0.0)
+python sidt/inference.py \
+    --mode forward \
+    --compound natgas_mix \
     --pressure 10.0 \
     --temperature 1000.0 \
     --phi 1.0 \
