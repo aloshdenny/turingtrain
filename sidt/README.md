@@ -26,7 +26,10 @@ sidt/
     ├── pentane/               # Exported ONNX models for pentane
     ├── hexane/                # Exported ONNX models for hexane
     ├── heptane/               # Exported ONNX models for heptane
-    └── natgas_mix/            # Exported ONNX models for 6-component natural gas mix
+    ├── natgas_mix/            # Exported ONNX models for 6-component natural gas mix
+    │   ├── forward_model.onnx
+    │   └── idt_400k_model.onnx
+    └── gasoline_mix/          # Exported ONNX models for 10-component gasoline surrogate mix
         ├── forward_model.onnx
         └── idt_400k_model.onnx
         └── ntc/               # Exported ONNX models for NTC bounds
@@ -41,6 +44,7 @@ sidt/
 
 * **Forward IDT Model (Pure Compounds)**: Predicts `idt_s` from physical conditions `(pressure_bar, temperature_K, phi, egr_fraction)`.
 * **Forward Mixture IDT Model (`natgas_mix`)**: Predicts `idt_400K_s` from 10 inputs: 6 fuel component mole fractions `(cpnt_mole_frac_1..6)` and operating conditions `(pressure_pa, temperature_K, phi, egr_fraction)`.
+* **Forward Mixture IDT Model (`gasoline_mix`)**: Predicts `idt_400K_s` from 14 inputs: 10 fuel component mole fractions `(cpnt_mole_frac_1..10)` (ethanol, 1-hexene, toluene, 2-methylhexane, cyclopentane, isopentane, isooctane, n-hexane, n-heptane, 1,2,4-trimethylbenzene) and operating conditions `(pressure_pa, temperature_K, phi, egr_fraction)`.
 * **Inverse Condition Models**: Predicts one parameter from the remaining conditions and `idt_s`.
 * **NTC Bounds Models**:
   * **Classifier (`has_ntc_classifier.onnx`)**: Random Forest Classifier predicting whether an NTC pocket exists (`has_ntc` = 1 or 0) for given operating conditions `(pressure_bar, phi, egr_fraction)`.
@@ -63,7 +67,12 @@ python sidt/scripts/train_natgas_mix_export.py \
     --input model_training/sidt/sidt_selfies_natgas_mix.dat \
     --out_dir sidt/models/natgas_mix
 
-# 3. Train NTC Bounds models
+# 3. Train Gasoline Mixture Model (10-Component Surrogate Blend)
+python sidt/scripts/train_gasoline_mix_export.py \
+    --input model_training/sidt/sidt_selfies_gasoline_mix.dat \
+    --out_dir sidt/models/gasoline_mix
+
+# 4. Train NTC Bounds models
 python sidt/scripts/train_ntc_export.py \
     --input model_training/sidt/sidt_ntc_bounds_propane.dat \
     --out_dir sidt/models/propane/ntc
@@ -86,10 +95,19 @@ python sidt/inference.py \
     --phi 1.0 \
     --egr_fraction 0.0
 
-# 6-Component Natural Gas Mixture (e.g. at P = 10 bar / 1.0e6 Pa, T = 1000 K, φ = 1.0, EGR = 0.0)
+# 6-Component Natural Gas Mixture
 python sidt/inference.py \
     --mode forward \
     --compound natgas_mix \
+    --pressure 10.0 \
+    --temperature 1000.0 \
+    --phi 1.0 \
+    --egr_fraction 0.0
+
+# 10-Component Gasoline Surrogate Mixture (equimolar 0.1 each or custom --cpnt_mol_fracs)
+python sidt/inference.py \
+    --mode forward \
+    --compound gasoline_mix \
     --pressure 10.0 \
     --temperature 1000.0 \
     --phi 1.0 \

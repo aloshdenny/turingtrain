@@ -35,8 +35,8 @@ def main():
     parser.add_argument("--phi", type=float, help="Equivalence ratio phi")
     parser.add_argument("--egr_fraction", type=float, help="Exhaust Gas Recirculation (EGR) fraction (0-1)")
     parser.add_argument("--idt", type=float, help="Ignition Delay Time (s)")
-    parser.add_argument("--cpnt_mol_fracs", type=float, nargs=6, default=None,
-                        help="6 component mole fractions (default: 1/6 each)")
+    parser.add_argument("--cpnt_mol_fracs", type=float, nargs="+", default=None,
+                        help="Component mole fractions (default: 1/6 each for natgas_mix, 0.1 each for gasoline_mix)")
     
     args = parser.parse_args()
     
@@ -56,10 +56,15 @@ def main():
             sys.exit(1)
             
         model_path = os.path.join(compound_dir, "forward_model.onnx")
-        is_mix = (args.compound == "natgas_mix")
+        is_mix = args.compound in ["natgas_mix", "gasoline_mix"]
         
         if is_mix:
-            mol_fracs = args.cpnt_mol_fracs if args.cpnt_mol_fracs is not None else [1.0/6.0]*6
+            if args.cpnt_mol_fracs is not None:
+                mol_fracs = args.cpnt_mol_fracs
+            elif args.compound == "gasoline_mix":
+                mol_fracs = [0.1] * 10
+            else:
+                mol_fracs = [1.0 / 6.0] * 6
             p_pa = args.pressure_pa if args.pressure_pa is not None else (args.pressure * 1.0e5)
             inputs = mol_fracs + [p_pa, args.temperature, args.phi, args.egr_fraction]
         else:
