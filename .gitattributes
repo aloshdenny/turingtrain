@@ -1,1 +1,2 @@
 model_training/dist_2dgc/training_data/dist_2dgc_dataset.dat filter=lfs diff=lfs merge=lfs -text
+model_training/freezing_point_2dgc/fp_2dgc_selfies_train.dat filter=lfs diff=lfs merge=lfs -text
