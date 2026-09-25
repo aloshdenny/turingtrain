@@ -55,6 +55,16 @@ Predict Cetane Number using a Transformer-based VAE + Attention Mixture model fo
 - **Inverse Design**: [`SELFIES/model_testing/inverse_design.py`](SELFIES/model_testing/inverse_design.py) — gradient-based latent space search to discover novel mixtures with a target CN.
 - **Documentation**: See [`SELFIES/model_testing/README.md`](SELFIES/model_testing/README.md) for usage commands and details.
 
+### 4. [Freezing Point (2DGC)](freezing_point/)
+Predict fuel blend freezing point (`T_freeze_K`) from 2DGC hydrocarbon bin distributions.
+- **Training Script**: [`freezing_point/scripts/train_fp_2dgc_export.py`](freezing_point/scripts/train_fp_2dgc_export.py)
+- **Documentation**: See [`freezing_point/README.md`](freezing_point/README.md) for usage commands, metrics, and ONNX inference.
+
+### 5. [Viscosity (2DGC)](viscosity/)
+Predict liquid hydrocarbon viscosity (`eta_internal_cP` and `eta_loglinear_cP`) from 2DGC bins, temperature (`T_K`), and pressure (`P_bar`).
+- **Training Script**: [`viscosity/scripts/train_visc_2dgc_export.py`](viscosity/scripts/train_visc_2dgc_export.py)
+- **Documentation**: See [`viscosity/README.md`](viscosity/README.md) for usage commands, metrics, and ONNX inference.
+
 ---
 
 ## Retraining
