@@ -1,0 +1,44 @@
+{
+  "model_name": "YSI Linear Mixture Predictor",
+  "description": "Component-level SELFIES sequence model with strictly linear mole-fraction mixture blending",
+  "mixing_rule": "linear_mole_fraction: ysi_mix = sum(cpnt_mole_frac_i * ysi_i)",
+  "n_components": 10,
+  "max_selfies_len": 65,
+  "vocab_size": 35,
+  "n_pure_compounds": 567,
+  "component_oof_mae": 25.561967849731445,
+  "component_oof_r2": 0.9394756236151628,
+  "component_oof_median_ae": 5.176128387451172,
+  "mixture_validation_mae": 18.862213134765625,
+  "mixture_validation_r2": 0.714495425002081,
+  "mixture_validation_median_ae": 11.590583801269531,
+  "seed_metrics": [
+    {
+      "val_mae": 22.455102920532227,
+      "val_r2": 0.9563431748376496,
+      "val_median_ae": 4.731914520263672
+    },
+    {
+      "val_mae": 28.105409622192383,
+      "val_r2": 0.9141252085687137,
+      "val_median_ae": 4.124164581298828
+    },
+    {
+      "val_mae": 33.74382781982422,
+      "val_r2": 0.9327239265886064,
+      "val_median_ae": 4.953369140625
+    },
+    {
+      "val_mae": 14.215123176574707,
+      "val_r2": 0.980452240944206,
+      "val_median_ae": 5.703887939453125
+    },
+    {
+      "val_mae": 29.295360565185547,
+      "val_r2": 0.9307423970482607,
+      "val_median_ae": 6.1884918212890625
+    }
+  ],
+  "onnx_file": "ysi_dha.onnx",
+  "total_time_s": 16.353790044784546
+}
