@@ -1,0 +1,31 @@
+{
+  "dataset": "sidt_lhs_gasoline2_K10_1M.dat",
+  "n_samples_clean": 672378,
+  "n_components": 10,
+  "max_selfies_len": 65,
+  "latent_dim": 128,
+  "reactor_dim": 4,
+  "hidden_dims": [
+    512,
+    256,
+    128
+  ],
+  "cond_mean": [
+    2499338.25,
+    1001.3507080078125,
+    0.9924116134643555,
+    0.14991207420825958
+  ],
+  "cond_std": [
+    1170061.25,
+    222.11239624023438,
+    0.301896870136261,
+    0.0890919640660286
+  ],
+  "vocab_path": "/Users/aoxo/vscode/turingtrain/SELFIES/data/vocab.json",
+  "n_seeds_trained": 5,
+  "val_mae_s": 0.0075769564136862755,
+  "val_rmse_s": 0.038527149707078934,
+  "val_r2": 0.19987444150962508,
+  "sample_pred_idt_s": 0.0029218196868896484
+}

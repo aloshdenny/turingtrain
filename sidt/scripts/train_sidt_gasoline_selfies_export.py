@@ -54,14 +54,14 @@ REACTOR_DIM     = 4           # pressure_pa, temperature_K, phi, egr_fraction
 HIDDEN_DIMS     = (512, 256, 128)
 DROPOUT         = 0.2
 LR              = 3e-4
-BATCH_SIZE      = 512
-EPOCHS          = 60
+BATCH_SIZE      = 2048
+EPOCHS          = 40
 N_SEEDS         = 5           # ensemble over 5 pretrained VAE seeds
 
 # ── Reactor condition normalisation constants ─────────────────────────────────
-# Computed from dataset: mean / std for standardisation
-COND_MEAN = np.array([2503320.4, 1002.1, 0.9925, 0.1504], dtype=np.float32)
-COND_STD  = np.array([1174467.1, 221.9,  0.2982, 0.0896], dtype=np.float32)
+# Defaults (recomputed dynamically from dataset in main)
+COND_MEAN = np.array([2499338.3, 1001.4, 0.9998, 0.1498], dtype=np.float32)
+COND_STD  = np.array([1170061.3, 222.11,  0.3019, 0.0891], dtype=np.float32)
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -75,6 +75,8 @@ class GasolineSIDTDataset:
         self,
         df: pd.DataFrame,
         comp_tokens_10: torch.Tensor,
+        cond_mean: np.ndarray = COND_MEAN,
+        cond_std: np.ndarray = COND_STD,
     ) -> None:
         self.comp_tokens = comp_tokens_10  # (10, MAX_SELFIES_LEN)
 
@@ -86,7 +88,7 @@ class GasolineSIDTDataset:
 
         # Reactor conditions: standardised (N, 4)
         conds = df[["pressure_pa", "temperature_K", "phi", "egr_fraction"]].values.astype(np.float32)
-        self.conds = torch.tensor((conds - COND_MEAN) / COND_STD)
+        self.conds = torch.tensor((conds - cond_mean) / cond_std)
 
         # Target: log1p transform for heavy-tail stabilisation
         idt = df["idt_400K_s"].values.astype(np.float32)
@@ -326,16 +328,20 @@ def export_full_model_onnx(
 
 def main():
     import argparse
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
 
     parser = argparse.ArgumentParser(description="Train SIDT IDT model for gasoline mixture using SELFIES VAE encoder.")
     parser.add_argument("--input", type=str,
-                        default="model_training/sidt/sidt_lhs_gasoline_k10_10k.dat",
+                        default="model_training/sidt/sidt_lhs_gasoline2_K10_1M.dat",
                         help="Path to dataset .dat file")
     parser.add_argument("--out_dir", type=str,
                         default="sidt/models/gasoline_mix_selfies",
                         help="Output directory for checkpoints and ONNX models")
     parser.add_argument("--seeds", type=int, default=N_SEEDS, help="Number of VAE seeds to use (1–5)")
     parser.add_argument("--epochs", type=int, default=EPOCHS, help="Training epochs per seed")
+    parser.add_argument("--batch_size", type=int, default=BATCH_SIZE, help="Batch size for training")
     args = parser.parse_args()
 
     input_path = _ROOT / args.input if not Path(args.input).is_absolute() else Path(args.input)
@@ -351,9 +357,22 @@ def main():
 
     # ── Load dataset ──────────────────────────────────────────────────────────
     print(f"Loading dataset from {input_path}…")
-    df = pd.read_csv(input_path, sep="\t", comment="#")
-    df_clean = df.dropna(subset=["idt_400K_s"]).copy()
-    print(f"Clean rows: {len(df_clean)}")
+    t0_load = time.time()
+    feature_cols = (
+        [f"cpnt_mole_frac_{i}" for i in range(1, N_COMPONENTS + 1)]
+        + [f"cpnt_selfies_{i}" for i in range(1, N_COMPONENTS + 1)]
+        + ["pressure_pa", "temperature_K", "phi", "egr_fraction", "idt_400K_s"]
+    )
+    df = pd.read_csv(input_path, sep="\t", comment="#", usecols=feature_cols, low_memory=False)
+    df_clean = df.dropna(subset=["idt_400K_s"]).reset_index(drop=True)
+    print(f"Clean rows: {len(df_clean):,} (loaded in {time.time()-t0_load:.1f}s)")
+
+    # Compute reactor condition standardisation constants dynamically
+    cond_cols = ["pressure_pa", "temperature_K", "phi", "egr_fraction"]
+    cond_mean = df_clean[cond_cols].mean().values.astype(np.float32)
+    cond_std  = df_clean[cond_cols].std().values.astype(np.float32)
+    print(f"Condition Mean : {cond_mean.tolist()}")
+    print(f"Condition Std  : {cond_std.tolist()}")
 
     # Train / val split (90/10)
     from sklearn.model_selection import train_test_split
@@ -376,8 +395,8 @@ def main():
     print(f"Tokenized {N_COMPONENTS} component SELFIES strings successfully.")
 
     # ── Datasets ──────────────────────────────────────────────────────────────
-    train_ds = GasolineSIDTDataset(df_train, comp_tokens)
-    val_ds   = GasolineSIDTDataset(df_val,   comp_tokens)
+    train_ds = GasolineSIDTDataset(df_train, comp_tokens, cond_mean=cond_mean, cond_std=cond_std)
+    val_ds   = GasolineSIDTDataset(df_val,   comp_tokens, cond_mean=cond_mean, cond_std=cond_std)
 
     # ── Train ensemble ────────────────────────────────────────────────────────
     n_seeds = min(args.seeds, N_SEEDS)
@@ -385,14 +404,19 @@ def main():
     predictors = []
     encoders   = []
     val_z_mixes = []
+    t_train_start = time.time()
     for seed_idx in range(n_seeds):
         print(f"\n{'='*60}")
         print(f"Training predictor — Seed {seed_idx}")
         print(f"{'='*60}")
-        pred, enc, val_z = train_one_seed(seed_idx, train_ds, val_ds, tokenizer, device, out_dir, n_epochs=n_epochs)
+        pred, enc, val_z = train_one_seed(
+            seed_idx, train_ds, val_ds, tokenizer, device, out_dir,
+            n_epochs=n_epochs
+        )
         predictors.append(pred)
         encoders.append(enc)
         val_z_mixes.append(val_z)
+    print(f"\nEnsemble training completed in {(time.time()-t_train_start)/60:.1f} min.")
 
     # ── Ensemble validation ───────────────────────────────────────────────────
     print(f"\n{'='*60}")
@@ -410,11 +434,11 @@ def main():
         ensemble_pred = torch.stack(seed_preds).mean(dim=0).cpu()
 
     true_y = val_ds.y.cpu()
-    pred_idt = torch.expm1(ensemble_pred).clamp(min=0)
-    true_idt = torch.expm1(true_y).clamp(min=0)
-    ensemble_mae  = (pred_idt - true_idt).abs().mean().item()
-    ensemble_rmse = ((pred_idt - true_idt).pow(2).mean().sqrt()).item()
-    r2_score = 1.0 - ((true_idt - pred_idt).pow(2).sum() / ((true_idt - true_idt.mean()).pow(2).sum() + 1e-8)).item()
+    pred_idt = torch.expm1(ensemble_pred).clamp(min=0).numpy()
+    true_idt = torch.expm1(true_y).clamp(min=0).numpy()
+    ensemble_mae  = float(np.mean(np.abs(pred_idt - true_idt)))
+    ensemble_rmse = float(np.sqrt(np.mean((pred_idt - true_idt)**2)))
+    r2_score = 1.0 - float(np.sum((true_idt - pred_idt)**2)) / (float(np.sum((true_idt - np.mean(true_idt))**2)) + 1e-8)
 
     print(f"Ensemble MAE  = {ensemble_mae*1000:.3f} ms ({ensemble_mae:.6f} s)")
     print(f"Ensemble RMSE = {ensemble_rmse*1000:.3f} ms ({ensemble_rmse:.6f} s)")
@@ -423,7 +447,7 @@ def main():
     # Sample prediction (P = 10 bar / 1.0 MPa, T = 1000 K, phi = 1.0, EGR = 0.0, equimolar mix)
     sample_fracs = torch.full((1, 10), 0.1, dtype=torch.float32, device=device)
     raw_cond = np.array([1.0e6, 1000.0, 1.0, 0.0], dtype=np.float32)
-    sample_cond = torch.tensor((raw_cond - COND_MEAN) / COND_STD, device=device).unsqueeze(0)
+    sample_cond = torch.tensor((raw_cond - cond_mean) / cond_std, device=device).unsqueeze(0)
     with torch.no_grad():
         preds_s = []
         for i in range(n_seeds):
@@ -433,6 +457,75 @@ def main():
         sample_pred_val = torch.stack(preds_s).mean(0)
     sample_pred_idt = float(torch.expm1(sample_pred_val).clamp(min=0).item())
     print(f"\nStandard Sample (10 bar, 1000 K, phi=1, egr=0, 10-mix): {sample_pred_idt*1000:.3f} ms ({sample_pred_idt:.6f} s)")
+
+    # ── Parity Plot ──────────────────────────────────────────────────────────
+    parity_path = _ROOT / "sidt/gasoline_mix_selfies_parity.png"
+    plt.figure(figsize=(7, 6), dpi=200)
+    n_pts = min(15000, len(true_idt))
+    idx = np.random.choice(len(true_idt), n_pts, replace=False)
+    plt.scatter(true_idt[idx]*1000.0, pred_idt[idx]*1000.0, alpha=0.3, s=10, c="#1f77b4", edgecolors="none")
+    min_val = min(true_idt[idx].min()*1000.0, pred_idt[idx].min()*1000.0)
+    max_val = max(true_idt[idx].max()*1000.0, pred_idt[idx].max()*1000.0)
+    plt.plot([min_val, max_val], [min_val, max_val], "r--", lw=1.5, label="1:1 Identity")
+    plt.xscale("log")
+    plt.yscale("log")
+    plt.xlabel("True IDT (ms)", fontsize=11, fontweight="bold")
+    plt.ylabel("Predicted IDT (ms)", fontsize=11, fontweight="bold")
+    plt.title("Gasoline Surrogate IDT — Parity (CN-MXTR SELFIES)", fontsize=12, fontweight="bold")
+    stats_text = f"MAE: {ensemble_mae*1000:.2f} ms\nRMSE: {ensemble_rmse*1000:.2f} ms\nR²: {r2_score:.4f}"
+    plt.text(0.05, 0.95, stats_text, transform=plt.gca().transAxes, fontsize=10, va="top",
+             bbox=dict(boxstyle="round,pad=0.5", facecolor="white", alpha=0.85))
+    plt.grid(True, which="both", ls=":", alpha=0.5)
+    plt.legend(loc="lower right")
+    plt.tight_layout()
+    plt.savefig(parity_path, dpi=200)
+    plt.close()
+    print(f"✓ Saved parity plot to {parity_path}")
+
+    # ── Forward Sweep (Arrhenius) Plot ───────────────────────────────────────
+    fwd_path = _ROOT / "sidt/gasoline_mix_selfies_forward_plot.png"
+    plt.figure(figsize=(7, 6), dpi=200)
+    temps = np.linspace(600.0, 1500.0, 100)
+    pressures_bar = [10.0, 20.0, 40.0]
+    colors = ["#2ca02c", "#1f77b4", "#d62728"]
+    sweep_fracs = torch.full((len(temps), 10), 0.1, dtype=torch.float32, device=device)
+
+    with torch.no_grad():
+        mu_blend, _ = encoders[0](comp_tokens.to(device))
+        blend_z = torch.matmul(sweep_fracs, mu_blend)
+
+        for p_bar, c in zip(pressures_bar, colors):
+            p_pa = p_bar * 1.0e5
+            conds_sweep = np.array([[p_pa, t, 1.0, 0.0] for t in temps], dtype=np.float32)
+            conds_tensor = torch.tensor((conds_sweep - cond_mean) / cond_std, device=device)
+
+            preds_sweep = []
+            for i in range(n_seeds):
+                pred_i = predictors[i](blend_z, conds_tensor)
+                preds_sweep.append(pred_i)
+            pred_val = torch.stack(preds_sweep).mean(0)
+            idt_sweep_ms = torch.expm1(pred_val).clamp(min=0).cpu().numpy() * 1000.0
+
+            inv_t = 1000.0 / temps
+            plt.plot(inv_t, idt_sweep_ms, lw=2.0, color=c, label=f"{p_bar:.0f} bar")
+
+    plt.yscale("log")
+    plt.xlabel("1000 / T (1/K)", fontsize=11, fontweight="bold")
+    plt.ylabel("Ignition Delay Time (ms)", fontsize=11, fontweight="bold")
+    plt.title("Gasoline Surrogate Equimolar Blend — Arrhenius Sweep", fontsize=12, fontweight="bold")
+    plt.grid(True, which="both", ls=":", alpha=0.5)
+    plt.legend(title="Pressure (φ=1.0, EGR=0.0)")
+    plt.tight_layout()
+    plt.savefig(fwd_path, dpi=200)
+    plt.close()
+    print(f"✓ Saved forward sweep plot to {fwd_path}")
+
+    # Copy plots to artifacts directory
+    artifacts_dir = Path("/Users/aoxo/.gemini/antigravity-ide/brain/05846df6-21e5-4ec0-853f-3ea8b38a7254")
+    if artifacts_dir.exists():
+        import shutil
+        shutil.copy2(parity_path, artifacts_dir / "gasoline_mix_selfies_parity.png")
+        shutil.copy2(fwd_path, artifacts_dir / "gasoline_mix_selfies_forward_plot.png")
 
     # ── Export best-seed ONNX ────────────────────────────────────────────────
     print("\nExporting ONNX model (seed 0)…")
@@ -446,13 +539,15 @@ def main():
 
     # Save normalisation constants and metadata for inference
     meta = {
+        "dataset": str(input_path.name),
+        "n_samples_clean": len(df_clean),
         "n_components": N_COMPONENTS,
         "max_selfies_len": MAX_SELFIES_LEN,
         "latent_dim": LATENT_DIM,
         "reactor_dim": REACTOR_DIM,
         "hidden_dims": list(HIDDEN_DIMS),
-        "cond_mean": COND_MEAN.tolist(),
-        "cond_std": COND_STD.tolist(),
+        "cond_mean": cond_mean.tolist(),
+        "cond_std": cond_std.tolist(),
         "vocab_path": str(tok_path),
         "n_seeds_trained": n_seeds,
         "val_mae_s": ensemble_mae,

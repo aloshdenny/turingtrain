@@ -60,7 +60,7 @@ sidt/
   * Mixture latent: **z_mix = Σᵢ xᵢ · μᵢ** (mole-fraction weighted sum).
   * z_mix + standardised reactor conditions → 3-layer MLP (512→256→128→1, LayerNorm+SiLU).
   * 5-seed ensemble averaged at inference.
-  * Trained on 89,567 LHS simulation runs (Sarathy 2016 compositional mechanism).
+  * Trained on 672,378 LHS simulation runs (`model_training/sidt/sidt_lhs_gasoline2_K10_1M.dat`, Maffei 2025 mechanism).
   * Full end-to-end export: `idt_gasoline_selfies.onnx` — inputs: `component_tokens [10,65]`, `mole_fracs [N,10]`, `reactor_conds [N,4]`; output: `idt_log1p [N]`.
 * **Inverse Condition Models**: Predicts one parameter from the remaining conditions and `idt_s`.
 * **NTC Bounds Models**:
@@ -91,12 +91,12 @@ python sidt/scripts/train_gasoline_mix_export.py \
 
 # 4. Train Gasoline Mixture Model — SELFIES VAE + MLP Ensemble (CN-MXTR, 10-Component)
 #    Requires: SELFIES/checkpoints_opt/seed{0..4}_s1_vae.pt (pretrained VAE encoders)
-#    Dataset:  model_training/sidt/sidt_lhs_gasoline_k10_10k.dat (89,567 LHS runs)
+#    Dataset:  model_training/sidt/sidt_lhs_gasoline2_K10_1M.dat (672,378 clean LHS runs)
 python sidt/scripts/train_sidt_gasoline_selfies_export.py \
-    --input model_training/sidt/sidt_lhs_gasoline_k10_10k.dat \
+    --input model_training/sidt/sidt_lhs_gasoline2_K10_1M.dat \
     --out_dir sidt/models/gasoline_mix_selfies \
     --seeds 5 \
-    --epochs 60
+    --epochs 40
 
 # 5. Train NTC Bounds models
 python sidt/scripts/train_ntc_export.py \
