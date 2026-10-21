@@ -1,0 +1,20 @@
+{
+  "model_type": "FourierFiLMAutoregressiveTransformerDecoder",
+  "description": "Enhanced Inverse ML model predicting SELFIES sequence from scalar target YSI",
+  "dataset": "model_training/ysi_dha/ysi_mix_selfies_train.dat",
+  "n_pure_compounds": 567,
+  "vocab_size": 35,
+  "max_selfies_len": 35,
+  "d_model": 128,
+  "n_heads": 4,
+  "n_layers": 4,
+  "d_ff": 512,
+  "n_freqs": 16,
+  "balanced_sampler": true,
+  "closed_loop_linear_r2": 0.8721218089228662,
+  "closed_loop_log10_r2": 0.8674612605537892,
+  "closed_loop_mae_ysi": 46.23721548410563,
+  "closed_loop_rmse_ysi": 91.13824588772908,
+  "selfies_validity_percent": 100.0,
+  "export_onnx": "inverse_ysi.onnx"
+}

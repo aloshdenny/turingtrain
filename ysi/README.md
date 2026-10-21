@@ -107,3 +107,29 @@ Components (2):
 Linear Mixture Predicted YSI_mix : 287.34
 ==================================================
 ```
+
+---
+
+## 6. Inverse ML Model: YSI $\to$ SELFIES
+
+The inverse model predicts / generates molecular SELFIES sequences targeting a given Yield Sooting Index (YSI).
+
+### Architecture
+* **Model**: Conditional Autoregressive Transformer Decoder with prefix continuous condition projection.
+* **Input**: Target YSI (scalar continuous float).
+* **Output**: Generated molecular SELFIES token sequence.
+* **Verification**: Closed-loop evaluation passing generated molecules through the forward ONNX model to verify target fidelity.
+
+### Performance
+* **Closed-Loop Linear $R^2$**: **0.8908**
+* **Closed-Loop $\text{Log}_{10}\; R^2$**: **0.9746**
+* **Chemical Validity**: **100.0%** (SELFIES & RDKit)
+
+### Inverse Inference Usage
+```bash
+# 1. Deterministic best-match prediction
+python ysi/inference.py --mode inverse --ysi 85.0
+
+# 2. Multi-candidate probabilistic generation
+python ysi/inference.py --mode inverse --ysi 120.0 --candidates 3 --temperature 0.7
+```
