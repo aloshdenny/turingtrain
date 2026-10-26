@@ -91,3 +91,22 @@ import onnxruntime as ort, numpy as np
 sess = ort.InferenceSession("freezing_point/models/fp_2dgc/fp_2dgc_seed0.onnx")
 T_freeze_K = sess.run(None, {"float_input": X.astype(np.float32)})[0]
 ```
+
+---
+
+## Inverse Model: `T_freeze_K` $\to$ 2DGC Hydrocarbon Bins (189 features)
+
+Predicts the full 189-bin hydrocarbon mass fraction composition vector required to achieve a specified target freezing point (`T_freeze_K`).
+
+### Physical Guarantees
+* **Non-negativity**: $w_i \ge 0$ for all 189 bins.
+* **Mass conservation**: $\sum_{i=1}^{189} w_i = 1.0$ strictly preserved via Softmax head.
+
+### CLI Runner
+```bash
+# Target in Kelvin
+python freezing_point/inference.py --mode inverse --t_freeze 230.0
+
+# Target in Celsius (e.g. Jet-A specification -40 °C)
+python freezing_point/inference.py --celsius -40.0 --out composition_minus40C.csv
+```
