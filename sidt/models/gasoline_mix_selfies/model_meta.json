@@ -1,38 +1,127 @@
 {
   "dataset": "sidt_lhs_gasoline2_K10_1M.dat",
-  "architecture": "AttentionFiLMIDTModel",
-  "bug_fix": "Per-subset component SELFIES tokenization (10 unique component sets)",
-  "n_samples_clean": 672378,
-  "n_subsets": 6,
+  "architecture": "GasolineV2Predictor (Three-Arrhenius + FiLM ResNet)",
+  "version": "v2",
+  "n_samples_total": 1139500,
+  "n_samples_train": 1025550,
+  "n_samples_val": 113950,
+  "n_subsets": 10,
   "subset_sizes": [
     108159,
     108972,
     108950,
     107256,
+    121733,
+    114327,
+    115480,
+    115582,
     126656,
     112385
   ],
-  "n_components": 10,
-  "max_selfies_len": 65,
-  "latent_dim": 128,
-  "hidden_dim": 256,
-  "num_blocks": 4,
+  "n_seeds_trained": 5,
+  "vocab_size": 26,
   "kinetic_cond_mean": [
-    1.0464792251586914,
-    1.3493406772613525,
-    0.9923019409179688,
-    0.14989809691905975
+    1.0459944009780884,
+    1.34856116771698,
+    1.000998616218567,
+    0.14990584552288055,
+    -0.04903757944703102
   ],
   "kinetic_cond_std": [
-    0.21950763463974,
-    0.20807281136512756,
-    0.3018704950809479,
-    0.08908330649137497
+    0.2192734330892563,
+    0.20798926055431366,
+    0.3053528368473053,
+    0.0890917032957077,
+    0.32398897409439087
   ],
-  "vocab_path": "/Users/aoxo/vscode/turingtrain/SELFIES/data/vocab.json",
-  "n_seeds_trained": 5,
-  "val_mae_s": 0.0013925040839239955,
-  "val_rmse_s": 0.01620461846332228,
-  "val_r2_linear": 0.858452558517456,
-  "val_r2_log10": 0.9915122985839844
+  "baseline_v1_rescored": {
+    "overall_mape": 110.07,
+    "val_r2_linear": 0.1443,
+    "val_r2_log10": 0.8661
+  },
+  "v2_results": {
+    "overall_mape": 10.02990436553955,
+    "lowt_mape": 13.12038803100586,
+    "worst_cell_mape": 14.77269458770752,
+    "val_r2_linear": 0.8597532510757446,
+    "val_r2_log10": 0.9870818257331848,
+    "val_mae_s": 0.002334551652893424,
+    "val_rmse_s": 0.020994844094502717,
+    "per_subset_mape": {
+      "subset_1": {
+        "mape": 2.84,
+        "count": 10660
+      },
+      "subset_2": {
+        "mape": 6.14,
+        "count": 11075
+      },
+      "subset_3": {
+        "mape": 6.54,
+        "count": 10819
+      },
+      "subset_4": {
+        "mape": 2.66,
+        "count": 11021
+      },
+      "subset_5": {
+        "mape": 2.24,
+        "count": 12235
+      },
+      "subset_6": {
+        "mape": 15.81,
+        "count": 11295
+      },
+      "subset_7": {
+        "mape": 19.99,
+        "count": 11436
+      },
+      "subset_8": {
+        "mape": 21.32,
+        "count": 11506
+      },
+      "subset_9": {
+        "mape": 18.63,
+        "count": 12651
+      },
+      "subset_10": {
+        "mape": 2.57,
+        "count": 11252
+      }
+    },
+    "lowt_grid": {
+      "700-800K_10-20bar": {
+        "mape": 14.77,
+        "count": 11013
+      },
+      "700-800K_20-30bar": {
+        "mape": 13.29,
+        "count": 6655
+      },
+      "700-800K_30-40bar": {
+        "mape": 13.37,
+        "count": 4493
+      },
+      "700-800K_40-50bar": {
+        "mape": 13.12,
+        "count": 3985
+      },
+      "800-900K_10-20bar": {
+        "mape": 12.43,
+        "count": 8974
+      },
+      "800-900K_20-30bar": {
+        "mape": 12.06,
+        "count": 5185
+      },
+      "800-900K_30-40bar": {
+        "mape": 12.09,
+        "count": 3665
+      },
+      "800-900K_40-50bar": {
+        "mape": 11.62,
+        "count": 3141
+      }
+    }
+  }
 }

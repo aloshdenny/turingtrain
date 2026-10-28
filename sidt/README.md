@@ -39,13 +39,12 @@ sidt/
     │       ├── has_ntc_classifier.onnx
     │       ├── ntc_t_min_model.onnx
     │       └── ntc_t_max_model.onnx
-    └── gasoline_mix_selfies/  # SELFIES VAE + MLP ensemble for 10-component gasoline surrogate
-        ├── idt_gasoline_selfies.onnx      # Full end-to-end ONNX export (opset 17)
-        ├── predictor_seed0.pt             # MLP checkpoint — ensemble seed 0
-        ├── predictor_seed1.pt             # MLP checkpoint — ensemble seed 1
-        ├── predictor_seed2.pt             # MLP checkpoint — ensemble seed 2
-        ├── predictor_seed3.pt             # MLP checkpoint — ensemble seed 3
-        └── predictor_seed4.pt             # MLP checkpoint — ensemble seed 4
+    └── gasoline_mix_selfies/  # SELFIES VAE + Three-Arrhenius FiLM ResNet ensemble (10-component gasoline surrogate)
+        ├── idt_gasoline_selfies.onnx      # Full unified end-to-end ONNX export (opset 17)
+        ├── model_meta.json                # Model specifications, validation metrics & normalization stats
+        ├── vocab.json                     # Extended 26-token SELFIES vocabulary (with [#C], [#Branch1], [#Branch2])
+        ├── member_seed0.pt ... member_seed4.pt  # PyTorch checkpoints (5-seed ensemble)
+        └── history_seed0.json ... history_seed4.json # Training loss & validation metric logs
 ```
 
 ---
@@ -55,13 +54,18 @@ sidt/
 * **Forward IDT Model (Pure Compounds)**: Predicts `idt_s` from physical conditions `(pressure_bar, temperature_K, phi, egr_fraction)`.
 * **Forward Mixture IDT Model (`natgas_mix`)**: Predicts `idt_400K_s` from 10 inputs: 6 fuel component mole fractions `(cpnt_mole_frac_1..6)` and operating conditions `(pressure_pa, temperature_K, phi, egr_fraction)`.
 * **Forward Mixture IDT Model (`gasoline_mix`)**: RandomForest baseline predicting `idt_400K_s` from 14 inputs: 10 fuel component mole fractions `(cpnt_mole_frac_1..10)` (ethanol, 1-hexene, toluene, 2-methylhexane, cyclopentane, isopentane, isooctane, n-hexane, n-heptane, 1,2,4-trimethylbenzene) and operating conditions `(pressure_pa, temperature_K, phi, egr_fraction)`.
-* **Forward Mixture IDT Model (`gasoline_mix_selfies`) — CN-MXTR architecture**:
-  * Uses 5 pretrained SELFIES VAE encoders (`SELFIES/checkpoints_opt/seed{i}_s1_vae.pt`) to embed each of the 10 component SELFIES strings into a 128-dim latent vector μᵢ.
-  * Mixture latent: **z_mix = Σᵢ xᵢ · μᵢ** (mole-fraction weighted sum).
-  * z_mix + standardised reactor conditions → 3-layer MLP (512→256→128→1, LayerNorm+SiLU).
-  * 5-seed ensemble averaged at inference.
-  * Trained on 672,378 LHS simulation runs (`model_training/sidt/sidt_lhs_gasoline2_K10_1M.dat`, Maffei 2025 mechanism).
-  * Full end-to-end export: `idt_gasoline_selfies.onnx` — inputs: `component_tokens [10,65]`, `mole_fracs [N,10]`, `reactor_conds [N,4]`; output: `idt_log1p [N]`.
+* **Forward Mixture IDT Model (`gasoline_mix_selfies`) — Three-Arrhenius FiLM ResNet architecture**:
+  * Extended 26-token SELFIES vocabulary supporting alkynes/triple-bonds (`[#C]`, `[#Branch1]`, `[#Branch2]`).
+  * Dynamic per-subset tokenization across all 10 component mixtures (1,139,500 total LHS simulation runs).
+  * 128-dim SELFIES latent representations coupled with a multi-head cross-attention Composition Module and Fourier Condition Features.
+  * Structural Three-Arrhenius head capturing high-T, intermediate-T (NTC region), and low-T kinetics with residual FiLM ResNet trunk.
+  * 5-seed ensemble averaged in log10 space at inference.
+  * Final Ensemble Validation Metrics (113,950 hold-out test rows):
+    * Linear R²: 0.8598 | Log10 R²: 0.9871
+    * Overall MAPE: 10.03% (down from 110.07% on rescored v1)
+    * Low-T (<900 K) MAPE: 13.12%
+    * MAE: 2.335 ms | RMSE: 20.995 ms
+  * Full end-to-end ONNX export: `idt_gasoline_selfies.onnx` — inputs: `component_tokens [10,65]`, `mole_fracs [N,10]`, `reactor_conds [N,4]`; outputs: `idt_s [N]`, `idt_log10 [N]`.
 * **Inverse Condition Models**: Predicts one parameter from the remaining conditions and `idt_s`.
 * **NTC Bounds Models**:
   * **Classifier (`has_ntc_classifier.onnx`)**: Random Forest Classifier predicting whether an NTC pocket exists (`has_ntc` = 1 or 0) for given operating conditions `(pressure_bar, phi, egr_fraction)`.
@@ -89,14 +93,14 @@ python sidt/scripts/train_gasoline_mix_export.py \
     --input model_training/sidt/sidt_selfies_gasoline_mix.dat \
     --out_dir sidt/models/gasoline_mix
 
-# 4. Train Gasoline Mixture Model — SELFIES VAE + MLP Ensemble (CN-MXTR, 10-Component)
-#    Requires: SELFIES/checkpoints_opt/seed{0..4}_s1_vae.pt (pretrained VAE encoders)
-#    Dataset:  model_training/sidt/sidt_lhs_gasoline2_K10_1M.dat (672,378 clean LHS runs)
-python sidt/scripts/train_sidt_gasoline_selfies_export.py \
+# 4. Train Gasoline Mixture Model — SELFIES Three-Arrhenius FiLM Ensemble (10-Component v2)
+#    Dataset: model_training/sidt/sidt_lhs_gasoline2_K10_1M.dat (1,139,500 clean LHS runs across 10 subsets)
+python sidt/scripts/0d_idt_gasoline_train_v2.py \
     --input model_training/sidt/sidt_lhs_gasoline2_K10_1M.dat \
-    --out_dir sidt/models/gasoline_mix_selfies \
+    --out-dir sidt/models/gasoline_mix_selfies \
     --seeds 5 \
-    --epochs 40
+    --epochs 30 \
+    --batch-size 4096
 
 # 5. Train NTC Bounds models
 python sidt/scripts/train_ntc_export.py \

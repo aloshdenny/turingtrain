@@ -55,23 +55,58 @@ def main():
             print(f"Error: Missing required input parameters for forward mode: {', '.join(missing)}")
             sys.exit(1)
             
-        model_path = os.path.join(compound_dir, "forward_model.onnx")
-        is_mix = args.compound in ["natgas_mix", "gasoline_mix"]
-        
-        if is_mix:
+        is_selfies_mix = (args.compound == "gasoline_mix_selfies")
+        is_mix = args.compound in ["natgas_mix", "gasoline_mix"] or is_selfies_mix
+        p_pa = args.pressure_pa if args.pressure_pa is not None else (args.pressure * 1.0e5)
+
+        if is_selfies_mix:
+            model_path = os.path.join(compound_dir, "idt_gasoline_selfies.onnx")
+            if not os.path.exists(model_path):
+                raise FileNotFoundError(f"ONNX model file not found at: {model_path}")
+            import json, re
+            vocab_path = os.path.join(compound_dir, "vocab.json")
+            if not os.path.exists(vocab_path):
+                vocab_path = os.path.join(script_dir, "..", "SELFIES", "data", "vocab.json")
+            with open(vocab_path, "r") as f:
+                token2idx = json.load(f)["token2idx"]
+            selfies_list = [
+                '[C][C][C][C][C][C][C]', '[C][C][C][C][C][C]', '[C][C][Branch1][C][C][C]',
+                '[C][C][C][C][C]', '[C][C][Branch1][C][C][C][Branch1][C][C][C]',
+                '[C][C][Branch1][C][C][Branch1][C][C][C]', '[C][C][C][C][Branch1][C][C][C]',
+                '[C][C][C][Branch1][C][C][C]', '[C][C][Branch1][C][C][C][C][Branch1][C][C][C]',
+                '[C][C][C][C]'
+            ]
+            comp_tokens = np.zeros((10, 65), dtype=np.int64)
+            for i, s in enumerate(selfies_list):
+                toks = [token2idx['<bos>']] + [token2idx.get(t, token2idx['<unk>']) for t in re.findall(r'\[[^\]]+\]', s)] + [token2idx['<eos>']]
+                comp_tokens[i, :len(toks)] = toks
+            mol_fracs = args.cpnt_mol_fracs if args.cpnt_mol_fracs is not None else [0.1] * 10
+            fracs_arr = np.array([mol_fracs], dtype=np.float32)
+            conds_arr = np.array([[p_pa, args.temperature, args.phi, args.egr_fraction]], dtype=np.float32)
+        elif is_mix:
+            model_path = os.path.join(compound_dir, "forward_model.onnx")
             if args.cpnt_mol_fracs is not None:
                 mol_fracs = args.cpnt_mol_fracs
             elif args.compound == "gasoline_mix":
                 mol_fracs = [0.1] * 10
             else:
                 mol_fracs = [1.0 / 6.0] * 6
-            p_pa = args.pressure_pa if args.pressure_pa is not None else (args.pressure * 1.0e5)
             inputs = mol_fracs + [p_pa, args.temperature, args.phi, args.egr_fraction]
         else:
+            model_path = os.path.join(compound_dir, "forward_model.onnx")
             inputs = [args.pressure, args.temperature, args.phi, args.egr_fraction]
         
         try:
-            pred_idt = load_and_predict(model_path, inputs)
+            if is_selfies_mix:
+                sess_fwd = rt.InferenceSession(str(model_path))
+                out_fwd = sess_fwd.run(None, {
+                    "component_tokens": comp_tokens,
+                    "mole_fracs": fracs_arr,
+                    "reactor_conds": conds_arr
+                })
+                pred_idt = float(out_fwd[0][0])
+            else:
+                pred_idt = load_and_predict(model_path, inputs)
             print(f"\nForward Model Prediction for {args.compound.replace('_', ' ').title()}:")
             print(f"  Inputs:")
             if is_mix:
@@ -90,14 +125,27 @@ def main():
                 import matplotlib.pyplot as plt
                 
                 temp_sweep = np.linspace(600.0, 1600.0, 101)
-                if is_mix:
+                if is_selfies_mix:
+                    sweep_preds = []
+                    for t in temp_sweep:
+                        pt_conds = np.array([[p_pa, t, args.phi, args.egr_fraction]], dtype=np.float32)
+                        pt_out = sess_fwd.run(None, {
+                            "component_tokens": comp_tokens,
+                            "mole_fracs": fracs_arr,
+                            "reactor_conds": pt_conds
+                        })[0][0]
+                        sweep_preds.append(pt_out)
+                    sweep_preds = np.array(sweep_preds)
+                elif is_mix:
                     sweep_inputs = np.array([mol_fracs + [p_pa, t, args.phi, args.egr_fraction] for t in temp_sweep], dtype=np.float32)
+                    sess_sweep = rt.InferenceSession(str(model_path))
+                    input_name_sweep = sess_sweep.get_inputs()[0].name
+                    sweep_preds = sess_sweep.run(None, {input_name_sweep: sweep_inputs})[0]
                 else:
                     sweep_inputs = np.array([[args.pressure, t, args.phi, args.egr_fraction] for t in temp_sweep], dtype=np.float32)
-                
-                sess_sweep = rt.InferenceSession(str(model_path))
-                input_name_sweep = sess_sweep.get_inputs()[0].name
-                sweep_preds = sess_sweep.run(None, {input_name_sweep: sweep_inputs})[0]
+                    sess_sweep = rt.InferenceSession(str(model_path))
+                    input_name_sweep = sess_sweep.get_inputs()[0].name
+                    sweep_preds = sess_sweep.run(None, {input_name_sweep: sweep_inputs})[0]
                 sweep_idt_ms = sweep_preds.flatten() * 1000.0
                 
                 df_points = None
