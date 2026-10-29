@@ -56,7 +56,8 @@ def main():
             sys.exit(1)
             
         is_selfies_mix = (args.compound == "gasoline_mix_selfies")
-        is_mix = args.compound in ["natgas_mix", "gasoline_mix"] or is_selfies_mix
+        is_b1b_mix = (args.compound in ["gasoline_mix_b1b", "gasoline_b1b"])
+        is_mix = args.compound in ["natgas_mix", "gasoline_mix"] or is_selfies_mix or is_b1b_mix
         p_pa = args.pressure_pa if args.pressure_pa is not None else (args.pressure * 1.0e5)
 
         if is_selfies_mix:
@@ -83,6 +84,15 @@ def main():
             mol_fracs = args.cpnt_mol_fracs if args.cpnt_mol_fracs is not None else [0.1] * 10
             fracs_arr = np.array([mol_fracs], dtype=np.float32)
             conds_arr = np.array([[p_pa, args.temperature, args.phi, args.egr_fraction]], dtype=np.float32)
+        elif is_b1b_mix:
+            model_path = os.path.join(compound_dir, "idt_gasoline_b1b.onnx")
+            if not os.path.exists(model_path):
+                model_path = os.path.join(compound_dir, "forward_model.onnx")
+            if not os.path.exists(model_path):
+                raise FileNotFoundError(f"ONNX model file not found at: {model_path}")
+            mol_fracs = args.cpnt_mol_fracs if args.cpnt_mol_fracs is not None else [0.1] * 10
+            fracs_arr = np.array([mol_fracs], dtype=np.float32)
+            conds_arr = np.array([[p_pa, args.temperature, args.phi, args.egr_fraction]], dtype=np.float32)
         elif is_mix:
             model_path = os.path.join(compound_dir, "forward_model.onnx")
             if args.cpnt_mol_fracs is not None:
@@ -101,6 +111,13 @@ def main():
                 sess_fwd = rt.InferenceSession(str(model_path))
                 out_fwd = sess_fwd.run(None, {
                     "component_tokens": comp_tokens,
+                    "mole_fracs": fracs_arr,
+                    "reactor_conds": conds_arr
+                })
+                pred_idt = float(out_fwd[0][0])
+            elif is_b1b_mix:
+                sess_fwd = rt.InferenceSession(str(model_path))
+                out_fwd = sess_fwd.run(None, {
                     "mole_fracs": fracs_arr,
                     "reactor_conds": conds_arr
                 })
@@ -136,6 +153,13 @@ def main():
                         })[0][0]
                         sweep_preds.append(pt_out)
                     sweep_preds = np.array(sweep_preds)
+                elif is_b1b_mix:
+                    sweep_fracs = np.repeat(fracs_arr, len(temp_sweep), axis=0)
+                    sweep_conds = np.array([[p_pa, t, args.phi, args.egr_fraction] for t in temp_sweep], dtype=np.float32)
+                    sweep_preds = sess_fwd.run(None, {
+                        "mole_fracs": sweep_fracs,
+                        "reactor_conds": sweep_conds
+                    })[0].flatten()
                 elif is_mix:
                     sweep_inputs = np.array([mol_fracs + [p_pa, t, args.phi, args.egr_fraction] for t in temp_sweep], dtype=np.float32)
                     sess_sweep = rt.InferenceSession(str(model_path))

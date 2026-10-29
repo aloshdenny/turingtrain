@@ -1,0 +1,74 @@
+{
+  "dataset": "cvwsr_idt_selfies_b1b_train.dat",
+  "architecture": "GasolineB1BPredictor (Three-Arrhenius + FiLM ResNet without component tokens)",
+  "version": "b1b_v1",
+  "n_samples_total": 108159,
+  "n_samples_train": 97343,
+  "n_samples_val": 10816,
+  "n_seeds_trained": 5,
+  "input_features": {
+    "mole_fracs": "[batch, 10]",
+    "reactor_conds": "[batch, 4] -> [pressure_pa, temperature_K, phi, egr_fraction]"
+  },
+  "output_targets": {
+    "idt_s": "[batch] (seconds)",
+    "idt_log10": "[batch] (log10 seconds)"
+  },
+  "kinetic_cond_mean": [
+    1.0473954677581787,
+    1.3486851453781128,
+    0.9698235988616943,
+    0.14971008896827698,
+    -0.07683233171701431
+  ],
+  "kinetic_cond_std": [
+    0.2198956459760666,
+    0.20836141705513,
+    0.28318044543266296,
+    0.08911406993865967,
+    0.310916930437088
+  ],
+  "ensemble_metrics": {
+    "overall_mape": 5.567012310028076,
+    "lowt_mape": 6.8875508308410645,
+    "worst_cell_mape": 13.677972793579102,
+    "val_r2_linear": 0.9866523742675781,
+    "val_r2_log10": 0.9988911151885986,
+    "val_mae_s": 0.000282658904325217,
+    "val_rmse_s": 0.0013561526260809959,
+    "lowt_grid": {
+      "700-800K_10-20bar": {
+        "mape": 4.16,
+        "count": 1044
+      },
+      "700-800K_20-30bar": {
+        "mape": 7.03,
+        "count": 652
+      },
+      "700-800K_30-40bar": {
+        "mape": 8.73,
+        "count": 441
+      },
+      "700-800K_40-50bar": {
+        "mape": 9.0,
+        "count": 357
+      },
+      "800-900K_10-20bar": {
+        "mape": 4.42,
+        "count": 831
+      },
+      "800-900K_20-30bar": {
+        "mape": 6.13,
+        "count": 485
+      },
+      "800-900K_30-40bar": {
+        "mape": 10.57,
+        "count": 344
+      },
+      "800-900K_40-50bar": {
+        "mape": 13.68,
+        "count": 315
+      }
+    }
+  }
+}

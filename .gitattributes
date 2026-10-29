@@ -5,3 +5,5 @@ model_training/ysi_dha/ysi_mix_selfies_train.dat filter=lfs diff=lfs merge=lfs -
 model_training/sidt/sidt_lhs_gasoline2_K10_1M.dat filter=lfs diff=lfs merge=lfs -text
 sidt/models/gasoline_mix_selfies/idt_gasoline_selfies.onnx filter=lfs diff=lfs merge=lfs -text
 sidt/models/gasoline_mix_selfies/*.pt filter=lfs diff=lfs merge=lfs -text
+sidt/models/gasoline_mix_b1b/*.onnx filter=lfs diff=lfs merge=lfs -text
+sidt/models/gasoline_mix_b1b/*.pt filter=lfs diff=lfs merge=lfs -text
